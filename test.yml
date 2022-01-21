@@ -5,6 +5,9 @@
   connection: local
 
   tasks:
-    - name: ping
-      shell: ping -c 1 -w 2 server17a
-      ignore_errors: true
+    - name: copying pihole compose file
+      copy:
+        src: home/gregory/srv/pihole/docker-compose.yml
+        dest: home/gregory/srv/ansible/
+      loop:
+        - docker-compose.yml
