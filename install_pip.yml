@@ -1,0 +1,10 @@
+---
+- hosts: server11d
+  name: Install docker
+  
+  tasks:
+    - name: download docker
+      become: true
+      remote_user: gregory
+      become_method: sudo
+      shell: apt-get install python3-pip

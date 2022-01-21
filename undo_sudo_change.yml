@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  remote_user: gregory
+  become_method: sudo
+  tasks:
+    - lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL:ALL) ALL'
+        validate: 'visudo -cf %s'

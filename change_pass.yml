@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  remote_user: gregory
+  become_method: sudo
+  tasks:
+    - name: Change user password
+      user:
+        name: gregory
+        update_password: always
+        password: "{{ newpassword|password_hash('sha512') }}"

@@ -1,0 +1,10 @@
+---
+
+- hosts: server17a
+  gather_facts: False
+  connection: local
+
+  tasks:
+    - name: ping
+      shell: ping -c 1 -w 2 server17a
+      ignore_errors: true
