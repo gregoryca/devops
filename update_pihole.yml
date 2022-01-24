@@ -1,39 +1,37 @@
 ---
 - hosts: server17a
-  become: true
-  vars:
-    create_containers: 1
-    default_container_name: pihole.dns
-    default_container_image: pihole/pihole:latest
-    default_container_command: sleep 1d
+  become: yes
   tasks:
+
   #Stopping container
     - name: Stop the docker container
       docker_container:
         name: pihole.dns
         state: stopped
+
   #Removing/Deleting Image
     - name: Remove image
       docker_image:
         name: pihole.dns
         state: absent
+
   #Pull latest version Image
     - name: pull an image
       docker_image:
         name: pihole/pihole:latest
-        source: build
-        build:
-          path: /home/gregory/srv/pihole
-  #Update container with Image
-    - name: copying pihole compose file
-      copy:
-        src: home/gregory/srv/pihole/docker-compose.yml
-        dest: home/gregory/srv/ansible/
+        source: pull
+
+  #Copy the compose file
+    - name: copy Docker Compose files
+      template:
+        src: /home/gregory/ansible/srv/pihole/docker-compose.yml
+        dest: /home/gregory/srv/pihole/{{ item }}
       loop:
-        - docker-compose.yml
-  #Deploy container
+      - docker-compose.yml
+
+  #deploy compose file
     - name: deploy Docker Compose stack
       docker_compose:
-        project_src: /home/gregory/srv/pihole
+        project_src: /home/gregory/srv/pihole/
         files:
         - docker-compose.yml

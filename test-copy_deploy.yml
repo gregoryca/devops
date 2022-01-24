@@ -1,0 +1,20 @@
+---
+- hosts: server17a
+  become: yes
+  vars:
+    create_containers: 1
+    default_container_name: pihole.dns
+    default_container_image: pihole/pihole:latest
+  tasks:   
+    - name: copy Docker Compose files
+      template:
+        src: /home/gregory/ansible/srv/pihole/docker-compose.yml
+        dest: /home/gregory/srv/pihole/{{ item }}
+      loop:
+      - docker-compose.yml
+
+    - name: deploy Docker Compose stack
+      docker_compose:
+        project_src: /home/gregory/srv/pihole/
+        files:
+        - docker-compose.yml

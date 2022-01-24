@@ -1,0 +1,20 @@
+---
+- hosts: server17a
+  become: yes
+  vars:
+    create_containers: 1
+    default_container_name: pihole.dns
+    default_container_image: pihole/pihole:latest
+    default_container_command: sleep 1d
+  tasks:    
+    - name: pull an image
+      docker_image:
+        name: pihole/pihole:latest
+        source: build
+        build:
+          path: ./srv/ansible/
+    
+    - name: Start the containers
+      docker_compose:
+        project_src: ~./srv/ansible/
+        state: present

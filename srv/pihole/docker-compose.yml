@@ -1,0 +1,35 @@
+version: "3"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole.dns
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+    environment:
+      TZ: 'Europe/London'
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    networks: 
+      - web
+      - web-secure
+    restart: unless-stopped
+    labels:
+       - "traefik.enable=true"
+       - "traefik.http.routers.pihole-secure.rule=Host(`pihole.cloud-migrations.nl`, `www.pihole.cloud-migrations.nl`)"
+       - "traefik.http.routers.pihole-secure.tls.certresolver=production"
+       - "traefik.http.routers.pihole-secure.tls=true"
+       - "traefik.http.services.pihole.loadbalancer.server.port=80" #port to the webservice
+       - "traefik.http.routers.pihole-secure.entrypoints=web-secure"
+
+networks: 
+  web:
+    external: true
+  web-secure:
+    external: true
