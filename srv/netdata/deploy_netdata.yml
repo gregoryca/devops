@@ -1,0 +1,12 @@
+---
+- hosts: server17a
+  become: yes
+  tasks:  
+
+  #deploy compose file
+    - name: deploy Docker Compose stack
+      docker_compose:
+        project_src: /home/gregory/srv/netdata/
+        files:
+        - docker-compose.yml
+        recreate: always

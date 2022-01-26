@@ -1,0 +1,44 @@
+---
+- hosts: server17a
+  become: yes
+  tasks:
+
+  #Stopping container
+    - name: Stop the docker container
+      docker_container:
+        name: portainer.containers
+        state: stopped
+
+  #Removing/Deleting Image
+    - name: Remove container
+      docker_container:
+        name: portainer.containers
+        state: absent
+
+  #Removing/Deleting Image
+    - name: Remove image
+      docker_image:
+        name: portainer.containers
+        state: absent
+
+  #Pull latest version Image
+    - name: pull an image
+      docker_image:
+        name: portainer/portainer-ce:2.11.0
+        source: pull
+
+  #Copy the compose file
+    - name: copy Docker Compose files
+      template:
+        src: /home/gregory/ansible/srv/portainer/docker-compose.yml
+        dest: /home/gregory/srv/portainer/{{ item }}
+      loop:
+      - docker-compose.yml
+
+  #deploy compose file
+    - name: deploy Docker Compose stack
+      docker_compose:
+        project_src: /home/gregory/srv/portainer/
+        files:
+        - docker-compose.yml
+        recreate: yes

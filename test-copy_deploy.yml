@@ -6,13 +6,14 @@
     default_container_name: pihole.dns
     default_container_image: pihole/pihole:latest
   tasks:   
+  #Copy
     - name: copy Docker Compose files
       template:
         src: /home/gregory/ansible/srv/pihole/docker-compose.yml
         dest: /home/gregory/srv/pihole/{{ item }}
       loop:
       - docker-compose.yml
-
+  #Deploy
     - name: deploy Docker Compose stack
       docker_compose:
         project_src: /home/gregory/srv/pihole/
