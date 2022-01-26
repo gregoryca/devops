@@ -9,7 +9,7 @@
         name: portainer.containers
         state: stopped
 
-  #Removing/Deleting Image
+  #Removing/Deleting container
     - name: Remove container
       docker_container:
         name: portainer.containers
@@ -18,20 +18,22 @@
   #Removing/Deleting Image
     - name: Remove image
       docker_image:
-        name: portainer.containers
+        name: portainer/portainer-ce
         state: absent
 
   #Pull latest version Image
     - name: pull an image
       docker_image:
-        name: portainer/portainer-ce:2.11.0
+        name: portainer/portainer-ce:latest
         source: pull
 
   #Copy the compose file
     - name: copy Docker Compose files
-      template:
-        src: /home/gregory/ansible/srv/portainer/docker-compose.yml
-        dest: /home/gregory/srv/portainer/{{ item }}
+      fetch:
+        src: /home/gregory/srv/portainer/docker-compose.yml
+        dest: ./
+        remote_src: yes
+        flat: yes
       loop:
       - docker-compose.yml
 
@@ -41,4 +43,4 @@
         project_src: /home/gregory/srv/portainer/
         files:
         - docker-compose.yml
-        recreate: yes
+        recreate: always

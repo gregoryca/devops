@@ -6,39 +6,41 @@
   #Stopping container
     - name: Stop the docker container
       docker_container:
-        name: portainer.containers
+        name: traefik.rproxy
         state: stopped
 
-  #Removing/Deleting Image
+  #Removing/Deleting container
     - name: Remove container
       docker_container:
-        name: portainer.containers
+        name: traefik.rproxy
         state: absent
 
   #Removing/Deleting Image
     - name: Remove image
       docker_image:
-        name: portainer.containers
+        name: traefik:latest
         state: absent
 
   #Pull latest version Image
     - name: pull an image
       docker_image:
-        name: portainer/portainer-ce:2.11.0
+        name: traefik:latest
         source: pull
 
   #Copy the compose file
     - name: copy Docker Compose files
-      template:
-        src: /home/gregory/ansible/srv/netdata/docker-compose.yml
-        dest: /home/gregory/srv/netdata/{{ item }}
+      fetch:
+        src: /home/gregory/srv/traefik/docker-compose.yml
+        dest: ./
+        remote_src: yes
+        flat: yes
       loop:
       - docker-compose.yml
 
   #deploy compose file
     - name: deploy Docker Compose stack
       docker_compose:
-        project_src: /home/gregory/srv/netdata/
+        project_src: /home/gregory/srv/traefik/
         files:
         - docker-compose.yml
-        recreate: yes
+        recreate: always

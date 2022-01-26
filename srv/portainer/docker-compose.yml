@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+  portainer-ce:
+    container_name: portainer.containers
+    restart: always
+    volumes:
+       - '/var/run/docker.sock:/var/run/docker.sock'
+       - '/srv/portainer_data:/portainer_data'
+    image: portainer/portainer-ce:latest
+    networks: 
+       - web
+       - web-secure
+    labels:
+       - "traefik.enable=true"
+       - "traefik.http.routers.portainer-secure.rule=Host(`portainer.cloud-migrations.nl`, `www.portainer.cloud-migrations.nl`)"
+       - "traefik.http.routers.portainer-secure.tls.certresolver=production"
+       - "traefik.http.routers.portainer-secure.tls=true"
+       - "traefik.http.services.portainer.loadbalancer.server.port=9000" #port to the webservice
+       - "traefik.http.routers.portainer-secure.entrypoints=web-secure"
+networks: 
+  web:
+    external: true
+  web-secure:
+    external: true
