@@ -1,11 +1,6 @@
 ---
 - hosts: server17a
   become: yes
-  vars:
-    create_containers: 1
-    default_container_name: pihole.dns
-    default_container_image: pihole/pihole:latest
-    default_container_command: sleep 1d
   tasks:    
     - name: pull an image
       docker_image:
