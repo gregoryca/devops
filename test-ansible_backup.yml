@@ -5,7 +5,8 @@
   
   #backup container data
     - name: Back-up container data
-      template:
-        src: /home/gregory/srv/pihole/etc-pihole/
-        dest: ./
+      copy:
+        src: /home/gregory/srv/pihole/etc-pihole
+        dest: /home/gregory/ansible/srv/pihole/
         remote_src: yes
+        directory_mode: yes
