@@ -1,0 +1,11 @@
+---
+- hosts: server17a
+  become: yes
+  tasks:  
+  
+  #backup container data
+    - name: Back-up container data
+      template:
+        src: /home/gregory/srv/pihole/etc-pihole/
+        dest: ./
+        remote_src: yes
