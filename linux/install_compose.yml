@@ -1,5 +1,5 @@
 ---
-- hosts: server11d
+- hosts: "ansible_host"
   name: Install docker
   
   tasks:
