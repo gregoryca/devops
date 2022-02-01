@@ -15,9 +15,9 @@ services:
       - "--api" # enable dashboard
       - "--api.debug=true"
       # Enable a http challenge named "myhttpchallenge"
-      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge=true"
+#      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge=true"
       # Tell it to use our predefined entrypoint named "web"
-      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge.entrypoint=web-secure"
       # The email to provide to let's encrypt
       - "--certificatesresolvers.mytlschallenge.acme.email=aquiles.craane@gmail.com"
     ports:
@@ -32,9 +32,9 @@ services:
       - "./traefik.yml:/etc/traefik/traefik.yml"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.server17a.com`)"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.cloud-migrations.nl`, `www.traefik.cloud-migrations.nl`)"
       - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=development"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=production"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=erp.cloud-migrations.nl"
       # - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.cloud-migrations.nl"
       - "traefik.http.routers.traefik-secure.service=api@internal"
