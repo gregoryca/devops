@@ -1,0 +1,14 @@
+- hosts: server17a
+  gather_facts: no
+
+  tasks:
+    - name: check resolv.conf exists
+      stat:
+        path: /etc/resolv.conf
+      register: resolv_conf
+    - name: check nameservers list in resolv.conf
+      debug:
+        msg: "{{ contents }}"
+      vars:
+        contents: "{{ lookup('file', '/etc/resolv.conf') | regex_findall('\\s*nameserver\\s*(.*)') }}"
+      when: resolv_conf.stat.exists == True
