@@ -15,7 +15,7 @@ services:
       - "--api" # enable dashboard
       - "--api.debug=true"
       # Enable a http challenge named "myhttpchallenge"
-#      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge=true"
+      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge=true"
       # Tell it to use our predefined entrypoint named "web"
       - "--certificatesresolvers.mytlschallenge.acme.httpchallenge.entrypoint=web-secure"
       # The email to provide to let's encrypt
