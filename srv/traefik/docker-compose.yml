@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.3"
 
 volumes:
   traefik-ssl-certs:
@@ -10,44 +10,47 @@ services:
     container_name: traefik.rproxy
     restart: unless-stopped
     command:
-      - "--log.level=DEBUG"
-      - "--accesslog=true" # print access-logs
-      - "--api" # enable dashboard
-      - "--api.debug=true"
-      # Enable a http challenge named "myhttpchallenge"
-      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge=true"
-      # Tell it to use our predefined entrypoint named "web"
-      - "--certificatesresolvers.mytlschallenge.acme.httpchallenge.entrypoint=web-secure"
+      # Enable a http challenge named "myhttpchallenge" and "mytlschallange"
+      # - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
       # The email to provide to let's encrypt
       - "--certificatesresolvers.mytlschallenge.acme.email=aquiles.craane@gmail.com"
+      # Tell it to use our predefined entrypoint named "web"
+      # - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web-"
+      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge.entrypoint=web"
+      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+      
     ports:
       - "80:80"
       - "443:443"
-      - "8080:80"
+      - "853:853"
+      - "53:53"
+      - "53:53/udp"
+      - "8080:8080"
+
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/srv/letsencrypt/:/srv/letsencrypt"
       - "/letsencrypt/:/letsencrypt"
       - "traefik-ssl-certs:/ssl-certs"
-      - "./traefik.yml:/etc/traefik/traefik.yml"
+      - "./:/etc/traefik/"
+
     labels:
+
       - "traefik.enable=true"
+
+      # - "traefik.http.routers.traefik-secure.rule=Host(`traefik.cloud-migrations.nl`, `www.traefik.cloud-migrations.nl`)"
+      # - "traefik.http.routers.traefik-secure.tls=true"
+      # - "traefik.http.routers.traefik-secure.tls.certresolver=production"
+      # - "traefik.http.routers.traefik-secure.tls.domains[0].main=erp.cloud-migrations.nl"
+      # - "traefik.http.routers.traefik-secure.service=api@internal"
+      # - "traefik.http.routers.traefik-secure.entrypoints=web"
+
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik.cloud-migrations.nl`, `www.traefik.cloud-migrations.nl`)"
-      - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=production"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=erp.cloud-migrations.nl"
-      # - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.cloud-migrations.nl"
-      - "traefik.http.routers.traefik-secure.service=api@internal"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.services.traefik-secure.loadbalancer.server.port=8080" #port to the webservice
       - "traefik.http.routers.traefik-secure.entrypoints=web-secure"
-      - "traefik.frontend.headers.SSLRedirect=true"
-      - "traefik.frontend.headers.STSSeconds=315360000"
-      - "traefik.frontend.headers.browserXSSFilter=true"
-      - "traefik.frontend.headers.contentTypeNosniff=true"
-      - "traefik.frontend.headers.forceSTSHeader=true"
-      - "traefik.frontend.headers.SSLHost=${cloud-migrations.nl}"
-      - "traefik.frontend.headers.STSIncludeSubdomains=true"
-      - "traefik.frontend.headers.STSPreload=true"
-      - "traefik.frontend.headers.frameDeny=true"
 
     networks: 
       - web
