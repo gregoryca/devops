@@ -19,23 +19,26 @@ global:
 # ---
 api:
   dashboard: true  # true by default
-#  insecure: true  # Don't do this in production!
+  insecure: true  # Don't do this in production!
 
 # Entry Points configuration
 # ---
 entryPoints:
   web:
     address: :80
-    # (Optional) Redirect to HTTPS
-    # ---
     http:
       redirections:
         entryPoint:
           to: web-secure
           scheme: https
-
   web-secure:
-    address: :443
+    address: ":443"
+  dnsovertls:
+    address: ":853"
+  udpdns:
+    address: ":53/udp"
+  dns:
+    address: ":53"
 
 # Certificates configuration
 # ---
@@ -59,6 +62,14 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
 
+  # mytlschallenge:
+  #   acme:
+  #     email: aquiles.craane@gmail.com  # TODO: Change this to your email
+  #     storage: /letsencrypt/acme.json
+  #     tlsChallenge:
+  #       entryPoint: web
+
+
 # Provider Configuration
 # ---
 # TODO: Customize your Provider Settings if needed
@@ -68,9 +79,9 @@ providers:
 # ---
 #
 
-  # file:
-  #   directory: ./traefik.yml
-  #   watch: true
+  file:
+    directory: ./etc/traefik
+    watch: true
 
   docker:
-    exposedByDefault: false  # Default is true
+    exposedByDefault: true  # Default is true
