@@ -5,10 +5,8 @@ services:
   pihole:
     container_name: pihole.dns
     image: pihole/pihole:latest
-    # ports:
-    #   - "53:53/tcp"
-    #   - "53:53/udp"
-    #   - "67:67/udp"
+    ports:
+      - "53:53/udp"
     environment:
       TZ: 'Europe/London'
       PUID: '1000'
@@ -16,9 +14,6 @@ services:
     volumes:
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
     # cap_add:
     #   - NET_ADMIN
     networks: 
