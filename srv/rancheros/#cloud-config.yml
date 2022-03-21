@@ -1,0 +1,76 @@
+#cloud-config
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDpd+epHAlftT3jwijrakwmNERKP4Jsh2kNr+z192UxH47DHNhf3IMprvX6t9G+zpMHuCQZFk7Oy9xZPWasyIkSyYoo/KKsaAymE3wWOWrnAjPBMxwSAS9KC+y7i1LVGooDHljxTSUf2tZXMeHFKwCiz5DxUcAOQDP1m8y/m0ARl/vmqMB8mzgazyV/o9/hG6WYua4mrBW3mCXkXyBX5n8Y2xWS+x8vDsuqDHsyd5Px+WuXc5SY2SHOTcW0Id+pWdz9e4SwDxZjEzI+5LJoxx7YBN4DzmVn7ofTZ6EK5CskMQ3YuS+99DGgFDdFS/zawWJXUyewLYzPNiBriFLaU8vrpMaTH2DAXrxXj/aTPuFhUN99kS5k0oh0C099t2tCEeeuQjnXqok6ImRbdkGUag27ghxxRphGcdx+kECyM6OiHno4pCWz64bDYmQzEAiBmzyRHu0QYa6q4RT1vphxEIDERXp91+XySo8bbCterxYanjvmeNDJ1wPGAkp6fhuuLG0= gregory@server17a
+# runcmd:
+#   - echo "true" > /home/rancher/provisioned
+  
+# write_files:
+#   - path: /etc/docker/certs.d/private-registry.internal/ca.crt
+#     permissions: "0644"
+#     owner: root
+#     content: |
+#       -----BEGIN CERTIFICATE-----
+#       MIICKzCCAdWgAwIBAgIJAIMGUj8Nj8nNMA0GCSqGSIb3DQEBBQUAMEUxCzAJBgNV
+#       BAYTAkRFMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRlcm5ldCBX
+#       aWRnaXRzIFB0eSBMdGQwHhcNMTgxMTI4MTg0OTUwWhcNMjAxMTI3MTg0OTUwWjBF
+#       MQswCQYDVQQGEwJERTETMBEGA1UECBMKU29tZS1TdGF0ZTEhMB8GA1UEChMYSW50
+#       ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALL7
+#       789lpQLardPKcuFGAWE9+NwEqjogccYCNzTHVEeuaTfkzUEQkwfc2CdpLDjimeTd
+#       mZlBlAC89PDRpQlLd7ECAwEAAaOBpzCBpDAdBgNVHQ4EFgQUhR930x7NxpBnUucH
+#       MXNbJgwLno8wdQYDVR0jBG4wbIAUhR930x7NxpBnUucHMXNbJgwLno+hSaRHMEUx
+#       CzAJBgNVBAYTAkRFMRMwEQYDVQQIEwpTb21lLVN0YXRlMSEwHwYDVQQKExhJbnRl
+#       cm5ldCBXaWRnaXRzIFB0eSBMdGSCCQCDBlI/DY/JzTAMBgNVHRMEBTADAQH/MA0G
+#       CSqGSIb3DQEBBQUAA0EAoKHUppdUCyrMZLRJsrm/pnLq5WqFysT39976/vQvOiP6
+#       +23OO/Qf3vJZo59MEE2B3hJl0UfkNXobQyDun9gySw==
+#       -----END CERTIFICATE-----
+# # mounts:
+#   # Mount NFS4 share
+#   # Note: Mount paths for nfs/nfs4 mounts are created automatically.
+#   - ["<nfs_4_server_ip>:/", "/mnt/nfs", "nfs4", "<optional mount options>"]
+#   # Note: If disk is not pre-formatted, use `runcmd` cloud-config directive to create filesystem
+#   # Note: Mount path needs to exist. Use `runcmd` to create if necessary.
+#   - ["/dev/nvme0n1p1","/mnt/data","ext4","<optional mount options>"]
+
+rancher:
+  network:
+    dns:
+      nameservers:
+        - 1.1.1.1
+        - 1.0.0.1
+      override: true # Override DHCP assigned nameservers
+    interfaces:
+      eth0:
+        dhcp: false
+        address: 192.168.1.1.13/24
+        gateway: 192.168.1.103
+        mtu: 1500
+      dns: 
+        nameservers:
+          - 192.168.1.103
+          - 192.168.1.1
+
+  # services:
+  #   custom-service:
+  #     image: nginx
+  #     ports:
+  #       - "80:80"
+  #     labels:
+  #       io.rancher.os.scope: system # Remove to run in User Docker
+        
+  # docker:
+  #   registry_mirror: "https://mirror.gcr.io"
+  #   extra_args: ['--bip=172.20.0.1/16','--fixed-cidr=172.20.0.0/17']
+  #   engine: docker-17.03.2-ce
+    
+  # system_docker:
+  #   # Configure registry mirror (pull through cache) for System Docker
+  #   # Ref: https://docs.docker.com/registry/recipes/mirror/
+  #   registry_mirror: "http://10.10.10.23:5555"
+
+  # sysctl:
+  #   vm.max_map_count: 262144
+    
+  # registry_auths:
+  #   https://index.docker.io/v1/:
+  #     username: me
+  #     password: secret

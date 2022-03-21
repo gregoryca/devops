@@ -1,0 +1,15 @@
+http:
+  services:
+    pihole:
+      loadBalancer:
+        servers:
+        - url: "http://<192.168.1.103>:<80>/"
+
+https:
+  services:
+    pihole:
+      loadBalancer:
+        servers:
+        - url: "http://<192.168.1.103>:<853>/"
+        - url: "http://<192.168.1.103>:<443>/"
+
