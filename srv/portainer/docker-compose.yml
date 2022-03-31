@@ -6,9 +6,8 @@ services:
     volumes:
        - '/var/run/docker.sock:/var/run/docker.sock'
        - '/srv/portainer_data:/portainer_data'
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce
     networks: 
-       - web
        - web-secure
     labels:
        - "traefik.enable=true"
@@ -17,8 +16,9 @@ services:
        - "traefik.http.routers.portainer-secure.tls=true"
        - "traefik.http.services.portainer.loadbalancer.server.port=9000" #port to the webservice
        - "traefik.http.routers.portainer-secure.entrypoints=web-secure"
+       #Add this label to containers to enable watchtower auto update
+       - com.centurylinklabs.watchtower.enable=true
+
 networks: 
-  web:
-    external: true
   web-secure:
     external: true

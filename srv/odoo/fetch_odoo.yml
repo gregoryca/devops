@@ -1,0 +1,14 @@
+---
+- hosts: 192.168.1.103
+  become: yes
+  tasks:  
+  
+  #Copy the compose file
+    - name: copy Docker Compose files
+      fetch:
+        src: /home/gregory/srv/odoo/docker-compose.yml
+        dest: ./
+        remote_src: yes
+        flat: yes
+      loop:
+      - docker-compose.yml
