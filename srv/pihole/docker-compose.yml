@@ -17,45 +17,48 @@ services:
     # cap_add:
     #   - NET_ADMIN
     networks: 
-      - web
       - web-secure
+    dns:
+       - '192.168.1.1'
+       - '1.1.1.1'
 
     restart: unless-stopped
     labels:
-
        - "traefik.enable=true"
 
        # web interface
        - "traefik.http.routers.pihole-secure.rule=Host(`pihole.cloud-migrations.nl`, `www.pihole.cloud-migrations.nl`)"
        - "traefik.http.routers.pihole-secure.tls.certresolver=production"
        - "traefik.http.routers.pihole-secure.tls=true"
-       - "traefik.http.services.pihole.loadbalancer.server.port=80" #port to the webservice
+       - "traefik.http.services.pihole-secure.loadbalancer.server.port=80" #port to the webservice
        - "traefik.http.routers.pihole-secure.entrypoints=web-secure"
 
        # DNS-over-TLS
-       - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`www.pihole.cloud-migrations.nl`, `pihole.cloud-migrations.nl`)"
+       - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`853.cloud-migrations.nl`)"
        - "traefik.tcp.routers.dnsovertls.tls.certresolver=production"
        - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
-       - "traefik.tcp.routers.dnsovertls.service=pihole"
        - "traefik.tcp.services.pihole.loadbalancer.server.port=853"
 
+       # DNS-over-HTTPS
+       - "traefik.tcp.routers.dnsoverhttps.rule=HostSNI(`443.cloud-migrations.nl`)"
+       - "traefik.tcp.routers.dnsoverhttps.tls.certresolver=production"
+       - "traefik.tcp.routers.dnsoverhttps.entrypoints=web-secure"
+       - "traefik.tcp.services.pihole.loadbalancer.server.port=443"
 
-      #  # Normal DNS coming in on 53 TCP, no TLS
-       - "traefik.tcp.routers.dns.rule=HostSNI(`www.pihole.cloud-migrations.nl`, `pihole.cloud-migrations.nl`)"
+      # Normal DNS coming in on 53 TCP, no TLS
+       - "traefik.tcp.routers.dns.rule=HostSNI(`53.cloud-migrations.nl`)"
        - "traefik.tcp.routers.dns.entrypoints=dns"
        - "traefik.tcp.routers.dns.service=pihole"
        - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
 
-      # #  # recieves traffic from both the TLS and non-TLS traefik routers
-      #  - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
-
-      # # Normal DNS coming in on 53 UDP
+      # Normal DNS coming in on 53 UDP
        - "traefik.udp.routers.udpdns.entrypoints=udpdns"
        - "traefik.udp.routers.udpdns.service=pihole"
        - "traefik.udp.services.pihole.loadbalancer.server.port=53/udp"      
 
+      #Enable watchtower to watch container for new releases
+       - com.centurylinklabs.watchtower.enable=true
+
 networks: 
-  web:
-    external: true
   web-secure:
     external: true
