@@ -1,6 +1,6 @@
 ---
-- hosts: server17a
-  become: true
+- hosts: homeservers, cloudservers, devserver
+  become: yes
   become_user: root
   tasks:
     - name: Update apt repo and cache on all Debian/Ubuntu boxes

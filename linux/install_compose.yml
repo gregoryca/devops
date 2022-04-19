@@ -1,22 +1,20 @@
 ---
-- hosts: "ansible_host"
+- hosts: azure17a
   name: Install docker
-  
+  become: yes
+
   tasks:
     - name: download docker
-      become: true
       remote_user: gregory
       become_method: sudo
       shell: curl https://get.docker.com | sh
       
     - name: Modify privilege
-      become: true
       remote_user: gregory
       become_method: sudo
       shell: usermod -aG docker $USER
 
     - name: Change privilege of docker
-      become: true
       remote_user: gregory
       become_method: sudo
       file: dest=/usr/bin/docker mode=+x
