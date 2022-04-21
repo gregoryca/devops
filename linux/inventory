@@ -2,7 +2,7 @@
 server17a ansible_host=192.168.1.103
 
 [cloudservers]
-azure17a ansible_host=20.126.110.104
+azure17a ansible_host=20.123.210.199
 
 [devserver]
 dev-workstation ansible_host=10.13.13.4
