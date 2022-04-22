@@ -1,5 +1,5 @@
 ---
-- hosts: homeservers, cloudservers, devserver
+- hosts: server17avm1
   become: yes
   become_user: root
   tasks:

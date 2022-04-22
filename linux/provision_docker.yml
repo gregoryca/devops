@@ -1,4 +1,4 @@
-- hosts: azure17a
+- hosts: server17avm1
   become: yes
   gather_facts: false
   tasks:

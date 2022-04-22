@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: homeservers
   become: true
   remote_user: gregory
   become_method: sudo

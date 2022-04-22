@@ -1,0 +1,6 @@
+[cloudservers]
+azure17a ansible_host=dockervm-0.westeurope.cloudapp.azure.com
+
+[cloudservers:vars]
+private_key_file = /home/gregory/.ssh/rsa_id
+ansible_user = gregory

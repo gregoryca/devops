@@ -1,2 +1,0 @@
-- name: run rancher custom cluster agent
-      command: sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run  rancher/rancher-agent:v2.6.3 --server https://rancher.cloud-migrations.nl --token bg8xphkr5bgqt8h7wvlhgs9sk6wsrr7mrjbz9ckb9s9v2qssnxdjwz --ca-checksum 90a8ea89143b4a3439c784b3564c88dfcdc12e64d833e7abb5f3238c3c1bc36c --etcd --controlplane --worker

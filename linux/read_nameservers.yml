@@ -1,4 +1,4 @@
-- hosts: cloudservers, server17a
+- hosts: server17avm1
   gather_facts: no
 
   tasks:

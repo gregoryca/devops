@@ -1,15 +1,9 @@
 ---
-- hosts: azure17a
+- hosts: server17avm1
   name: Install python3-pip
   become: yes
 
   tasks:
-
-    - name: Install pip
-      apt:
-        name: python-pip
-        update_cache: yes
-        state: present
 
     - name: Install pip3
       apt:
