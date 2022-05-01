@@ -7,7 +7,7 @@
       apt:
         name: "{{ item }}"
         state: present
-        # update_cache: yes
+        update_cache: yes
       with_items:
         - apt-transport-https
         - ca-certificates
@@ -41,13 +41,6 @@
       tags:
         - docker
 
-    # - name: Update apt packages
-    #   remote_user: gregory
-    #   apt:
-    #   update_cache: yes
-    #   tags:
-    #     - docker
-
     - name: Install docker
       remote_user: gregory
       apt:
@@ -58,10 +51,10 @@
       tags:
         - docker
 
-    - name: Add remote "ubuntu" user to "docker" group
+    - name: Add remote "gregory" user to "docker" group
       remote_user: gregory
       user:
-        name: "ubuntu"
+        name: "gregory"
         group: "docker"
         append: yes
       tags:
@@ -74,6 +67,7 @@
         dest: /usr/local/bin/docker-compose
         mode: 'u+x,g+x'
 
-    # - name: set permission 
-    #   remote_user: gregory
-    #   # sudo chmod 666 /var/run/docker.sock
+    - name: set permission 
+      remote_user: gregory
+      shell:
+        cmd: sudo chmod 666 /var/run/docker.sock

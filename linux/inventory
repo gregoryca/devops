@@ -1,10 +1,11 @@
 [homeservers]
 server17a ansible_host=192.168.1.103
 
+[linuxservers]
 server17avm ansible_host=192.168.1.102 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
-server17avm1 ansible_host=192.168.1.110 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
+; server17avm1 ansible_host=192.168.1.110 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
 server17a0 ansible_host=192.168.1.113 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
 
-[linux:vars]
-private_key_file = /home/gregory/.ssh/rsa_id
-ansible_user = gregory
+; [linux:vars]
+; private_key_file = /home/gregory/.ssh/rsa_id
+; ansible_user = gregory

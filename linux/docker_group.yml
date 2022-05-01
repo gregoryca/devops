@@ -1,0 +1,15 @@
+---
+- hosts: linuxservers
+  become: yes
+  gather_facts: True
+  tasks:
+    - name: Modify privilege
+      remote_user: root
+      become_method: sudo
+      shell: 
+        cmd: usermod -aG docker $USER
+
+    - name: Change privilege of docker
+      remote_user: root
+      become_method: sudo
+      file: dest=/usr/bin/docker mode=+x
