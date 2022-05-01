@@ -1,5 +1,5 @@
 ---
-- hosts: server17a0
+- hosts: linuxservers
   become: yes
   gather_facts: True
   tasks:
@@ -61,9 +61,10 @@
         cmd: "docker volume rm -f /var/lib/kubelet"
       ignore_errors: True
 
-    - name: stop port 6443 from listening
-      remote_user: gregory
-      become_method: sudo
-      shell:
-        cmd: "fuser -k 6443/tcp"
-      ignore_errors: True
+    # - name: stop port 6443 from listening
+    #   become: yes
+    #   remote_user: gregory
+    #   become_method: sudo
+    #   shell:
+    #     cmd: "sudo fuser -k 6443/tcp"
+    #   ignore_errors: True

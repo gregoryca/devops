@@ -5,8 +5,8 @@
   tasks:
 
     - name: stop port 6443 from listening
-      remote_user: gregory
+      become_user: gregory
       become_method: sudo
       shell:
-        cmd: "fuser -k 6443/tcp"
+        cmd: "sudo fuser -k 6443/tcp"
       ignore_errors: True

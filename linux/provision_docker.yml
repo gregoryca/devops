@@ -1,4 +1,4 @@
-- hosts: server17a0
+- hosts: testvm1
   become: yes
   gather_facts: false
   tasks:

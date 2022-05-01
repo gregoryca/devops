@@ -1,5 +1,5 @@
 ---
-- hosts: linuxservers
+- hosts: testvm1
   become: yes
   gather_facts: True
   tasks:
