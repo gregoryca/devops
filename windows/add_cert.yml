@@ -1,0 +1,9 @@
+---
+- hosts: test_machine
+  become: yes
+  become_user: root
+  tasks:
+    - name: Import a certificate
+      win_certificate_store:
+          path: C:\Temp\cert.pem
+          state: present

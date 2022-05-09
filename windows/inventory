@@ -1,0 +1,11 @@
+[windowsservers]
+test_machine ansible_host=10.10.101.108
+
+[windowsservers:vars]
+ansible_user=gregory
+ansible_password=Laliloe4life123__
+ansible_connection=ssh
+ansible_shell_type=cmd
+#  ansible_ssh_port: 5986
+#  ansible_winrm_transport: ntlm
+#  ansible_winrm_server_cert_validation: ignore

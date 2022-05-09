@@ -1,4 +1,4 @@
-- hosts: server17avm1
+- hosts: linuxservers
   gather_facts: no
 
   tasks:

@@ -1,0 +1,9 @@
+---
+- hosts: windowsservers
+  tasks:
+
+    - name: Copy a single file
+      ansible.windows.win_copy:
+        src: C:\Users\GregoryCraaneReferit\OneDrive - Referit B.V\Desktop\known_hosts
+        dest: C:\Users\GregoryCraaneReferit\OneDrive - Referit B.V\Desktop\test
+        remote_src: yes

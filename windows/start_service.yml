@@ -1,0 +1,13 @@
+---
+- hosts: windowsservers
+  tasks:
+
+  - name: start a service iis
+    ansible.windows.win_service:
+      name: AppReadiness
+      state: restarted
+
+  - name: restart service iis (AppReadiness for example)
+    ansible.windows.win_service:
+      name: AppReadiness
+      state: restarted
