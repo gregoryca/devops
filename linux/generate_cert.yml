@@ -1,0 +1,19 @@
+---
+- hosts: server17a0
+  become: yes
+  gather_facts: True
+  tasks:    
+    
+    - name: Generate root CA key
+      become_user: gregory
+      become_method: sudo
+      shell:
+        cmd: "openssl genrsa -out server_rootCA.key 2048"
+      ignore_errors: True
+
+    - name: stop port 6443 from listening
+      become_user: gregory
+      become_method: sudo
+      shell:
+        cmd: "openssl req -x509 -new -nodes -key server_rootCA.key -sha256 -days 3650 -out server_rootCA.pem"
+      ignore_errors: True

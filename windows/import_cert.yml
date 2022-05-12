@@ -1,0 +1,25 @@
+---
+- hosts: kantoor
+  tasks:
+
+  # - name: Copy a single file
+  #   ansible.windows.win_copy:
+  #     src: C:\Users\GregoryCraaneReferit\OneDrive - Referit B.V\Desktop\known_hosts
+  #     dest: C:\Users\GregoryCraaneReferit\OneDrive - Referit B.V\Desktop\test
+  #     remote_src: yes
+
+  - name: copying file with playbook
+    become: true 
+    copy:
+      src: /home/gregory/srv/Ansible-DevOps/server_rootCA.key
+      dest: C:\Users\GregoryCraaneReferit\OneDrive - Referit B.V\Desktop\
+
+  - name: Import a certificate
+    ansible.windows.win_certificate_store:
+      path: C:\Users\GregoryCraaneReferit\OneDrive - Referit B.V\Desktop\cert.pem
+      state: present
+
+  # - name: start a service iis
+  #   ansible.windows.win_service:
+  #     name: AppReadiness
+  #     state: started
