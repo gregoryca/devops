@@ -1,0 +1,18 @@
+---
+- hosts: kantoor
+  tasks:
+
+    - name: Obtain information about all certificates in the root store
+      community.windows.win_certificate_info:
+        store_name: Personal
+        thumbprint: "{{ item }}"
+      register: certificates
+      loop: "{{ item.thumbprints }}"
+
+    - name: Add an HTTPS binding to the website using the hash
+      win_iis_webbinding:
+        name: "{{ iis_site }}"
+        protocol: https
+        port: 443
+        certificate_hash: "{{ hash.output[0] }}"
+        state: present
