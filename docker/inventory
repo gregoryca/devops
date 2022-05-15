@@ -1,0 +1,11 @@
+[kantoor]
+management-server ansible_host=192.168.137.128 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
+
+[thuis]
+testvm ansible_host=192.168.1.136 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
+testvm1 ansible_host=192.168.1.111 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
+thinkpad ansible_host=192.168.1.113 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
+
+; [linux:vars]
+; private_key_file = /home/gregory/.ssh/rsa_id
+; ansible_user = gregory
