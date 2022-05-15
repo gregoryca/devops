@@ -1,4 +1,4 @@
-[linuxservers]
+[thuis]
 management-server ansible_host=192.168.137.128 ansible_sudo_pass=laliloe ansible_ssh_user=gregory
 
 ; [linux:vars]

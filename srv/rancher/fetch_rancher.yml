@@ -1,0 +1,24 @@
+---
+- hosts: server17a
+  become: yes
+  tasks:  
+  
+  #Copy the compose file
+    - name: copy Docker Compose files
+      fetch:
+        src: /home/gregory/srv/rancher/docker-compose.yml
+        dest: ./
+        remote_src: yes
+        flat: yes
+      loop:
+      - docker-compose.yml
+
+    # Copy the compose file
+    # - name: copy Docker Compose files
+    #   fetch:
+    #     src: /home/gregory/srv/traefik/traefik.yml
+    #     dest: ./
+    #     remote_src: yes
+    #     flat: yes
+    #   loop:
+    #   - traefik.yml

@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+    rancher:
+        restart: unless-stopped
+        container_name: RancherPortal
+        privileged: true
+        image: rancher/rancher:latest
+        networks: 
+            - web-secure
+        volumes:
+            - "rancher-data:/var/lib/rancher"
+            - '/home/gregory/srv/rancher:/home/rancher_data/'
+
+        labels:
+            - "traefik.enable=true"
+            # web interface
+            - "traefik.http.routers.rancher-secure.rule=Host(`rancher.cloud-migrations.nl`)"
+            - "traefik.http.routers.rancher-secure.tls.certresolver=production"
+            - "traefik.http.routers.rancher-secure.tls=true"
+            - "traefik.http.services.rancher-secure.loadbalancer.server.port=80" #port to the webservice
+            - "traefik.http.routers.rancher-secure.entrypoints=web-secure"
+        
+networks: 
+  web-secure:
+    external: true
+
+volumes:
+  rancher-data:

@@ -12,8 +12,8 @@ global:
 # (Optional) Accesslog
 # ---
 # accesslog:
-  # format: common  # common, json, logfmt
-  # filePath: /var/log/traefik/access.log
+#   format: json  # common, json, logfmt
+#   filePath: /var/log/traefik/access.log
 
 # (Optional) Enable API and Dashboard
 # ---
@@ -39,6 +39,8 @@ entryPoints:
     address: ":53/udp"
   dns:
     address: ":53/tcp"
+  # vpn:
+  #   address: "51820"
 
 # Certificates configuration
 # ---
