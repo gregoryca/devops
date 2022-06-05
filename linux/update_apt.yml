@@ -1,5 +1,5 @@
 ---
-- hosts: linuxservers
+- hosts: thuis
   become: yes
   become_user: root
   tasks:

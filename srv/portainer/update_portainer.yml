@@ -1,5 +1,5 @@
 ---
-- hosts: server17a
+- hosts: linux
   become: yes
   tasks:
 
