@@ -1,0 +1,16 @@
+srv/pihole/etc-dnsmasq.d/01-pihole.conf
+srv/pihole/etc-dnsmasq.d/02-pihole-dhcp.conf
+srv/pihole/etc-dnsmasq.d/06-rfc6761.conf
+srv/pihole/etc-pihole/custom.list
+srv/pihole/etc-pihole/dhcp.leases
+srv/pihole/etc-pihole/dns-servers.conf
+srv/pihole/etc-pihole/GitHubVersions
+srv/pihole/etc-pihole/gravity.db
+srv/pihole/etc-pihole/localbranches
+srv/pihole/etc-pihole/localversions
+srv/pihole/etc-pihole/pihole-FTL.conf
+srv/pihole/etc-pihole/pihole-FTL.db
+srv/pihole/etc-pihole/setupVars.conf
+srv/pihole/etc-pihole/setupVars.conf.update.bak
+srv/pihole/etc-pihole/migration_backup/adlists.list
+srv/pihole/inventory

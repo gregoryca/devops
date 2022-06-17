@@ -7,20 +7,17 @@ services:
     image: pihole/pihole:latest
     ports:
       - "53:53/udp"
+      - "67:67"
     environment:
       TZ: 'Europe/London'
       PUID: '1000'
-      PGID: '1000'
     volumes:
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
-    # cap_add:
-    #   - NET_ADMIN
+    cap_add:
+      - NET_ADMIN
     networks: 
       - web-secure
-    dns:
-       - '192.168.1.1'
-       - '1.1.1.1'
 
     restart: unless-stopped
     labels:
@@ -52,9 +49,9 @@ services:
        - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
 
       # Normal DNS coming in on 53 UDP
-       - "traefik.udp.routers.udpdns.entrypoints=udpdns"
-       - "traefik.udp.routers.udpdns.service=pihole"
-       - "traefik.udp.services.pihole.loadbalancer.server.port=53/udp"      
+      #  - "traefik.udp.routers.udpdns.entrypoints=udpdns"
+      #  - "traefik.udp.routers.udpdns.service=pihole"
+      #  - "traefik.udp.services.pihole.loadbalancer.server.port=53/udp"
 
       #Enable watchtower to watch container for new releases
        - com.centurylinklabs.watchtower.enable=true
