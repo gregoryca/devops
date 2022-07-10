@@ -14,3 +14,5 @@ srv/pihole/etc-pihole/setupVars.conf
 srv/pihole/etc-pihole/setupVars.conf.update.bak
 srv/pihole/etc-pihole/migration_backup/adlists.list
 srv/pihole/inventory
+srv/odoo/inventory
+srv/odoo/ansible.cfg

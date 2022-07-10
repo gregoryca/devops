@@ -6,15 +6,20 @@ services:
     depends_on:
       - db
     networks:
+      - web
       - web-secure
     restart: always
     labels:     
       - "traefik.enable=true"
+      - "traefik.http.routers.odoo.rule=Host(`erp.cloud-migrations.nl`, `www.erp.cloud-migrations.nl`)"
+      - "traefik.http.routers.odoo.entrypoints=web"
+
       - "traefik.http.routers.odoo-secure.rule=Host(`erp.cloud-migrations.nl`, `www.erp.cloud-migrations.nl`)"
       - "traefik.http.routers.odoo-secure.tls.certresolver=production"
       - "traefik.http.routers.odoo-secure.tls=true"
-      - "traefik.http.services.odoo.loadbalancer.server.port=8069" #port to the webservice
       - "traefik.http.routers.odoo-secure.entrypoints=web-secure"
+
+      - "traefik.http.services.odoo.loadbalancer.server.port=8069" #port to the webservice
     volumes:
        - '/home/gregory/srv/odoo:/mnt/odoo-addons/'
 
@@ -31,4 +36,6 @@ services:
     
 networks:
   web-secure:
+    external: true
+  web:
     external: true
