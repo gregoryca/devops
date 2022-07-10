@@ -18,3 +18,5 @@ srv/odoo/inventory
 srv/odoo/ansible.cfg
 srv/traefik/ansible.cfg
 srv/traefik/inventory
+srv/portainer/ansible.cfg
+srv/portainer/inventory
