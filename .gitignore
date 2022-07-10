@@ -16,3 +16,5 @@ srv/pihole/etc-pihole/migration_backup/adlists.list
 srv/pihole/inventory
 srv/odoo/inventory
 srv/odoo/ansible.cfg
+srv/traefik/ansible.cfg
+srv/traefik/inventory

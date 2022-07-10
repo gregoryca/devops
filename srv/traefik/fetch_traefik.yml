@@ -1,5 +1,5 @@
 ---
-- hosts: server17a
+- hosts: mgmt-server
   become: yes
   tasks:  
   
@@ -13,7 +13,7 @@
       loop:
       - docker-compose.yml
 
-    #Copy the compose file
+    #Copy the config file
     - name: copy Docker Compose files
       fetch:
         src: /home/gregory/srv/traefik/traefik.yml

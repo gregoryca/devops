@@ -4,16 +4,16 @@ global:
 
 # (Optional) Log information
 # ---
-# log:
-#  level: ERROR  # DEBUG, INFO, WARNING, ERROR, CRITICAL
-#   format: common  # common, json, logfmt
-#   filePath: /var/log/traefik/traefik.log
+log:
+  level: ERROR  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: json  # common, json, logfmt
+  filePath: /var/log/traefik/traefik.log
 
 # (Optional) Accesslog
 # ---
-# accesslog:
-#   format: json  # common, json, logfmt
-#   filePath: /var/log/traefik/access.log
+accesslog:
+  format: json  # common, json, logfmt
+  filePath: /var/log/traefik/access.log
 
 # (Optional) Enable API and Dashboard
 # ---
@@ -26,11 +26,6 @@ api:
 entryPoints:
   web:
     address: :80
-    http:
-      redirections:
-        entryPoint:
-          to: web-secure
-          scheme: https
   web-secure:
     address: ":443"
   dnsovertls:
@@ -38,9 +33,126 @@ entryPoints:
   udpdns:
     address: ":53/udp"
   dns:
-    address: ":53/tcp"
-  # vpn:
-  #   address: "51820"
+    address: ":53"
+tls:
+  options:
+    modern:
+      minVersion: "VersionTLS13"
+    intermediate:
+      minVersion: "VersionTLS12"
+      cipherSuites:
+        - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+        - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+        - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
+        - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
+# web-secure:
+#   middlewares:
+#     authelia:
+#       forwardAuth:
+#         address: https://authelia:9091/api/verify?rd=https%3A%2F%2Fauth.example.com%2F
+#         trustForwardHeader: true
+#         authResponseHeaders:
+#           - "Remote-User"
+#           - "Remote-Groups"
+#           - "Remote-Email"
+#           - "Remote-Name"
+#         tls:
+#           ca: /certificates/ca.public.crt
+#           cert: /certificates/traefik.public.crt
+#           key: /certificates/traefik.private.pem
+#     authelia-basic:
+#       forwardAuth:
+#         address: https://authelia:9091/api/verify?auth=basic
+#         trustForwardHeader: true
+#         authResponseHeaders:
+#           - "Remote-User"
+#           - "Remote-Groups"
+#           - "Remote-Email"
+#           - "Remote-Name"
+#         tls:
+#           ca: /certificates/ca.public.crt
+#           cert: /certificates/traefik.public.crt
+#           key: /certificates/traefik.private.pem
+#   routers:
+#     traefik-secure:
+#       rule: Host(`traefik.cloud-migrations.nl`)
+#       entryPoints: web-secure
+#       service: api@internal
+#       middlewares:
+#         - authelia@file
+#       tls:
+#         options: modern@file
+#         certResolver: default
+#         domains:
+#           - main: "example.com"
+#             sans:
+#               - "*.example.com"
+#     # whoami:
+#     #   rule: Host(`whoami.example.com`)
+#     #   entryPoints: websecure
+#     #   service: whoami-net@docker
+#     #   middlewares:
+#     #     - authelia@file
+#     #   tls:
+#     #     options: modern@file
+#     #     certResolver: default
+#     #     domains:
+#     #       - main: "example.com"
+#     #         sans:
+#     #           - "*.example.com"
+#     import:
+#       rule: Host(`import.example.com`)
+#       entryPoints: web-secure
+#       # service: nextcloud-net@docker
+#       middlewares:
+#         - authelia@file
+#       tls:
+#         options: modern@file
+#         certResolver: default
+#         domains:
+#           - main: "example.com"
+#             sans:
+#               - "*.example.com"
+#     # heimdall:
+#     #   rule: Host(`heimdall.example.com`)
+#     #   entryPoints: websecure
+#     #   service: heimdall-net@docker
+#     #   middlewares:
+#     #     - authelia-basic@file
+#     #   tls:
+#     #     options: modern@file
+#     #     certResolver: default
+#     #     domains:
+#     #       - main: "example.com"
+#     #         sans:
+#     #           - "*.example.com"
+#     authelia:
+#       rule: Host(`auth.cloud-migrations.nl`)
+#       entryPoints: web-secure
+#       service: authelia@file
+#       tls:
+#         options: modern@file
+#         certResolver: default
+#         domains:
+#           - main: "auth.cloud-migrations.nl"
+#             sans:
+#               - "*.auth.cloud-migrations.nl"
+#   services:
+#     authelia:
+#       loadBalancer:
+#         servers:
+#           - url: https://authelia:9091/
+#         serversTransport: autheliaMutualTLS
+#   serversTransports:
+#     autheliaMutualTLS:
+#       certificates:
+#         - certFile: /traefik-ssl-certs/traefik.public.crt
+#           keyFile: /traefik-ssl-certs/traefik.private.pem
+#       rootCAs:
+#         - /traefik-ssl-certs/ca.public.crt
+# ...
 
 # Certificates configuration
 # ---
@@ -51,26 +163,19 @@ certificatesResolvers:
 # ---
   development:
     acme:
-      email: erp@cloud-migrations.nl  # TODO: Change this to your email
+      email: aquiles.craane@gmail.com  # TODO: Change this to your email
       storage: /ssl-certs/acme.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
+        
   production:
     acme:
-      email: erp@cloud-migrations.nl  # TODO: Change this to your email
+      email: aquiles.craane@gmail.com  # TODO: Change this to your email
       storage: /ssl-certs/acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
-
-  # mytlschallenge:
-  #   acme:
-  #     email: aquiles.craane@gmail.com  # TODO: Change this to your email
-  #     storage: /letsencrypt/acme.json
-  #     tlsChallenge:
-  #       entryPoint: web
-
 
 # Provider Configuration
 # ---
