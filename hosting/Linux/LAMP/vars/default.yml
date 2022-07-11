@@ -1,0 +1,7 @@
+---
+mysql_root_password: "P@ssw0rd"
+app_user: "gregory"
+http_host: "opencartdev.cloud-migrations.nl"
+http_conf: "opencartdev.cloud-migrations.nl.conf"
+http_port: "81"
+disable_default: true

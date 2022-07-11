@@ -1,0 +1,4 @@
+---
+- name: "Configure Load balancer"
+  package:
+     name: haproxy

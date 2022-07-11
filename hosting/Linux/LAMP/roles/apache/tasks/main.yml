@@ -1,0 +1,51 @@
+---
+- name: Install prerequisites
+  apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+  loop: [ 'aptitude' ]
+
+  #Apache Configuration
+- name: Install Apache and PHP Packages
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: [ 'apache2', 'php', 'php-mysql', 'libapache2-mod-php' ]
+
+- name: Create document root
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    owner: "{{ app_user }}"
+    mode: '0755'
+
+- name: Set up Apache virtualhost
+  template:
+    src: "files/apache.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ http_conf }}"
+    
+- name: Enable new site
+  shell: /usr/sbin/a2ensite {{ http_conf }}
+  
+- name: Disable default Apache site
+  shell: /usr/sbin/a2dissite 000-default.conf
+  when: disable_default
+  notify: Reload Apache
+# UFW Configuration
+- name: "UFW - Allow HTTP on port {{ http_port }}"
+  ufw:
+    rule: allow
+    port: "{{ http_port }}"
+    proto: tcp
+
+  # PHP Info Page
+- name: Sets Up PHP Info Page
+  template:
+    src: "files/info.php.j2"
+    dest: "/var/www/{{ http_host }}/info.php"
+
+- name: Reload Apache
+  service:
+    name: apache2
+    state: reloaded
+
+- name: Restart Apache
+  service:
+    name: apache2
+    state: restarted

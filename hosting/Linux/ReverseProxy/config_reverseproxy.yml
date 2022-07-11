@@ -1,0 +1,35 @@
+- hosts: mgmt-server
+  become: yes
+  tasks:
+    - name: "remove haproxy"
+      package:
+        name: haproxy
+        state: absent
+#     - name: " configure haproxy.cfg file"
+#       become: true
+#       template:
+#         src: "/home/gregory/srv/devops/hosting/Linux/ReverseProxy/haproxy.cfg"
+#         dest: "/etc/haproxy/haproxy.cfg"
+#         remote_src: yes
+#     - name: " haproxy service restart"
+#       service:
+#         name: haproxy
+#         state: restarted
+
+        
+# - hosts: opencart
+#   tasks:
+#     - name: "Installing httpd on the target node"
+#       package:
+#         name: httpd
+#         state: present
+#     - name: "copying data to target node"
+#       copy:
+#         dest: /var/www/html/index.html
+#         content: "hi....From the target node"
+#     - name: "Httpd service restart"
+#       become: true 
+#       service:
+#         name: httpd
+#         state: restarted
+#         enabled: yes
