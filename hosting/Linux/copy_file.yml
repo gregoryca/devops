@@ -1,0 +1,12 @@
+---
+- hosts: thuis
+  become: yes
+  gather_facts: True
+  tasks:
+
+    - name: copying file with playbook
+      become: true 
+      copy:
+        src: C:\Users\GregoryCraaneReferit\Downloads\testing.yaml
+        dest: /home/gregory/.kube/config
+        remote_src: yes

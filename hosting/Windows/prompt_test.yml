@@ -1,0 +1,16 @@
+---
+- hosts: thuis
+  vars_prompt:
+
+    - name: username
+      prompt: What is your username?
+      private: no
+
+    - name: password #decleation of variable
+      prompt: What is your password? #assigning the variable an value
+
+  tasks:
+
+    - name: Print a message
+      ansible.builtin.debug:
+        msg: 'Logging in as {{ username }} and {{ password }}' 
