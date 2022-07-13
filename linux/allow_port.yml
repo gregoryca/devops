@@ -1,0 +1,10 @@
+---
+- hosts: opencart
+  become: yes
+  gather_facts: True
+  tasks:
+
+      - name: Allow all access to port 3306
+        ufw:
+          rule: allow
+          port: '3306'

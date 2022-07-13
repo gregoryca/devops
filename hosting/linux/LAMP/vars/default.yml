@@ -8,3 +8,10 @@ https_port: "443"
 login_user: "gregory"
 login_password: "P@ssw0rd"
 disable_default: true
+
+phpmyadmin_mysql_host: localhost
+phpmyadmin_mysql_port: "3306"
+phpmyadmin_mysql_socket: "/var/run/mysqld/mysqld.sock"
+phpmyadmin_mysql_connect_type: tcp
+phpmyadmin_mysql_user: root
+phpmyadmin_mysql_password: "{{ mysql_root_password }}"

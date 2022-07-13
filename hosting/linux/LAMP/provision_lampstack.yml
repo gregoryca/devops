@@ -13,3 +13,4 @@
   roles:
     - apache
     - mariadb
+    - phpmyadmin

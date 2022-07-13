@@ -1,0 +1,4 @@
+---
+- name: Install phpmyadmin Package
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: [ 'phpmyadmin', 'python3-pymysql' ]
