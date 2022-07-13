@@ -1,6 +1,0 @@
-- name: Deploy reverse proxy 
-  become: true
-  hosts: opencart
-  connection: local
-  roles:
-  - apache-reverse-proxy

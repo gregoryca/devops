@@ -27,11 +27,19 @@
   shell: /usr/sbin/a2dissite 000-default.conf
   when: disable_default
   notify: Reload Apache
+  
 # UFW Configuration
 - name: "UFW - Allow HTTP on port {{ http_port }}"
   ufw:
     rule: allow
     port: "{{ http_port }}"
+    proto: tcp
+
+# UFW Configuration
+- name: "UFW - Allow HTTPS on port {{ https_port }}"
+  ufw:
+    rule: allow
+    port: "{{ https_port }}"
     proto: tcp
 
   # PHP Info Page
