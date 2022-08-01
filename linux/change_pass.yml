@@ -1,11 +1,13 @@
 ---
-- hosts: all
-  become: yes
-  remote_user: gregory
-  become_method: sudo
+- name: user module demo
+  hosts: opencart
+  become: true
+  vars:
+    myuser: "gregory"
+    mypassword: "laliloe"
   tasks:
-    - name: Change user password
-      user:
-        name: gregory
-        update_password: always
-        password: "{{ newpassword|password_hash('sha512') }}"
+    - name: change password
+      ansible.builtin.user:
+        name: "{{ myuser }}"
+        state: present
+        password: "{{ mypassword | password_hash('sha512') }}"

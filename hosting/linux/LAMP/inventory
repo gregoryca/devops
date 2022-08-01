@@ -2,6 +2,10 @@
 mgmt-server ansible_host=192.168.1.103
 opencart ansible_host=192.168.1.144
 
+[opencart-servers]
+opencart-server01 ansible_host=192.168.1.145
+opencart-server02 ansible_host=192.168.1.124
+
 [linux]
 management-server ansible_host=192.168.137.128 
 
@@ -12,5 +16,5 @@ ansible_sudo_pass=laliloe
 ansible_ssh_user=gregory
 
 [thuis:vars]
-ansible_sudo_pass=laliloe 
+ansible_sudo_pass=laliloe
 ansible_ssh_user=gregory

@@ -1,5 +1,5 @@
 ---
-- hosts: thuis
+- hosts: testvm
   become: yes
   become_user: root
   tasks:

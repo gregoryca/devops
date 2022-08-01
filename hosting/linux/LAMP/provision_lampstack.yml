@@ -5,7 +5,7 @@
 ###
 ---
 - name: configure lamp
-  hosts: opencart
+  hosts: testvm
   become: yes
   become_method: sudo
   vars_files:

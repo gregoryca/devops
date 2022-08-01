@@ -1,5 +1,5 @@
 ---
-- hosts: thuis
+- hosts: mgmt-server
   become: yes
   gather_facts: True
   tasks:
