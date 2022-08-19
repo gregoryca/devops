@@ -1,5 +1,4 @@
 version: "3"
-
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
@@ -7,51 +6,49 @@ services:
     image: pihole/pihole:latest
     ports:
       - "53:53/udp"
-      - "67:67"
     environment:
       TZ: 'Europe/London'
       PUID: '1000'
+      PGID: '1000'
     volumes:
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
-    cap_add:
-      - NET_ADMIN
     networks: 
       - web-secure
-
     restart: unless-stopped
     labels:
        - "traefik.enable=true"
 
        # web interface
-       - "traefik.http.routers.pihole-secure.rule=Host(`pihole.cloud-migrations.nl`, `www.pihole.cloud-migrations.nl`)"
+       - "traefik.http.routers.pihole-secure.rule=Host(`pihole.cloud-migrations.nl`)"
        - "traefik.http.routers.pihole-secure.tls.certresolver=production"
        - "traefik.http.routers.pihole-secure.tls=true"
-       - "traefik.http.services.pihole-secure.loadbalancer.server.port=80" #port to the webservice
        - "traefik.http.routers.pihole-secure.entrypoints=web-secure"
+       - "traefik.http.services.pihole-secure.loadbalancer.server.port=80" #port to the webservice
+
+       - "traefik.http.routers.pihole-secure.middlewares=authelia-secure@docker"
 
        # DNS-over-TLS
        - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`853.cloud-migrations.nl`)"
-       - "traefik.tcp.routers.dnsovertls.tls.certresolver=production"
+       - "traefik.tcp.routers.dnsovertls.tls.certresolver=productiontls"
        - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
        - "traefik.tcp.services.pihole.loadbalancer.server.port=853"
 
        # DNS-over-HTTPS
        - "traefik.tcp.routers.dnsoverhttps.rule=HostSNI(`443.cloud-migrations.nl`)"
-       - "traefik.tcp.routers.dnsoverhttps.tls.certresolver=production"
+       - "traefik.tcp.routers.dnsoverhttps.tls.certresolver=productiontls"
        - "traefik.tcp.routers.dnsoverhttps.entrypoints=web-secure"
        - "traefik.tcp.services.pihole.loadbalancer.server.port=443"
 
       # Normal DNS coming in on 53 TCP, no TLS
-       - "traefik.tcp.routers.dns.rule=HostSNI(`53.cloud-migrations.nl`)"
        - "traefik.tcp.routers.dns.entrypoints=dns"
        - "traefik.tcp.routers.dns.service=pihole"
        - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
 
       # Normal DNS coming in on 53 UDP
-      #  - "traefik.udp.routers.udpdns.entrypoints=udpdns"
-      #  - "traefik.udp.routers.udpdns.service=pihole"
-      #  - "traefik.udp.services.pihole.loadbalancer.server.port=53/udp"
+       - "traefik.udp.routers.udpdns.entrypoints=udpdns"
+       - "traefik.udp.routers.udpdns.service=pihole"
+       - "traefik.udp.services.pihole.loadbalancer.server.port=53/udp"      
 
       #Enable watchtower to watch container for new releases
        - com.centurylinklabs.watchtower.enable=true

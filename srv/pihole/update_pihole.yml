@@ -24,7 +24,7 @@
   #Pull latest version Image
     - name: pull an image
       docker_image:
-        name: pihole/pihole:latest
+        name: pihole/pihole
         source: pull
 
   #Copy the compose file
