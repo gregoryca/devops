@@ -22,3 +22,13 @@
         flat: yes
       loop:
       - traefik.yml
+
+    #Copy the config file
+    - name: copy traefik dynamic Configuration
+      fetch:
+        src: /home/gregory/srv/traefik/configurations/dynamic.yml
+        dest: ./
+        remote_src: yes
+        flat: yes
+      loop:
+      - traefik.yml

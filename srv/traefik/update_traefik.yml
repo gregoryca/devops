@@ -30,12 +30,32 @@
   #Copy the compose file
     - name: copy Docker Compose files
       fetch:
-        src: /home/gregory/srv/traefik/docker-compose.yml
-        dest: ./
+        src: ./
+        dest: /home/gregory/srv/traefik/
         remote_src: yes
         flat: yes
       loop:
       - docker-compose.yml
+
+    #Copy the config file
+    - name: copy traefik dynamic Configuration
+      fetch:
+        src: ./
+        dest: /home/gregory/srv/traefik/configurations/
+        remote_src: yes
+        flat: yes
+      loop:
+      - dynamic.yml
+
+    #Copy the config file
+    - name: copy traefik config Configuration
+      fetch:
+        src: ./
+        dest: /home/gregory/srv/traefik/configurations/
+        remote_src: yes
+        flat: yes
+      loop:
+      - traefik.yml
 
   #deploy compose file
     - name: deploy Docker Compose stack
