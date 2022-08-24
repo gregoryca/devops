@@ -6,7 +6,7 @@ on:
 
   push:
 
-    branches: [ master ]
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Ansible playbook
 
-        # uses: dawidd6/action-ansible-playbook@v2.5.0
+        uses: actions/checkout@v3
 
         with:
 
