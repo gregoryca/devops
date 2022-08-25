@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Ansible playbook
 
-        uses: actions/checkout@v3
+        uses: actions/automate_pihole
 
         with:
 
