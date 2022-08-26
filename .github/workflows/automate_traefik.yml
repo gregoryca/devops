@@ -1,13 +1,11 @@
-name: Deploy
+name: Deploy Traefik docker-compose
 
 on:
   # Triggers this Action on push or pull request events on the "main" branch and when manually requested from the "Actions" tab
   push:
     branches: [ master ]
 
-  workflow_dispatch:
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
