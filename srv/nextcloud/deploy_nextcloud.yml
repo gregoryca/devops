@@ -6,7 +6,7 @@
   #Copy the compose file
   - name: copy Docker Compose files to remote server
     copy:
-      src: /home/gregory/srv/devops/srv/netxtcloud/docker-compose.yml
+      src: /home/gregory/srv/devops/srv/nextcloud/docker-compose.yml
       dest: /home/gregory/srv/nextcloud/docker-compose.yml
     loop:
     - docker-compose.yml
