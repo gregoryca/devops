@@ -8,3 +8,4 @@ dev-workstation ansible_host=10.13.13.2
 [linux:vars]
 private_key_file = /home/gregory/.ssh/rsa_id.pub
 ansible_user = gregory
+ansible_sudo_pass = laliloe

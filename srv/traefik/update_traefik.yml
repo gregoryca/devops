@@ -30,8 +30,8 @@
   #Copy the compose file
     - name: copy Docker Compose files
       fetch:
-        src: ./
-        dest: /home/gregory/srv/traefik/
+        src: /home/gregory/srv/traefik/
+        dest: ./
         remote_src: yes
         flat: yes
       loop:
@@ -40,8 +40,8 @@
     #Copy the config file
     - name: copy traefik dynamic Configuration
       fetch:
-        src: ./
-        dest: /home/gregory/srv/traefik/configurations/
+        src: /home/gregory/srv/traefik/configurations/
+        dest: ./
         remote_src: yes
         flat: yes
       loop:
@@ -50,8 +50,8 @@
     #Copy the config file
     - name: copy traefik config Configuration
       fetch:
-        src: ./
-        dest: /home/gregory/srv/traefik/configurations/
+        src: /home/gregory/srv/traefik/configurations/
+        dest: ./
         remote_src: yes
         flat: yes
       loop:
