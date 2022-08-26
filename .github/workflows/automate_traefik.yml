@@ -6,10 +6,6 @@ on:
       - 'traefik'
 
 jobs:
-  approved:
-    if: github.event.review.state == 'approved'
-    runs-on: ubuntu-latest
-
   build:
     name: Build
     runs-on: ubuntu-latest
