@@ -2,7 +2,7 @@ name: Deploy Nextcloud docker-compose
 
 on:
   push:
-    branches: [ master ]
+    branches: [ nextcloud ]
 
 jobs:
   build:

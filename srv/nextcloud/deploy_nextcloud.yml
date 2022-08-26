@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+  tasks:  
+
+  #Copy the compose file
+  - name: copy Docker Compose files to remote server
+    copy:
+      src: /home/gregory/srv/devops/srv/nextcloud/docker-compose.yml
+      dest: /home/gregory/srv/nextcloud/docker-compose.yml
+    loop:
+    - docker-compose.yml
+
+  #Copy the compose file
+  - name: copy Nginx config files to remote server
+    copy:
+      src: /home/gregory/srv/devops/srv/nextcloud/default
+      dest: /home/gregory/srv/nextcloud/data/nextcloud/nginx/site-confs/default
+    loop:
+    - default
+
+  #deploy compose file
+  - name: deploy Docker Compose stack
+    docker_compose:
+      project_src: /home/gregory/srv/nextcloud/
+      files:
+      - docker-compose.yml
+      recreate: always
