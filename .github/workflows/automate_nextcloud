@@ -12,11 +12,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: Start Traefik stack
+    - name: Start Nextcloud stack
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
-        script: cd /home/gregory/srv/traefik/ && docker-compose up -d --force-recreate
+        script: cd /home/gregory/srv/nextcloud/ && docker-compose up -d --force-recreate
