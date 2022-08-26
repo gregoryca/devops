@@ -5,20 +5,26 @@ volumes:
     driver: local
 
 services:
-  traefik:
+  # Start the agent with the latest version
+  hub-agent:
+    image: ghcr.io/traefik/hub-agent-traefik:experimental
+    pull_policy: always
+    container_name: hub-agent
+    restart: "on-failure"
+    command:
+      - run
+      - --hub.token=11f5a6f3-04d4-4034-beab-9a4e13505bea
+      - --auth-server.advertise-url=http://hub-agent
+      - --traefik.host=traefik.cloud-migrations.nl
+      - --traefik.tls.insecure=true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  traefik.rproxy:
     image: "traefik:latest"
     container_name: traefik.rproxy
-    restart: always
-    command:
-      # Enable a http challenge named "production" and "development"
-      - "--certificatesresolvers.production.acme.tlschallenge=true"
-      - "--certificatesresolvers.development.acme.tlschallenge=true"
-      # The email to provide to let's encrypt
-      - "--certificatesresolvers.production.acme.email=aquiles.craane@gmail.com"
-      # Tell it to use our predefined entrypoint named "web"
-      - "--certificatesresolvers.production.acme.tlschallenge.entrypoint=web"
-      - "--certificatesresolvers.production.acme.storage=/letsencrypt/acme.json"
-      
+    restart: always 
+
     ports:
       - "80:80"
       - "443:443"
@@ -26,57 +32,38 @@ services:
 
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./letsencrypt/:/letsencrypt"
+      #this is to save my ssl certifcates locally
       - "./traefik-ssl-certs:/ssl-certs"
-      - "./:/etc/traefik/"
+      #this is for my dynamic config
+      - "./configurations/:/configurations"
+      #this is for my traefik static config
+      - "./configurations/:/etc/traefik/"      
 
     labels:
       - "traefik.enable=true"
-
+      #this is a domain name i have pointed to my home address via no-ip.
+      #you can create a no-ip account, and set it up so you have an dynamic DNS address
+      #In your domain you create a new CNAME record for your website
+      #After that you point that CNAME record to the dynamic DNS record
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik.cloud-migrations.nl`)"
+      #This is my certresolved named: production and can be found in my static config
       - "traefik.http.routers.traefik-secure.tls.certresolver=production"
       - "traefik.http.routers.traefik-secure.tls=true"
+      #Port to traefik dashboard UI
       - "traefik.http.services.traefik-secure.loadbalancer.server.port=8080" #port to the webservice
+      #I have created a docker network named: web-secure
       - "traefik.http.routers.traefik-secure.entrypoints=web-secure"
+      #traefik service
       - "traefik.http.routers.traefik-secure.service=api@internal"
+      #Use this only if you have Authelia deployed in your infra, and is reachable via an docker network
       - "traefik.http.routers.traefik-secure.middlewares=authelia-secure@docker"
-
-      # - 'traefik.http.middlewares.authelia-secure.forwardauth.address=http://authelia:9091/api/verify?rd=https://auth.cloud-migrations.nl'  # yamllint disable-line rule:line-length
-      # - 'traefik.http.middlewares.authelia-secure.forwardauth.trustForwardHeader=true'
-      # - 'traefik.http.middlewares.authelia-secure.forwardauth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email'  # yamllint disable-line rule:line-length
-
-      - com.centurylinklabs.watchtower.enable=true
+    
+    #Defining my networks
     networks:
       - web-secure
       - web
 
-  authelia:
-    image: authelia/authelia:latest
-    container_name: authelia_2FA
-    volumes:
-      - ./config:/config
-    networks:
-      - web-secure
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.authelia-secure.rule=Host(`auth.cloud-migrations.nl`)'
-      - 'traefik.http.routers.authelia-secure.entrypoints=web-secure'
-      - 'traefik.http.routers.authelia-secure.tls=true'
-      - 'traefik.http.routers.authelia-secure.tls.certresolver=production'
-
-      - 'traefik.http.middlewares.authelia-secure.forwardauth.address=http://authelia:9091/api/verify?rd=https://auth.cloud-migrations.nl'  # yamllint disable-line rule:line-length
-      - 'traefik.http.middlewares.authelia-secure.forwardauth.trustForwardHeader=true'
-      - 'traefik.http.middlewares.authelia-secure.forwardauth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email'  # yamllint disable-line rule:line-length
-      
-      - "traefik.http.services.authelia-secure.loadbalancer.server.port=9091" #port to the webservice
-    expose:
-      - 9091
-    restart: unless-stopped
-    healthcheck:
-      disable: true
-    environment:
-      - TZ=Europe/Amsterdam
-
+#persisting of my docker network within this stack
 networks: 
   web-secure:
     external: true
