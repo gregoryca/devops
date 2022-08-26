@@ -1,5 +1,5 @@
 ---
-- hosts: mgmt-server
+- hosts: all
   become: yes
   tasks:  
   
@@ -16,7 +16,7 @@
     #Copy the config file
     - name: copy Docker Compose files
       fetch:
-        src: /home/gregory/srv/traefik/traefik.yml
+        src: /home/gregory/srv/traefik//configurations/traefik.yml
         dest: ./
         remote_src: yes
         flat: yes
@@ -31,4 +31,4 @@
         remote_src: yes
         flat: yes
       loop:
-      - traefik.yml
+      - dynamic.yml
