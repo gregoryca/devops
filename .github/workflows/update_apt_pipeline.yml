@@ -1,20 +1,55 @@
-name: Update server
+##############################################
+# This is a basic workflow to update servers #
+##############################################
+name: Deploy Traefik infra
 
 on:
-  # Triggers this Action on push or pull request events on the "main" branch and when manually requested from the "Actions" tab
   push:
-    branches: [ ansible ]
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  #################################################################
+  # Allows you to run this workflow manually from the Actions tab #
+  #################################################################
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
+
     steps:
-    - name: Deploy Ansible update_apt script
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
-        port: ${{ secrets.PORT }}
-        script: cd /home/gregory/srv/devops/linux && ansible-playbook update_apt.yml
+      #################################################################################
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it #
+      #################################################################################
+      - name: Run playbook
+        uses: actions/checkout@v3
+
+      ########################################################
+      # Deploys an ansible script to update the server stack #
+      ########################################################
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Update Servers
+        with:
+          ###############################
+          # Required, playbook filepath #
+          ###############################
+          playbook: update_apt.yml
+          ############################################
+          # Optional, directory where playbooks live #
+          ############################################
+          directory: ./linux
+          ###################
+          # SSH private key #
+          ###################
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          ###########################
+          # inventory file contents #
+          ###########################
+          inventory: |
+            [linux]
+            server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
+
+            [linux:vars]
+            ansible_user = ${{ secrets.USERNAME }}
+            ansible_sudo_pass = ${{ secrets.PASSWORD }}
