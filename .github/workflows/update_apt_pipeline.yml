@@ -1,7 +1,7 @@
 ##############################################
 # This is a basic workflow to update servers #
 ##############################################
-name: Deploy Traefik infra
+name: Update Server(s)
 
 on:
   push:
