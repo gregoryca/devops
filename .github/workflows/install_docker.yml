@@ -29,7 +29,7 @@ jobs:
       # Deploys an ansible script to update the server stack #
       ########################################################
       - uses: dawidd6/action-ansible-playbook@v2
-        name: Provision a server with Docker
+        name: Provision Docker
         with:
           ###############################
           # Required, playbook filepath #
@@ -48,7 +48,7 @@ jobs:
           ###########################
           inventory: |
             [linux]
-            app-srv-01 ansible_host=srv-01.westeurope.cloudapp.azure.com ansible_port=22
+            app-srv-01 ansible_host=51.145.209.15 ansible_port=22
             
             ansible_user=gregory
             ansible_sudo_pass=laliloe4life_
