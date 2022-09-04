@@ -1,4 +1,4 @@
-name: Deploy Traefik docker-compose
+name: Retrieve SSH Keys
 
 on:
   # Triggers this Action on push or pull request events on the "main" branch and when manually requested from the "Actions" tab
