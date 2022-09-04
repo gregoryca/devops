@@ -1,7 +1,7 @@
 ##############################################
 # This is a basic workflow to install Docker #
 ##############################################
-name: Update Server(s)
+name: Install Docker on Server(s)
 
 on:
   push:
