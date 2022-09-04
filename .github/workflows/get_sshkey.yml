@@ -19,4 +19,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: laliloe4life_
         port: 22
-        script: ssh-copy-id -i /home/${{ secrets.USERNAME }}/.ssh/id_rsa.pub ${{ secrets.HOSTNAMESRV }}
+        script: ssh-copy-id -i /home/${{ secrets.USERNAME }}/.ssh/id_rsa.pub 51.145.209.15
