@@ -48,7 +48,7 @@ jobs:
           ###########################
           inventory: |
             [linux]
-            app-srv01 ansible_host=SRV-01.WESTEUROPE.CLOUDAPP.AZURE.COM ansible_port=22
+            app-srv-01 ansible_host=srv-01.westeurope.cloudapp.azure.com ansible_port=22
             
             ansible_user=${{ secrets.USERNAME }}
             ansible_sudo_pass=laliloe4life_
