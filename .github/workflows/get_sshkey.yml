@@ -9,7 +9,14 @@ on:
 
 jobs:
   build:
-    username: ${{ secrets.USERNAME }}
-    key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
-    port: ${{ secrets.PORT }}
-    script: ssh-copy-id -i /home/${{ secrets.USERNAME }}/.ssh/id_rsa.pub ${{ secrets.HOSTNAMESRV }}
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Start Traefik stack
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOSTSRV }}
+        username: ${{ secrets.USERNAME }}
+        password: laliloe4life_
+        port: 22
+        script: ssh-copy-id -i /home/${{ secrets.USERNAME }}/.ssh/id_rsa.pub ${{ secrets.HOSTNAMESRV }}
