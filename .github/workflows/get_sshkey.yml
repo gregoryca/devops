@@ -1,0 +1,15 @@
+name: Deploy Traefik docker-compose
+
+on:
+  # Triggers this Action on push or pull request events on the "main" branch and when manually requested from the "Actions" tab
+  push:
+    branches: [ master ]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  build:
+    username: ${{ secrets.USERNAME }}
+    key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+    port: ${{ secrets.PORT }}
+    script: ssh-copy-id -i /home/${{ secrets.USERNAME }}/.ssh/id_rsa.pub ${{ secrets.HOSTNAMESRV }}
