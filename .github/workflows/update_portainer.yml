@@ -22,8 +22,8 @@ jobs:
       #################################################################################
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it #
       #################################################################################
-      - name: Run playbook
-        uses: actions/checkout@v3
+      # - name: Run playbook
+      #   uses: actions/checkout@v3
 
       ########################################################
       # Deploys an ansible script to update the server stack #
