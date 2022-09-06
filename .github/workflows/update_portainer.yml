@@ -1,0 +1,55 @@
+##############################################
+# This is a basic workflow to update servers #
+##############################################
+name: Update Portainer
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  #################################################################
+  # Allows you to run this workflow manually from the Actions tab #
+  #################################################################
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      #################################################################################
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it #
+      #################################################################################
+      - name: Run playbook
+        uses: actions/checkout@v3
+
+      ########################################################
+      # Deploys an ansible script to update the server stack #
+      ########################################################
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Update Portainer stack
+        with:
+          ###############################
+          # Required, playbook filepath #
+          ###############################
+          playbook: update_portainer.yml
+          ############################################
+          # Optional, directory where playbooks live #
+          ############################################
+          directory: ./srv/portainer/
+          ###################
+          # SSH private key #
+          ###################
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          ###########################
+          # inventory file contents #
+          ###########################
+          inventory: |
+            [linux]
+            server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
+
+            [linux:vars]
+            ansible_user = ${{ secrets.USERNAME }}
+            ansible_sudo_pass = ${{ secrets.PASSWORD }}
