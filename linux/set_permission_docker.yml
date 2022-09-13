@@ -1,7 +1,8 @@
-- hosts: linuxservers
+- hosts: all
   gather_facts: false
   tasks:    
+  
     - name: set permission 
-      remote_user: root
+      remote_user: gregory
       become: yes
       command: chmod 666 /var/run/docker.sock

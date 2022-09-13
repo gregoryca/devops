@@ -6,6 +6,7 @@
       stat:
         path: /etc/resolv.conf
       register: resolv_conf
+      
     - name: check nameservers list in resolv.conf
       debug:
         msg: "{{ contents }}"
