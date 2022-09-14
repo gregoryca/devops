@@ -52,6 +52,7 @@ jobs:
             
             [azure]
             app-srv-01 ansible_host=srv-01.westeurope.cloudapp.azure.com ansible_port=22 
+            
             [linux:vars]
             ansible_user = ${{ secrets.USERNAME }}
             ansible_sudo_pass = ${{ secrets.PASSWORD }}
