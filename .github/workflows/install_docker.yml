@@ -5,7 +5,7 @@ name: Install Docker on Server(s)
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "dev", "development" ]
   pull_request:
     branches: [ "master" ]
 
