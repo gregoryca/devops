@@ -19,4 +19,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: laliloe4life_
         port: 22
-        script: ssh-copy-id ${{ secrets.USERNAME }}@51.145.209.15
+        script: ssh-copy-id gregory@srv-01.westeurope.cloudapp.azure.com
