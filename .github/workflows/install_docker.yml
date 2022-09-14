@@ -34,7 +34,7 @@ jobs:
           ###############################
           # Required, playbook filepath #
           ###############################
-          playbook: provision_docker.yml
+          playbook: provision_server.yml
           ############################################
           # Optional, directory where playbooks live #
           ############################################
