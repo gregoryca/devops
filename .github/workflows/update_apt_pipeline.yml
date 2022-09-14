@@ -48,17 +48,13 @@ jobs:
           ###########################
           inventory: |
             [linux]
-            server17a ansible_host = ${{ secrets.HOST }} ansible_port = ${{ secrets.PORT }}
-
+            server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
             [azure]
-            app-srv-01 ansible_host = ${{ secrets.AZURE_SRV }} ansible_port = ${{ secrets.PORT }}
-
+            app-srv-01 ansible_host=srv-01.westeurope.cloudapp.azure.com ansible_port=22 
             [linux:vars]
             ansible_user = ${{ secrets.USERNAME }}
-            ansible_ssh_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
-            ansible_sudo_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
-
+            ansible_sudo_pass = ${{ secrets.PASSWORD }}
             [azure:vars]
-            ansible_user = ${{ secrets.USERNAME }}
-            ansible_ssh_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
-            ansible_sudo_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
+            ansible_user=gregory
+            ansible_ssh_pass=laliloe4life_
+            ansible_sudo_pass=laliloe4life_
