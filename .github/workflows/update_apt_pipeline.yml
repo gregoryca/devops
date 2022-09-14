@@ -46,4 +46,19 @@ jobs:
           ###########################
           # inventory file contents #
           ###########################
-          inventory: ${{ secrets.INVENTORY }}
+          inventory: |
+            [linux]
+            server17a ansible_host = ${{ secrets.HOST }} ansible_port = ${{ secrets.PORT }}
+
+            [azure]
+            app-srv-01 ansible_host = ${{ secrets.AZURE_SRV }} ansible_port = ${{ secrets.PORT }}
+
+            [linux:vars]
+            ansible_user = ${{ secrets.USERNAME }}
+            ansible_ssh_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
+            ansible_sudo_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
+
+            [azure:vars]
+            ansible_user = ${{ secrets.USERNAME }}
+            ansible_ssh_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
+            ansible_sudo_pass = ${{ secrets.ANSIBLE_SUDO_PASS }}
