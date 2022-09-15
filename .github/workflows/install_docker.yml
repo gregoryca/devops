@@ -53,7 +53,7 @@ jobs:
             [linux:vars]
             ansible_user=gregory
             ansible_ssh_pass=laliloe4life_
-            ansible_sudo_pass=laliloe4life
+            ansible_sudo_pass=laliloe4life_
 
       ########################################################
       # Deploys an ansible script to update the server stack #
@@ -83,4 +83,4 @@ jobs:
             [linux:vars]
             ansible_user=gregory
             ansible_ssh_pass=laliloe4life_
-            ansible_sudo_pass=laliloe4life
+            ansible_sudo_pass=laliloe4life_
