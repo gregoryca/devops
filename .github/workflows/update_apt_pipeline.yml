@@ -51,7 +51,7 @@ jobs:
             server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
             
             [azure]
-            app-srv-01 ansible_host=${{ secrets.AZUE_HOST }} ansible_port=${{ secrets.AZURE_PORT }}
+            app-srv-01 ansible_host=${{ secrets.AZURE_HOST }} ansible_port=${{ secrets.AZURE_PORT }}
             
             [linux:vars]
             ansible_user = ${{ secrets.USERNAME }}
