@@ -1,8 +1,8 @@
 ---
-- hosts: azure17a
-  name: Install docker
+- hosts: all
   become: yes
-
+  gather_facts: false
+  remote_user: gregory
   tasks:
     - name: download docker
       remote_user: gregory
