@@ -59,7 +59,7 @@ jobs:
       # Deploys an ansible script to update the server stack #
       ########################################################
       - uses: dawidd6/action-ansible-playbook@v2
-        name: Provision Docker
+        name: Provision Docker-Compose
         with:
           ###############################
           # Required, playbook filepath #
