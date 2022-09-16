@@ -1,12 +1,21 @@
 ---
-- hosts: server17a0
+- hosts: all
   become: yes
   gather_facts: True
   tasks:
 
-    - name: stop port 6443 from listening
+  #Stop port 6443 from listening
+    # - name: stop port 6443 from listening
+    #   become_user: gregory
+    #   become_method: sudo
+    #   shell:
+    #     cmd: "sudo fuser -k 6443/tcp"
+    #   ignore_errors: True
+
+  #Stop port 53 from listening
+    - name: stop port 53 from listening
       become_user: gregory
       become_method: sudo
       shell:
-        cmd: "sudo fuser -k 6443/tcp"
+        cmd: "sudo fuser -k 53/tcp"
       ignore_errors: True
