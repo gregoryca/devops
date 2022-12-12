@@ -1,5 +1,5 @@
 ---
-- hosts: thuis
+- hosts: 192.168.2.100
   become: yes
   become_user: root
   tasks:
