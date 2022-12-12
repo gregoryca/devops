@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: thuis
   become: yes
   become_user: root
   tasks:
