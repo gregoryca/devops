@@ -21,3 +21,10 @@ srv/traefik/inventory
 srv/portainer/ansible.cfg
 srv/portainer/inventory
 windows/inventory
+srv/inventory
+linux/inventory
+kubernetes/inventory
+hosting/docker/inventory
+hosting/windows/inventory
+hosting/linux/LAMP/inventory
+docker/inventory
