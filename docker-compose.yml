@@ -1,5 +1,6 @@
 services:
   semaphore:
+    restart: unless-stopped
     image: ansiblesemaphore/semaphore:latest
     #link to the mysql database. This is required for a connection
     links:
