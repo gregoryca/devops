@@ -4,11 +4,6 @@
 name: Install Docker on Server(s)
 
 on:
-  push:
-    branches: [ "dev", "development" ]
-  pull_request:
-    branches: [ "master" ]
-
   #################################################################
   # Allows you to run this workflow manually from the Actions tab #
   #################################################################
