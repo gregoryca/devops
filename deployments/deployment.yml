@@ -1,0 +1,64 @@
+---
+- hosts: all
+  become: yes
+  become_user: gregory
+  gather_facts: true
+  tasks:
+
+  #########################################
+  # Creating a temp directory on the host #
+  #########################################
+  - name: Create a temp directory if it does not exist
+    ansible.builtin.file:
+      path: ~/temp/devops/
+      state: directory
+      mode: '0777'
+
+  ##########################
+  # Checkout Authelia Repo #
+  ##########################
+  - name: Checkout the Authelia git repo
+    ansible.builtin.git:
+      repo: 'https://github.com/gregoryca/devops.git'
+      dest: ~/temp/devops/
+
+  ########################################
+  # Creating a srv directory on the host #
+  ########################################  
+  - name: Create the srv directory if it does not exist
+    ansible.builtin.file:
+      path: ~/srv/
+      state: directory
+      mode: '0777'
+
+  #########################
+  # Copy the compose file #
+  #########################
+  - name: copy git repo to remote server
+    copy:
+      src: ~/temp/devops
+      dest: ~/srv/
+
+  #######################
+  # Deploy compose file #
+  #######################
+  - name: deploy Docker Compose stack on remote server
+    docker_compose:
+      project_src: ~/srv/devops/
+      files:
+      - docker-compose.yml
+      recreate: always
+
+  #########################################
+  # Clean up temp folder after deployment #
+  #########################################
+  - name: Delete content & directory
+    file:
+      state: absent
+      path: ~/temp/
+
+  ############################################
+  # Post result on CMD line after deployment #
+  ############################################
+  - debug:
+      var: ansible_facts["cmdline"]

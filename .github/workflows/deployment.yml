@@ -1,0 +1,59 @@
+######################################################
+# This is a basic workflow to Deploy a traefik stack #
+######################################################
+name: Deploy Ansible Semaphore UI
+
+on:
+  #################################################################
+  # Allows you to run this workflow manually from the Actions tab #
+  #################################################################
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      #################################################################################
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it #
+      #################################################################################
+      - name: Run playbook
+        uses: actions/checkout@v3
+
+      #####################################################################
+      # Deploys an ansible script to manage the Authelia stack deployment #
+      #####################################################################
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Deploy Ansible Semaphore UI
+        with:
+          ###############################
+          # Required, playbook filepath #
+          ###############################
+          playbook: deployment.yml
+          ############################################
+          # Optional, directory where playbooks live #
+          ############################################
+          directory: ./deployments
+          ###################
+          # SSH private key #
+          ###################
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          ###########################
+          # inventory file contents #
+          ###########################
+          inventory: |
+            [linux]
+            server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
+            
+            # [azure]
+            # app-srv-01 ansible_host=${{ secrets.AZURE_HOST }} ansible_port=${{ secrets.AZURE_PORT }}
+            
+            [linux:vars]
+            ansible_user = ${{ secrets.USERNAME }}
+            ansible_sudo_pass = ${{ secrets.PASSWORD }}
+            ansible_ssh_pass=${{ secrets.PASSWORD }}
+            
+            # [azure:vars]
+            # ansible_user = ${{ secrets.USERNAME }}
+            # ansible_ssh_pass=${{ secrets.AZURE_PASSWORD }}
+            # ansible_sudo_pass=${{ secrets.AZURE_PASSWORD }}
