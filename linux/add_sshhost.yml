@@ -1,8 +1,10 @@
 ---
-- hosts: cloudservers
+- hosts: all
   become: yes
-  become_user: root
+  become_user: gregory
+  gather_facts: True
   tasks:
+
     - name: Another way to call known_hosts
       known_hosts:
         name: dockervm-0   # or 10.9.8.77

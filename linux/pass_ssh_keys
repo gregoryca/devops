@@ -1,1 +1,0 @@
-ssh-copy-id -i /home/gregory/.ssh/id_rsa.pub 192.168.1.111

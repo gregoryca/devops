@@ -4,6 +4,7 @@
   remote_user: gregory
   become_method: sudo
   tasks:
+  
     - lineinfile:
         path: /etc/sudoers
         state: present

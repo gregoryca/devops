@@ -1,7 +1,9 @@
 ---
-- name: user module demo
-  hosts: opencart
-  become: true
+- hosts: all
+  become: yes
+  become_user: gregory
+  gather_facts: True
+  tasks:
   vars:
     myuser: "gregory"
     mypassword: "laliloe"

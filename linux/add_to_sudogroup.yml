@@ -1,8 +1,8 @@
 ---
-- hosts: linuxservers
-  become: true
-  remote_user: gregory
-  become_method: sudo
+- hosts: all
+  become: yes
+  become_user: gregory
+  gather_facts: True
   tasks:
   
     - lineinfile:

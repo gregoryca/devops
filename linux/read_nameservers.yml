@@ -1,5 +1,9 @@
-- hosts: linuxservers
-  gather_facts: no
+---
+- hosts: all
+  become: yes
+  become_user: gregory
+  gather_facts: True
+  tasks:
 
   tasks:
     - name: check resolv.conf exists

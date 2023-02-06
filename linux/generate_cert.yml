@@ -1,8 +1,9 @@
 ---
-- hosts: server17a0
+- hosts: all
   become: yes
+  become_user: gregory
   gather_facts: True
-  tasks:    
+  tasks:
     
     - name: Generate root CA key
       become_user: gregory
