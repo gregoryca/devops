@@ -28,3 +28,4 @@ hosting/docker/inventory
 hosting/windows/inventory
 hosting/linux/LAMP/inventory
 docker/inventory
+.env

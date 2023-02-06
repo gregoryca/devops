@@ -1,5 +1,6 @@
 services:
   semaphore:
+    container_name: Ansible.Semaphore
     hostname: ansible
     restart: unless-stopped
     image: ansiblesemaphore/semaphore:latest
@@ -7,17 +8,17 @@ services:
     links:
       - mysql
     environment:
-      SEMAPHORE_DB_USER: semaphore_user
-      SEMAPHORE_DB_PASS: '*VYJUTMx%uRr!YD9'
-      SEMAPHORE_DB_HOST: mysql
-      SEMAPHORE_DB_PORT: 3306
-      SEMAPHORE_DB: semaphore_db
-      SEMAPHORE_PLAYBOOK_PATH: ./
-      SEMAPHORE_ADMIN_PASSWORD: '*VYJUTMx%uRr!YD9'
-      SEMAPHORE_ADMIN_NAME: 'gregory aquiles craane'
-      SEMAPHORE_ADMIN_EMAIL: aquiles.craane@gmail.com
-      SEMAPHORE_ADMIN: gcraane
-      SEMAPHORE_ACCESS_KEY_ENCRYPTION: +BjSLwR6DDfMmGxM/iLbghyPGEUlQqc15uIztf7NR0U=
+      SEMAPHORE_DB_USER: ${SEMAPHORE_DB_USER}
+      SEMAPHORE_DB_PASS: ${SEMAPHORE_DB_PASS}
+      SEMAPHORE_DB_HOST: ${SEMAPHORE_DB_HOST}
+      SEMAPHORE_DB_PORT: ${SEMAPHORE_DB_PORT}
+      SEMAPHORE_DB: ${SEMAPHORE_DB}
+      SEMAPHORE_PLAYBOOK_PATH: ${SEMAPHORE_PLAYBOOK_PATH}
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_ADMIN_NAME: ${SEMAPHORE_ADMIN_NAME}
+      SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_ADMIN_EMAIL}
+      SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
     networks: 
        - web-secure
     labels:
@@ -33,17 +34,17 @@ services:
       - "traefik.http.routers.semaphore-secure.middlewares=authelia-secure@docker"
 
   mysql:
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     image: mysql:latest
-    container_name: mysql
+    container_name: semaphore.mysql
     hostname: mysql
     restart: unless-stopped
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_DATABASE: semaphore_db
-      MYSQL_USER: semaphore_user
-      MYSQL_PASSWORD: '*VYJUTMx%uRr!YD9'
+      MYSQL_DATABASE: ${SEMAPHORE_DB}
+      MYSQL_USER: ${SEMAPHORE_DB_USER}
+      MYSQL_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
     networks: 
        - web-secure
 
