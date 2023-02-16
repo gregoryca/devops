@@ -44,7 +44,7 @@ jobs:
           inventory: |
             [linux]
             server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
-            
+ 
             [linux:vars]
             ansible_user = ${{ secrets.USERNAME }}
             ansible_sudo_pass = ${{ secrets.PASSWORD }}
