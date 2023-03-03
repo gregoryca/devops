@@ -23,6 +23,10 @@
     - name: Check if a reboot is needed on all servers
       register: reboot_required_file
       stat: path=/var/run/reboot-required get_md5=no
+  
+    - name: Configure security updates on all nodes
+      roles:
+        - security-updates
 
     - name: Reboot the box if kernel updated
       reboot:
