@@ -1,6 +1,6 @@
 services:
   semaphore:
-    container_name: Ansible.Semaphore
+    container_name: semaphore.dashboard
     hostname: ansible
     restart: unless-stopped
     image: ansiblesemaphore/semaphore:latest
