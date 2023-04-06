@@ -1,19 +1,27 @@
 ---
 - hosts: all
-  become: yes
-  become_user: root
   gather_facts: True
   tasks:
 
+    #Gather facts setup
     - name: Gather the package facts
       ansible.builtin.package_facts:
         manager: auto
 
+    #Gather facts in variable: ansible_facts.packages
     - name: Print the package facts
       ansible.builtin.debug:
         var: ansible_facts.packages
 
-    - name: Check whether a package called foobar is installed
-      ansible.builtin.debug:
-        msg: "{{ ansible_facts.packages['foobar'] | length }} versions of foobar are installed!"
-      when: "'foobar' in ansible_facts.packages"
+    #Create Temp directory to save gathered facts
+    - name: Create a temp directory if it does not exist
+      ansible.builtin.file:
+        path: ~/srv/devops/linux/temp/
+        state: directory
+        mode: '0777'
+
+    #Print package version output to ansible_facts.packages
+    - name: Print output to file
+      ansible.builtin.copy:
+        content: "{{ansible_facts.packages}}"
+        dest: ~/srv/devops/linux/temp/temp.txt
