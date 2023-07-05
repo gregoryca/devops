@@ -19,19 +19,9 @@ services:
       SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_ADMIN_EMAIL}
       SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
       SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
+    
     networks:
        - web-secure
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.semaphore-secure.rule=Host(`ansible.apex-migrations.net`)"
-      - "traefik.http.routers.semaphore-secure.tls.certresolver=production"
-      - "traefik.http.routers.semaphore-secure.tls=true"
-      - "traefik.http.routers.semaphore-secure.entrypoints=web-secure"
-      - "traefik.http.services.semaphore.loadbalancer.server.port=3000" #port to the webservice
-      #Add this label to containers to enable watchtower auto update
-      - com.centurylinklabs.watchtower.enable=true
-
-      - "traefik.http.routers.semaphore-secure.middlewares=authelia-secure@docker"
 
   mysql:
     # ports:
