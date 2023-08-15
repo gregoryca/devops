@@ -1,0 +1,14 @@
+---
+- hosts: ai-srv
+  become: yes
+  become_user: root
+  gather_facts: true
+  vars:
+    package_name: "xrdp"
+
+  tasks:
+    - name: Install "{{ package_name }}"
+      apt:
+        name: package_name
+        update_cache: yes
+        state: present

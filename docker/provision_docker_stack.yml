@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: localhost
   name: Install docker
   become: yes
 
