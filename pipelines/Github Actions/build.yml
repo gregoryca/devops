@@ -1,0 +1,187 @@
+#Error (line 23): the step 'PublishTestResults@2' does not have a conversion path yet
+
+#Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/
+
+#Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/
+
+#Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/
+
+#Error (line 107): the step 'ManualValidation@0' does not have a conversion path yet
+
+#Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/
+
+on:
+  push:
+    branches:
+    - main
+
+  workflow_dispatch:
+
+jobs:
+  runCheckov_Stage_runCheckov:
+    name: Checkov > Pull, run and publish results of Checkov scan
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pull > bridgecrew/checkov
+        run: docker pull bridgecrew/checkov
+        shell: bash
+
+      - name: Run > checkov
+        run: docker run --volume ${{ env.pwd }}:/tf bridgecrew/checkov --directory /tf --output junitxml --soft-fail > ${{ env.pwd }}/CheckovReport.xml
+        shell: bash 
+      
+  # This workflow contains a single job called "scan"
+  scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Publish Checkov scan results
+      # Checks-out your repository under $GITHUB_WORKSPACE, so follow-up steps can access it
+      - uses: actions/checkout@v3
+
+      - name: Checkov GitHub Action
+      - uses: bridgecrewio/checkov-action@v12
+        with:
+          # This will add both a CLI output to the console and create a results.sarif file
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
+        
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        # Results are generated only on a success or failure
+        # this is required since GitHub by default won't run the next step
+        # when the previous one has failed. Security checks that do not pass will 'fail'.
+        # An alternative is to add `continue-on-error: true` to the previous step
+        # Or 'soft_fail: true' to checkov.
+        if: success() || failure()
+        with:
+          sarif_file: results.sarif
+
+  Validate_Stage_TerraformJobs:
+    steps:
+    - uses: actions/checkout@v2
+    - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+      name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: latest
+    - run: terraform init
+
+    - name: Terraform - Format
+      run: terraform fmt
+
+    - name: Terraform - Validate
+      run: terraform validate
+
+  Build_Stage_TerraformJobs:
+    needs:
+    - Validate_Stage_TerraformJobs
+    steps:
+    - uses: actions/checkout@v2
+    - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+      name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: latest
+      run: terraform init
+
+    - name: Terraform - Plan
+      run: terraform plan -out=${{ github.workspace }}/terraform.tfplan -detailed-exitcode
+    
+    - name: Terraform - Show Plan
+      run: terraform show
+
+    - name: Set Variables for next stage
+      run: |
+        if [ "$TERRAFORM_PLAN_HAS_CHANGES" = true ] && [ "$TERRAFORM_PLAN_HAS_DESTROY_CHANGES" = false ] ; then
+          echo "##vso[task.setvariable variable=HAS_CHANGES_ONLY;isOutput=true]true"
+          echo "##vso[task.logissue type=warning]Changes with no destroys detected, it is safe for the pipeline to proceed automatically"
+          fi
+        if [ "$TERRAFORM_PLAN_HAS_CHANGES" = true ] && [ "$TERRAFORM_PLAN_HAS_DESTROY_CHANGES" = true ] ; then
+          echo "##vso[task.setvariable variable=HAS_DESTROY_CHANGES;isOutput=true]true"
+          echo "##vso[task.logissue type=warning]Changes with Destroy detected, pipeline will require a manual approval to proceed"
+          fi
+        if [ "$TERRAFORM_PLAN_HAS_CHANGES" != true ] ; then
+          echo "##vso[task.logissue type=warning]No changes detected, terraform apply will not run"
+        fi
+      shell: bash
+
+  Auto_Approval_Stage_job3:
+    needs:
+    - Build_Stage_TerraformJobs
+    if: (success() && (dependencies.Build.outputs['TerraformJobs.setvar.HAS_CHANGES_ONLY'] == 'true'))
+    steps:
+    - uses: actions/checkout@v2
+      # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: latest
+      run: terraform init
+
+    - name: terraform apply
+      run: terraform apply
+
+  Manual_Approval_Stage_waitForValidation:
+    name: Wait > Wait for manual appoval
+    runs-on: server
+    timeout-minutes: 4320
+    needs:
+    - Build_Stage_TerraformJobs
+
+    if: (success() && (dependencies.Build.outputs['TerraformJobs.setvar.HAS_DESTROY_CHANGES'] == 'true'))
+    steps:
+    - uses: actions/checkout@v2
+    - # "Error: the step 'ManualValidation@0' does not have a conversion path yet"
+      run: |
+        echo "Error: the step 'ManualValidation@0' does not have a conversion path yet"
+        #task: ManualValidation@0
+        #timeoutInMinutes: 1440
+        #inputs:
+        #  notifyusers: 
+        #    aquiles.craane@gmail.com
+        #  instructions: There are resources being destroyed as part of this deployment, please review the output of Terraform plan before approving.
+        #  ontimeout: reject
+      timeout-minutes: 1440
+
+  Manual_Approval_Stage_DeployAfterValidation:
+    needs:
+    - Build_Stage_TerraformJobs
+    if: (success() && (dependencies.Build.outputs['TerraformJobs.setvar.HAS_DESTROY_CHANGES'] == 'true'))
+    steps:
+    - uses: actions/checkout@v2
+    - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+
+      name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: latest
+
+    - name: terraform init
+      run: terraform init
+
+    - name: terraform apply
+      run: terraform apply
+                    
