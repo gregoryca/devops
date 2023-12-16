@@ -72,10 +72,10 @@
   - name: Install docker-compose
     remote_user: gregory
     get_url: 
-      url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+      url: https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
       dest: /usr/local/bin/docker-compose
       mode: 'u+x,g+x'
 
   - name: Set Docker-Compose permissions
     remote_user: gregory
-    command: sudo chmod +x /usr/local/bin/docker-compose;
+    command: sudo chmod +x /usr/local/bin/docker-compose
