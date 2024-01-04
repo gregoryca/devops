@@ -7,15 +7,16 @@ Az account show
 
 # variables
 $subscriptionId = $(az account show --query id -o tsv)
-$appName = "GitHub-PWPush-Actions-OIDC"
+$appDisplayName = Read-Host "Please enter the App Name"
+$appName = $appDisplayName + "-OIDC"
 $RBACRole = "Contributor"
 
-$githubOrgName = "gregoryca"
-$githubRepoName = "pwpush"
-$githubBranch = "master"
+$githubOrgName = Read-Host "Please enter the github username"
+$githubRepoName = Read-Host "Please enter the github repo name"
+$githubBranch = Read-Host "Please enter which branch it will be managing"
 
 # Create AAD App and Principal
-$appId = $(az ad app create --display-name $appName --query appId -o tsv)
+$appId = $(az ad app create --display-name $appName  --query appId -o tsv)
 az ad sp create --id $appId
 
 # Create federated GitHub credentials (Entity type 'Branch')
