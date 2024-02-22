@@ -1,15 +1,28 @@
 ---
-- hosts: testvm1
+- hosts: all
   become: yes
-  gather_facts: True
+  gather_facts: false
   tasks:
+
     - name: Modify privilege
-      remote_user: root
+      remote_user: GregoryacDevOps
       become_method: sudo
       shell: 
         cmd: usermod -aG docker $USER
 
     - name: Change privilege of docker
-      remote_user: root
+      remote_user: GregoryacDevOps
       become_method: sudo
       file: dest=/usr/bin/docker mode=+x
+
+    - name: set permission 
+      remote_user: GregoryacDevOps
+      become: yes
+      command: chmod 666 /var/run/docker.sock
+
+    - lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo  ALL=(ALL:ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'

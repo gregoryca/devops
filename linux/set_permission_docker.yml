@@ -4,7 +4,7 @@
   become_user: gregory
   gather_facts: True
   tasks:
-  
+
     - name: set permission 
       remote_user: gregory
       become: yes

@@ -2,7 +2,7 @@
 - hosts: all
   become: yes
   become_user: root
-  gather_facts: True
+  gather_facts: false
   tasks:
 
     - name: Upgrade all packages on servers
