@@ -1,67 +1,16 @@
 ---
 - hosts: all
   name: Install docker
-  become: true
+  become: false
 
-  tasks:
-  - name: Install docker packages
-    remote_user: ubuntu
-    apt:
-      name: "{{ item }}"
-      state: present
-      update_cache: yes
-    with_items:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - software-properties-common
-    tags:
-      - docker
-
-  - name: Add Docker s official GPG key
-    remote_user: gregory
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
-    tags:
-      - docker
-
-  - name: Verify that we have the key with the fingerprint
-    remote_user: gregory
-    apt_key:
-      id: 0EBFCD88
-      state: present
-    tags:
-      - docker
-
-  - name: Set up the stable repository
-    remote_user: gregory
-    apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
-      state: present
-      update_cache: yes
-    tags:
-      - docker
-
-  - name: Update apt and install docker-ce
-    apt: update_cache=yes name=docker-ce state=latest
-
-  - name: Add remote "ubuntu" user to "docker" group
-    remote_user: gregory
-    user:
-      name: "gregory"
-      groups: "docker"
-      append: yes
-    tags:
-      - docker
-      
+  tasks: 
   - name: Install docker-compose
     remote_user: gregory
     get_url: 
-      url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
-      dest: /usr/local/bin/docker-compose
+      url : https://github.com/docker/compose/releases/download/v2.26.1/docker-compose-linux-x86_64
+      dest: ~/.docker/cli-plugins/
       mode: 'u+x,g+x'
 
   - name: Set Docker-Compose permissions
     remote_user: gregory
-    command: sudo chmod +x /usr/local/bin/docker-compose
+    command: chmod +x ~/.docker/cli-plugins/docker-compose
