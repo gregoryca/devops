@@ -44,3 +44,5 @@ kubernetes/roles/inventory
 kubernetes/roles/kubernetes_cluster_install/tests/inventory
 kubernetes/roles/kubernetes_cluster_uninstall/tests/inventory
 kubernetes/roles/ansible.cfg
+pipelines/Azure Devops/azure-pipelines.yml
+pipelines/Azure Devops/azure-pipelines.release.yml
