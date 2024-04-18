@@ -1,0 +1,32 @@
+---
+# tasks file for server_provisioning_devops
+- name: Setup passwordless sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Create a new regular user with sudo privileges
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups }}"
+    append: "{{ item.append }}"
+    create_home: "{{ item.create_home }}"
+  loop: "{{ USER }}"
+
+- name: Set authorized key for remote user
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  loop: "{{ USER }}"
+
+- name: Disable password authentication for root
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin prohibit-password'

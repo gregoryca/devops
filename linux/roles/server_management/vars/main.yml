@@ -1,0 +1,9 @@
+---
+# vars file for server_management
+package_name:
+  - xrdp
+  - ufw
+  - curl
+  - nano
+  - git
+  - ufw

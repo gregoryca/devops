@@ -1,9 +1,0 @@
----
-ubuntu_vnc_packages:
-  - gnome-core
-  - tigervnc-standalone-server
-default_passwd: Laliloe4life
-vnc_client_res: "1920x1080"
-vnc_users:
-  - name: 'Gregory'
-    vnc_num: 1

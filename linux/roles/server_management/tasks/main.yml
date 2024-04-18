@@ -1,0 +1,17 @@
+---
+# tasks file for server_management
+- name: Install "{{ package_name }}"
+  apt:
+    name: "{{ package_name }}"
+    update_cache: yes
+    state: present
+
+- name: UFW - Allow SSH connections
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: UFW - Enable and deny by default
+  community.general.ufw:
+    state: enabled
+    default: deny

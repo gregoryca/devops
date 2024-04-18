@@ -33,3 +33,10 @@ deployments/deployments/inventory
 deployments/deployments/ansible.cfg
 deployments/inventory
 deployments/ansible.cfg
+linux/roles/server_updates/tests/inventory
+linux/roles/server_provisioning_devops/tests/inventory
+linux/roles/server_management/tests/inventory
+linux/roles/install_docker/tests/inventory
+linux/roles/install_traefik/tests/inventory
+linux/roles/ansible.cfg
+linux/roles/inventory

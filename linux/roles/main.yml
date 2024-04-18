@@ -1,0 +1,8 @@
+---
+- hosts: vps
+  become: true
+  roles: ## Use the folder name as role
+    - server_updates
+    - server_provisioning_devops
+    - server_management
+    - install_docker

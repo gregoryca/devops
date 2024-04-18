@@ -1,0 +1,497 @@
+http:
+#################            
+# HTTP routers #
+################
+  routers:
+    router-secure:
+      service: router
+      rule: Host(`router.apex-migrations.net`)
+      entryPoints:
+        - web
+        - web-secure
+      middlewares:
+        - authelia-secure@docker
+        - IP2Location@file
+        - fail2ban@file
+        - https-redirectscheme@file
+      tls:
+        certResolver: production
+
+    traefik-dashboard:
+      service: api@internal
+      rule: Host(`traefik.apex-migrations.net`)
+      entryPoints:
+        - web
+        - web-secure
+      middlewares:
+        - authelia-secure@docker
+        - IP2Location@file
+        - fail2ban@file
+        - https-redirectscheme@file
+      tls:
+        certResolver: production
+
+    influx-dashboard:
+      service: influxdb
+      rule: Host(`influxdb.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        # - authelia-secure@docker
+        - IP2Location@file
+        - fail2ban@file
+      tls:
+        certResolver: production
+
+    semaphore-dashboard:
+      service: semaphore
+      rule: Host(`semaphore.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        # - authelia-secure@docker
+        - IP2Location@file
+        - fail2ban@file
+      tls:
+        certResolver: production
+
+    firefox:
+      service: firefox
+      rule: Host(`firefox.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - authelia-secure@docker
+        - IP2Location@file
+        - https-redirectscheme@file
+        - sablier-firefox@file
+        - fail2ban@file
+      tls:
+        certResolver: production
+
+    ## created a second router for pwpush for sablier
+    ## primary router is defined as a label
+    pwpush: 
+      service: "pwpush"
+      rule: "Host(`pwpush.apex-migrations.net`)"
+      entryPoints:
+        - web-secure
+      middlewares:
+        - sablier-pwpush@file
+        - IP2Location@file
+      tls:
+        certResolver: production
+
+    terraform-backend: 
+      service: "tf-backend"
+      rule: "Host(`terraform-backend.apex-migrations.net`)"
+      entryPoints:
+        - web
+      middlewares:
+        - fail2ban@file
+
+    code-secure:
+      service: code-server
+      rule: Host(`code-server.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - IP2Location@file
+        - sablier-code-server@file
+        - fail2ban@file
+      tls:
+        certResolver: production
+
+    homeassistant-secure:
+      service: home-assistant
+      rule: Host(`home-assistant.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      tls:
+        certResolver: production
+
+    portainer-secure:
+      service: portainer
+      rule: Host(`portainer.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - sablier-portainer@file
+        - authelia-secure@docker
+        - fail2ban@file
+      tls:
+        certResolver: production
+
+    uptime-secure:
+      service: uptime
+      rule: Host(`uptime.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - IP2Location@file
+        - sablier-uptime-kuma@file
+        - authelia-secure@docker
+        - fail2ban@file
+      tls:
+        certResolver: production
+
+    authelia-secure:
+      service: authelia
+      rule: Host(`auth.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - IP2Location@file
+      tls:
+        certResolver: production
+
+    grafana-secure:
+      service: grafana
+      rule: Host(`grafana.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - IP2Location@file
+      tls:
+        certResolver: production
+
+    guacamole-secure:
+      service: guacamole
+      rule: Host(`guacamole.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - authelia-secure@docker
+        - IP2Location@file
+        - fail2ban@file
+        - sablier-gaucamole@file
+      tls:
+        certResolver: production
+
+    it-tools-secure:
+      service: it-tools
+      rule: Host(`ittools.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - sablier-it-tools@file
+        - authelia-secure@docker
+        - fail2ban@file
+      tls:
+        certResolver: production
+
+    dashboard-secure:
+      service: dashboard
+      rule: Host(`dashboard.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - authelia-secure@docker
+        - IP2Location@file
+      tls:
+        certResolver: production
+
+    nextcloud-secure:
+      service: nextcloud
+      rule: Host(`cloud.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - IP2Location@file
+        - nextcloud@docker
+        - nextcloud_redirect@docker
+        - nextcloud_redirect1@docker
+        - nextcloud_redirect2@docker
+      tls:
+        certResolver: production
+
+    prometheus-dashboard:
+      service: prometheus@internal
+      rule: Host(`prometheus.apex-migrations.net`)
+      entryPoints:
+        - web-secure
+      middlewares:
+        - IP2Location@file
+        - authelia-secure@docker
+        - fail2ban@file
+        - realip@file
+      tls:
+        certResolver: production
+
+## Middlewares
+  middlewares:
+    realip:
+      plugin:
+        realip:
+          retrievers:
+            - header: X-Forwarded-For
+              depth: 1
+          headers:
+            - X-Real-IP
+
+    checkheaders:
+      plugin:
+        checkheadersplugin:
+          headers:
+            - header:
+              name: "request_User_Agent"
+              matchtype: one
+              contains: true
+              required: false
+              # values:
+              # - "^Mozilla/5.0 .*"
+              # regex: true
+              # values:
+              #   - "SM-F926B"
+              #   - "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0"
+
+    IP2Location:
+      plugin:
+        ip2location:
+          filename: /configurations/IP2LOCATION-LITE-DB11.BIN
+          fromHeader: X-Forwarded-For # optional
+          disableErrorHeader: true
+          headers:
+            CountryShort: request_X-GEO-CountryShort
+            CountryLong: request_X-GEO-CountryLong
+            Region: request_X-GEO-Region
+            City: request_X-GEO-City
+            #Isp: X-GEO-Isp
+            Latitude: request_X-GEO-Latitude
+            Longitude: request_X-GEO-Longitude
+            #Domain: X-GEO-Domain
+            Zipcode: request_X-GEO-Zipcode
+            Timezone: request_X-GEO-Timezone
+            #Netspeed: X-GEO-Netspeed
+            Iddcode: request_X-GEO-Iddcode
+            Areacode: request_X-GEO-Areacode
+
+    fail2ban:
+      plugin:
+          fail2ban:
+              logLevel: "INFO"
+              blacklist:
+                ip:
+                    - 192.168.0.0/24
+                    - 192.168.1.0/24
+              rules:
+                  findtime: 5m
+                  bantime: 3h
+                  destemail: "aquiles.craane@apex-migrations.net"
+                  enabled: "true"
+                  logencoding: UTF-8
+                  maxretry: "3"
+                  usedns: "192.168.2.100"
+              whitelist:
+                ip:
+                  - ::1
+                  - 127.0.0.1
+                  - "127.0.0.1/32"
+                  - "188.89.186.162" #Werk
+                  - "84.87.253.68" #Thuis
+
+    https-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    sablier-pwpush:
+      plugin:
+        sablier:
+          dynamic:
+            displayName: (>*-*)> STARTING CONTAINER <(*-*<)
+            refreshFrequency: 10s
+            showDetails: "true"
+            theme: ghost
+          names: pwpush, pwpush.db
+          sablierUrl: http://sablier:10000
+          sessionDuration: 1m
+
+    sablier-code-server:
+      plugin:
+        sablier:
+          dynamic:
+            displayName: (>*-*)> STARTING CONTAINER <(*-*<)
+            refreshFrequency: 10s
+            showDetails: "true"
+            theme: ghost
+          names: code-server
+          sablierUrl: http://sablier:10000
+          sessionDuration: 15m
+
+    sablier-firefox:
+      plugin:
+        sablier:
+          dynamic:
+            displayName: (>*-*)> STARTING CONTAINER <(*-*<)
+            refreshFrequency: 10s
+            showDetails: "true"
+            theme: ghost
+          names: firefox.browser
+          sablierUrl: http://sablier:10000
+          sessionDuration: 15m
+
+    sablier-gaucamole:
+      plugin:
+        sablier:
+          dynamic:
+            displayName: (>*-*)> STARTING CONTAINER <(*-*<)
+            refreshFrequency: 10s
+            showDetails: "true"
+            theme: ghost
+          names: guacamole
+          sablierUrl: http://sablier:10000
+          sessionDuration: 15m
+
+    sablier-it-tools:
+      plugin:
+        sablier:
+          dynamic:
+            displayName: (>*-*)> STARTING CONTAINER <(*-*<)
+            refreshFrequency: 10s
+            showDetails: "true"
+            theme: ghost
+          names: dev.tools
+          sablierUrl: http://sablier:10000
+          sessionDuration: 15m
+
+    sablier-portainer:
+      plugin:
+        sablier:
+          dynamic:
+            displayName: (>*-*)> STARTING CONTAINER <(*-*<)
+            refreshFrequency: 10s
+            showDetails: "true"
+            theme: ghost
+          names:  portainer.containers
+          sablierUrl: http://sablier:10000
+          sessionDuration: 15m
+
+    sablier-uptime-kuma:
+      plugin:
+        sablier:
+          dynamic:
+            displayName: (>*-*)> STARTING CONTAINER <(*-*<)
+            refreshFrequency: 10s
+            showDetails: "true"
+            theme: ghost
+          names: uptime-kuma
+          sablierUrl: http://sablier:10000
+          sessionDuration: 15m
+
+  services:
+    router:
+      loadBalancer:
+        servers:
+          - url: http://192.168.2.1:80
+        passHostHeader: false
+
+    pwpush:
+      loadBalancer:
+        servers:
+          - url: "http://pwpush:5100"
+
+    firefox:
+      loadBalancer:
+        servers:
+          - url: "http://firefox.browser:5800"
+
+    pihole-dashboard:
+      loadBalancer:
+        servers:
+          - url: "http://pihole.dns:80"
+
+    tf-backend:
+      loadBalancer:
+        servers:
+          - url: "http://terraform.backend:8080"
+
+    home-assistant:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.114:8123"
+
+    it-tools:
+      loadBalancer:
+        servers:
+          - url: "http://dev.tools:80"
+
+    prometheus:
+      loadBalancer:
+        servers:
+          - url: http://grafana.prometheus:9090
+        passHostHeader: false
+
+    cadvisor:
+      loadBalancer:
+        servers:
+          - url: http://grafana.cadvisor:8080
+        passHostHeader: false
+
+    nextcloud:
+      loadBalancer:
+        servers:
+          - url: http://nextcloud:80
+        passHostHeader: true
+
+    authelia:
+      loadBalancer:
+        servers:
+          #- url: http://authelia:9091
+          - url: http://authelia:9091/api/verify?rd=https://auth.apex-migrations.net
+        passHostHeader: false
+
+    dashboard:
+      loadBalancer:
+        servers:
+          - url: http://heimdall.dashboard:80
+        passHostHeader: false
+
+    guacamole:
+      loadBalancer:
+        servers:
+          - url: http://guacamole:8080
+        passHostHeader: false
+
+    grafana:
+      loadBalancer:
+        servers:
+          - url: http://grafana:3000
+        passHostHeader: true
+
+    uptime:
+      loadBalancer:
+        servers:
+          - url: http://uptime-kuma:3001
+        passHostHeader: false
+
+    code-server:
+      loadBalancer:
+        servers:
+          - url: http://code-server:8080
+        passHostHeader: false
+
+    portainer:
+      loadBalancer:
+        servers:
+          - url: http://portainer.containers:9000
+        passHostHeader: false
+
+    semaphore:
+      loadBalancer:
+        servers:
+          - url: http://semaphore.dashboard:3000
+        passHostHeader: false
+
+    influxdb:
+      loadBalancer:
+        servers:
+          - url: http://grafana.influxdb:8086
+        passHostHeader: false
+
+    traefik:
+      loadBalancer:
+        servers:
+          - url: http://traefik.rproxy:8080
+          - url: http://dc-srv-01.apex-migrations.net:8080
+        passHostHeader: false

@@ -1,0 +1,29 @@
+---
+# tasks file for install_docker
+- name: Creates directory
+  ansible.builtin.file:
+    path: ~/.docker/cli-plugins/
+    state: directory
+
+- name: Install docker-compose
+  get_url: 
+    url : https://github.com/docker/compose/releases/download/v2.26.1/docker-compose-linux-x86_64
+    dest: ~/.docker/cli-plugins/
+    mode: 'u+x,g+x'
+
+- name: Set Docker-Compose permissions
+  command: chmod +x ~/.docker/cli-plugins/docker-compose
+  become: false
+  loop: "{{ USER }}"
+  
+- name: Modify privilege
+  become_method: sudo
+  shell: 
+    cmd: usermod -aG docker "{{ item.name }}"
+  loop: "{{ USER }}"
+
+- name: Change privilege of docker
+  file: dest=/usr/bin/docker mode=+x
+
+- name: set permission 
+  command: chmod 666 /var/run/docker.sock

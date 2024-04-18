@@ -1,0 +1,11 @@
+---
+# vars file for install_traefik
+USER:
+  - name: gregory
+    groups: sudo
+    append: true
+    create_home: true
+  - name: GregoryacDevOps
+    groups: sudo
+    append: true
+    create_home: true

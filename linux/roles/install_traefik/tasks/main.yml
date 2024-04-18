@@ -1,0 +1,104 @@
+---
+# tasks file for install_traefik
+######################
+# Enable logging UFW #
+######################
+- name: Set logging
+  community.general.ufw:
+    logging: 'on'
+
+##################
+# open port 80 #
+##################
+- name: Allow all access to port 9090
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+
+##################
+# open port 443 #
+##################
+- name: Allow all access to port 9100
+  ufw:
+    rule: allow
+    port: '443'
+    proto: tcp
+
+##################
+# open port 853 #
+##################
+- name: Allow all access to port 8080
+  ufw:
+    rule: allow
+    port: '853'
+    proto: tcp
+
+###############################
+# Creating docker network web #
+###############################
+- name: Create web network
+  docker_network:
+    name: web
+
+######################################
+# Creating docker network web-secure #
+######################################
+- name: Create web-secure network
+  docker_network:
+    name: web-secure
+
+#########################################
+# Creating a temp directory on the host #
+#########################################
+- name: Create a temp directory if it does not exist
+  ansible.builtin.file:
+    path: ~/temp/traefik/
+    state: directory
+    mode: '0777'
+
+######################################
+# Checkout Git Repo for latest code #
+######################################
+- name: Checkout Git repo in temp directory
+  ansible.builtin.git:
+    repo: 'git@github.com:gregoryca/traefik-home.git'
+    dest: ~/temp/traefik/
+    accept_hostkey: yes
+    key_file: /home/gregory/.ssh/id_ed25519
+
+########################################
+# Creating a srv directory on the host #
+########################################  
+- name: Create the srv directory if it does not exist
+  ansible.builtin.file:
+    path: ~/srv/
+    state: directory
+    mode: '0777'
+
+##########################
+# Copy the git repo file #
+##########################
+- name: copy git repo to remote server
+  copy:
+    src: ~/temp/traefik
+    dest: ~/srv/
+    remote_src: yes
+    
+#######################
+# Deploy compose file #
+#######################
+- name: deploy Docker Compose stack
+  docker_compose:
+    project_src: ~/srv/traefik/
+    build: no
+    restarted: yes
+  register: output
+
+#########################################
+# Clean up temp folder after deployment #
+#########################################
+- name: Delete content & directory
+  file:
+    state: absent
+    path: ~/temp/

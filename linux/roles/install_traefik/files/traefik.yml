@@ -1,0 +1,159 @@
+# (Optional) Log information
+# ---
+log:
+  level: WARNING  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: json  # common, json, logfmt
+  filePath: /var/log/traefik/traefik.log
+
+# (Optional) Accesslog
+# ---
+accessLog:
+  format: json  # common, json, logfmt
+  filePath: /var/log/traefik/access.log
+  bufferingSize: 500
+  filters:
+    statusCodes:
+      - "200"
+      - "300-301-303-304"
+      - "400-401-403-404-405-406"
+      - "500"
+  fields:
+    defaultMode: keep
+    names:
+      ClientUsername: keep
+      ClientHost: keep
+      RequestAddr: keep
+      RequestCount: drop
+      RequestHost: keep
+      RequestMethod: keep
+      RequestPath: keep
+      RequestProtocol: drop
+      entryPointName: keep
+      DownstreamContentSize: drop
+      DownstreamAcceptRanges: drop
+      DownstreamContentLength: drop
+      Duration: drop
+      OriginContentSize: drop
+      OriginContentLength: drop
+      OriginContentType: drop
+      Overhead: drop
+    headers:
+      defaultMode: keep
+      names:
+        request_User-Agent: keep
+        Authorization: keep
+        Content-Type: keep
+
+# (Optional) Enable API and Dashboard
+# ---
+api:
+  dashboard: true  # true by default
+  insecure: true
+
+tracing:
+  elastic:
+    serverURL: "http://grafana.elasticsearch:9200"
+    serviceEnvironment: "production"
+
+experimental:
+  http3: true
+
+  plugins:
+    sablier:
+      moduleName: "github.com/acouvreur/sablier"
+      version: "v1.2.0"
+
+    real-ip:
+      moduleName: github.com/Paxxs/traefik-get-real-ip
+      version: v1.0.2
+
+    fail2ban:
+      moduleName: "github.com/tomMoulard/fail2ban"
+      version: "v0.6.6"
+
+    ip2location:
+      moduleName: github.com/negasus/traefik-plugin-ip2location
+      version: v0.1.0
+
+    checkheadersplugin:
+      moduleName: "github.com/dkijkuit/checkheadersplugin"
+      version: "v0.2.6"
+      
+    realip:
+      moduleName: github.com/Desuuuu/traefik-real-ip-plugin
+      version: v1.1.0
+
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addRoutersLabels: true
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+
+# Entry Points configuration
+# ---
+entryPoints:
+  web:
+    address: ":80"
+    http3:
+      advertisedPort: 80
+
+  web-secure:
+    address: ":443"
+    http3:
+      advertisedPort: 443
+    http:
+      redirections:
+        entryPoint:
+          to: web-secure
+          scheme: https
+    forwardedHeaders:
+        trustedIPs:
+          - "192.168.2.100/16"
+          - "172.27.0.0/16"
+          - "143.178.33.85"
+          - "84.87.253.68"
+
+  dnsovertls:
+    address: ":853"
+
+  udpdns:
+    address: ":53/udp"
+  
+  metrics:
+    address: ":8082"
+
+# Certificates configuration
+# ---
+# TODO: Custmoize your Cert Resolvers and Domain settings
+# 
+certificatesResolvers:       
+  production:
+    acme:
+      email: aquiles.craane@gmail.com  # TODO: Change this to your email
+      storage: /ssl-certs/production.json
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      httpChallenge:
+        entryPoint: web
+
+# Provider Configuration
+# ---
+# TODO: Customize your Provider Settings if needed
+# 
+providers:
+# DOCKER:
+# ---
+  file:
+    directory: /configurations
+    watch: true
+
+  docker:
+    exposedByDefault: true  # Default is true
+    endpoint: "unix:///var/run/docker.sock"
+    network: web-secure
+    watch: true
