@@ -1,9 +1,0 @@
-- name: Deploy reverse proxy 
-  become: true
-  become_method: sudo
-  hosts: mgmt-server
-  vars_files:
-    - vars/default.yml
-  roles:
-    - apache-reverse-proxy
-    - apache-config
