@@ -1,0 +1,7 @@
+---
+# tasks file for kubernetes_cluster
+- name: install kubernetes agent
+  become_method: sudo
+  shell:
+    cmd: "sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run  rancher/rancher-agent:v2.6.4 --server https://rancher.apex-migrations.net --token mbldxxcmmmvqmxsncrljbww6xstzcsfsmnk8jx9f4bxz5r5jc8trrf --ca-checksum fc59b0d60e72fb1ef518dda655b47c2ffc27b1d242b115dc8aaffdd4c3a17ab0 --etcd --worker"
+  ignore_errors: True

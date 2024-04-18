@@ -40,3 +40,7 @@ linux/roles/install_docker/tests/inventory
 linux/roles/install_traefik/tests/inventory
 linux/roles/ansible.cfg
 linux/roles/inventory
+kubernetes/roles/inventory
+kubernetes/roles/kubernetes_cluster_install/tests/inventory
+kubernetes/roles/kubernetes_cluster_uninstall/tests/inventory
+kubernetes/roles/ansible.cfg
