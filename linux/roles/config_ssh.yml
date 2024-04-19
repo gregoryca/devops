@@ -1,0 +1,5 @@
+---
+- hosts: vps
+  become: true
+  roles: ## Use the folder name as role
+    - config_ssh

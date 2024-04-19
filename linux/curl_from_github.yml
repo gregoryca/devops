@@ -1,0 +1,11 @@
+---
+- hosts: vps
+  gather_facts: false
+  tasks:
+
+  - name: Checkout Git repo in temp directory
+    ansible.builtin.git:
+      repo: 'git@github.com:gregoryca/traefik-home.git'
+      dest: ~/temp/traefik/
+      accept_hostkey: yes
+      key_file: /home/gregory/.ssh/id_ed25519
