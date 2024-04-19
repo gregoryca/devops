@@ -1,13 +1,11 @@
 ---
-- hosts: all
-  become: yes
-  become_user: gregory
+- hosts: vps
   gather_facts: True
   tasks:
 
     - name: copying file with playbook
       become: true 
       copy:
-        src: C:\Users\GregoryCraaneReferit\Downloads\testing.yaml
-        dest: /home/gregory/.kube/config
+        src: /home/gregory/.ssh/id_ed25519
+        dest: /home/GregoryacDevOps/.ssh/id_ed25519
         remote_src: yes

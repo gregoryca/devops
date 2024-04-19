@@ -1,0 +1,4 @@
+---
+# vars file for config_ssh
+USER:
+  - name: GregoryacDevOps
