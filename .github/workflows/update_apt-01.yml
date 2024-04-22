@@ -28,4 +28,4 @@ jobs:
           inventory: |
             [all]
             dc-srv-01.apex-migrations.net ansible_user=${{ secrets.VPS_USER }}
-            apex-migrations.net ansible_port=${{ secrets.PORT }} ansible_user=${{ secrets.USER }}
+            apex-migrations.hopto.org ansible_port=${{ secrets.PORT }} ansible_user=${{ secrets.USER }}
