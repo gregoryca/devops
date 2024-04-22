@@ -39,16 +39,12 @@ jobs:
           # Optional, directory where playbooks live #
           ############################################
           directory: ./linux/roles/
-          ###################
-          # SSH private key #
-          ###################
-          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
           ###########################
           # inventory file contents #
           ###########################
           inventory: |
             [linux]
-            dc-srv-01 ansible_host=${{secrets.VPS_HOST}}
+            dc-srv-01 ansible_host=dc-srv-01.apex-migrations.net
 
             [linux:vars]
             ansible_user=${{ secrets.VPS_USER }}
