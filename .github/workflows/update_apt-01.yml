@@ -16,26 +16,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #################################################################################
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it #
-      #################################################################################
       - name: Run playbook
         uses: actions/checkout@v4.1.1
 
-      ########################################################
-      # Deploys an ansible script to update the server stack #
-      ########################################################
       - uses: dawidd6/action-ansible-playbook@v2
         name: Update Servers
         with:
-          ###############################
-          # Required, playbook filepath #
-          ###############################
           playbook: update_server.yml
-          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
-          ############################################
-          # Optional, directory where playbooks live #
-          ############################################
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
           directory: ./linux/roles/
           configuration: |
             [defaults]
