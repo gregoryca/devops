@@ -45,7 +45,7 @@ jobs:
           ###########################
           inventory: |
             [linux]
-            dc-srv-01 ansible_host=${{ secrets.VPS_HOST }}
+            dc-srv-01 ansible_host=${{secrets.VPS_HOST}}
 
             [linux:vars]
             ansible_user=${{ secrets.VPS_USER }}
