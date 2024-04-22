@@ -2,4 +2,6 @@
 # vars file for install_docker
 USER:
   - name: gregory
-  - name: GregoryacDevOps
+
+package_name:
+  - docker-compose

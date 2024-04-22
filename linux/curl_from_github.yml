@@ -8,4 +8,4 @@
       repo: 'git@github.com:gregoryca/traefik-home.git'
       dest: ~/temp/traefik/
       accept_hostkey: yes
-      key_file: /home/gregory/.ssh/id_ed25519
+      key_file: /home/GregoryacDevOps/.ssh/id_rsa

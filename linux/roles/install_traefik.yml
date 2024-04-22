@@ -1,5 +1,5 @@
 ---
-- hosts: vps
+- hosts: localhost
   become: false
   roles: ## Use the folder name as role
     - install_traefik
