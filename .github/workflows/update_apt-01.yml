@@ -46,14 +46,10 @@ jobs:
           inventory: |
             [linux]
             server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
- 
+            dc-srv-01 ansible_host=${{ secrets.VPS_HOST }}
+
             [linux:vars]
             ansible_user=${{ secrets.HOME_USER }}
             ansible_ssh_private_key_file=${{ secrets.HOME_PRIVATE_KEY }}
-
-            [vps]
-            dc-srv-01 ansible_host=${{ secrets.VPS_HOST }}
-
-            [vps:vars]
             ansible_user=${{ secrets.VPS_USER }}
             ansible_ssh_private_key_file=${{ secrets.VPS_PRIVATE_KEY }}
