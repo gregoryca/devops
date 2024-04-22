@@ -32,6 +32,9 @@ jobs:
           # Required, playbook filepath #
           ###############################
           playbook: update_server.yml
+          configuration: |
+            [defaults]
+            inventory = inventory
           ############################################
           # Optional, directory where playbooks live #
           ############################################
