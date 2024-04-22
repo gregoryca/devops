@@ -35,6 +35,7 @@ jobs:
           configuration: |
             [defaults]
             inventory = inventory
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
           ############################################
           # Optional, directory where playbooks live #
           ############################################
@@ -44,7 +45,4 @@ jobs:
           ###########################
           inventory: |
             [all]
-            ansible_host=dc-srv-01.apex-migrations.net
-            [all:vars]
-            ansible_user=GregoryacDevOps
-            ansible_ssh_private_key_file=${{ secrets.VPS_PRIVATE_KEY }}
+            dc-srv-01.apex-migrations.net
