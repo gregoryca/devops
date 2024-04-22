@@ -27,7 +27,7 @@ jobs:
           directory: ./linux/roles/
           configuration: |
             [defaults]
-            host_key_checking = False
+            ANSIBLE_HOST_KEY_CHECKING = False
           inventory: |
             [all]
             dc-srv-01.apex-migrations.net
