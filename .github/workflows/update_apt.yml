@@ -1,12 +1,9 @@
 ##############################################
 # This is a basic workflow to update servers #
 ##############################################
-name: Update Linux Server(s)
+name: Update Linux Server(s) - roles
 
 on:
-  #################################################################
-  # Allows you to run this workflow manually from the Actions tab #
-  #################################################################
   workflow_dispatch:
   schedule:
   - cron: "0 0 * * *"
@@ -16,38 +13,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #################################################################################
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it #
-      #################################################################################
       - name: Run playbook
         uses: actions/checkout@v4.1.1
 
-      ########################################################
-      # Deploys an ansible script to update the server stack #
-      ########################################################
       - uses: dawidd6/action-ansible-playbook@v2
         name: Update Servers
         with:
-          ###############################
-          # Required, playbook filepath #
-          ###############################
-          playbook: update_apt.yml
-          ############################################
-          # Optional, directory where playbooks live #
-          ############################################
-          directory: ./linux
-          ###################
-          # SSH private key #
-          ###################
-          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
-          ###########################
-          # inventory file contents #
-          ###########################
+          playbook: update_server.yml
+          key: ${{ secrets.PRIVATE_KEY }}
+          directory: ./linux/roles/
           inventory: |
-            [linux]
-            server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
- 
-            [linux:vars]
-            ansible_user = ${{ secrets.USERNAME }}
-            ansible_sudo_pass = ${{ secrets.PASSWORD }}
-            ansible_ssh_pass=${{ secrets.PASSWORD }}
+            [all]
+            ${{ secrets.HOST }} ansible_port=${{ secrets.PORT }} ansible_user=${{ secrets.USER }}            
+            ${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
