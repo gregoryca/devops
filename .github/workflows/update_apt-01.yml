@@ -32,10 +32,6 @@ jobs:
           # Required, playbook filepath #
           ###############################
           playbook: update_server.yml
-          configuration: |
-            [defaults]
-            inventory = inventory
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
           ############################################
           # Optional, directory where playbooks live #
           ############################################
@@ -46,3 +42,5 @@ jobs:
           inventory: |
             [all]
             dc-srv-01.apex-migrations.net
+            [all]
+            ansible_ssh_pass=${{ secrets.VPS_PRIVATE_KEY }}
