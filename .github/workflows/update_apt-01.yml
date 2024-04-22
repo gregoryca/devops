@@ -30,4 +30,4 @@ jobs:
             ANSIBLE_HOST_KEY_CHECKING = False
           inventory: |
             [all]
-            dc-srv-01.apex-migrations.net
+            dc-srv-01.apex-migrations.net ansible_user=${{ secrets.VPS_USER }}
