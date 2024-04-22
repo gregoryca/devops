@@ -24,5 +24,5 @@ jobs:
           directory: ./linux/roles/
           inventory: |
             [all]
-            server17a ${{ secrets.HOST }} ansible_port=${{ secrets.PORT }} ansible_user=${{ secrets.USER }}
-            vps ${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
+            server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }} ansible_user=${{ secrets.USER }}
+            vps ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
