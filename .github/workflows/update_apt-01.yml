@@ -32,7 +32,7 @@ jobs:
           # Required, playbook filepath #
           ###############################
           playbook: update_server.yml
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
           ############################################
           # Optional, directory where playbooks live #
           ############################################
