@@ -15,3 +15,7 @@
   community.general.ufw:
     state: enabled
     default: deny
+
+- name: Install docker python package
+  ansible.builtin.pip:
+    name: docker
