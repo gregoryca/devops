@@ -18,4 +18,4 @@
 
 - name: Install docker python package
   ansible.builtin.pip:
-    name: docker
+    name: "{{ docker }}"

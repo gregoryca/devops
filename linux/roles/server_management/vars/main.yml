@@ -8,3 +8,7 @@ package_name:
   - git
   - ufw
   - pip
+
+docker:
+  - docker
+  - docker-compose
