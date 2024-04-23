@@ -6,6 +6,10 @@
     update_cache: yes
     state: present
 
+- name: Install docker python package
+  ansible.builtin.pip:
+    name: "{{ docker }}"
+
 - name: UFW - Allow SSH connections
   community.general.ufw:
     rule: allow
@@ -15,7 +19,3 @@
   community.general.ufw:
     state: enabled
     default: deny
-
-- name: Install docker python package
-  ansible.builtin.pip:
-    name: "{{ docker }}"
