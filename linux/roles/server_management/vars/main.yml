@@ -7,3 +7,4 @@ package_name:
   - nano
   - git
   - ufw
+  - pip
