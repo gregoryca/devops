@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: home
   become: true
   roles: ## Use the folder name as role
-    - server_management
+    - server_provisioning

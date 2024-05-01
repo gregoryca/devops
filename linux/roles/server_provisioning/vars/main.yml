@@ -1,0 +1,24 @@
+---
+# vars file for server_provisioning_devops
+USER:
+  - name: gregory
+    groups: sudo
+    append: true
+    create_home: true
+  # - name: GregoryacDevOps
+  #   groups: sudo
+  #   append: true
+  #   create_home: true
+
+package_name:
+  - xrdp
+  - ufw
+  - curl
+  - nano
+  - git
+  - ufw
+  - pip
+
+docker:
+  # - "docker==6.1.3"
+  # - "docker-compose"

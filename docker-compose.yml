@@ -19,7 +19,17 @@ services:
       SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_ADMIN_EMAIL}
       SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
       SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
-    
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.semaphore-secure.rule=Host(`ansible.apex-migrations.net`)"
+      - "traefik.http.routers.semaphore-secure.tls.certresolver=production"
+      - "traefik.http.routers.semaphore-secure.tls=true"
+      - "traefik.http.routers.semaphore-secure.entrypoints=web-secure"
+      - "traefik.http.services.semaphore.loadbalancer.server.port=3000" #port to the webservice
+
+      - "traefik.http.routers.semaphore-secure.middlewares=authelia-secure@docker"
+
     networks:
        - web-secure
 
@@ -35,8 +45,6 @@ services:
       MYSQL_DATABASE: ${SEMAPHORE_DB}
       MYSQL_USER: ${SEMAPHORE_DB_USER}
       MYSQL_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
-    networks: 
-       - web-secure
 
 #####################################################
 # Persisting of my docker network within this stack #

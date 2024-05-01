@@ -1,6 +1,7 @@
 ---
 - name: copying github private key
   become: true 
+  ignore_errors: True
   copy:
     src: ./files/id_ed25519
     dest: /home/{{ item.name}}/.ssh/id_ed25519
@@ -8,6 +9,7 @@
 
 - name: copying github public key
   become: true 
+  ignore_errors: True
   copy:
     src: ./files/id_ed25519.pub
     dest: /home/{{ item.name}}/.ssh/id_ed25519.pub
