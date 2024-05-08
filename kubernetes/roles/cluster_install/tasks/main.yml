@@ -1,0 +1,9 @@
+---
+# tasks file for kubernetes_cluster
+- name: Copy Rancher Agent compose file
+  copy:
+    src: /home/gregory/srv/devops/kubernetes/roles/cluster_install/files/docker-compose.yml
+    dest: ~/docker-compose.yml
+
+- name: Run Docker Compose up -d 
+  command: docker compose up -d --force-recreate

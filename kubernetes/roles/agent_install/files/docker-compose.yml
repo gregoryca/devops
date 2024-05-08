@@ -1,0 +1,11 @@
+services:
+    rancher-agent:
+        privileged: true
+        restart: unless-stopped
+        network_mode: host
+        container_name: rancher.agent
+        volumes:
+            - /etc/kubernetes:/etc/kubernetes
+            - /var/run:/var/run:ro
+        image: rancher/rancher-agent:v2.8.2
+        command: --server https://192.168.2.123 --token w6dm8xn7qrdlqlnrrfx7gc2dl6mfh7lwrn6lhg64h8w9vjmlfbqmr6 --ca-checksum 50d00274c2632454e4caa0d0ee4f30f8955beba33b39bbb021a829abb56d9a5c --etcd --controlplane --worker

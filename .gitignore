@@ -48,3 +48,8 @@ pipelines/Azure Devops/azure-pipelines.yml
 pipelines/Azure Devops/azure-pipelines.release.yml
 linux/roles/config_github_ssh/files/id_ed25519
 linux/roles/config_github_ssh/files/id_ed25519.pub
+kubernetes/roles/agent_install/tests/inventory
+kubernetes/roles/agent_uninstall/tests/inventory
+kubernetes/ansible.cfg
+kubernetes/roles/cluster_install/tests/inventory
+linux/roles/create_vm/tests/inventory

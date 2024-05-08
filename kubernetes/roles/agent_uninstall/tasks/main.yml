@@ -5,11 +5,11 @@
     cmd: "docker rm -f $(docker ps -qa)"
   ignore_errors: True
 
-- name: Unmount kubelet mounts
-  become_method: sudo
-  shell:
-    cmd: "for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done"
-  ignore_errors: True
+# - name: Unmount kubelet mounts
+#   become: true
+#   shell:
+#     cmd: "for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done"
+#   ignore_errors: True
 
 - name: Remove Docker Images
   shell:
@@ -17,7 +17,7 @@
   ignore_errors: True
 
 - name: Remove Docker Volumes
-  become_method: sudo
+  become: true
   shell:
     cmd: "docker volume rm $(docker volume ls -q)"
   ignore_errors: True
@@ -30,6 +30,7 @@
   with_items:
     - /etc/ceph
     - /etc/cni
+    - /etc/rancher
     - /etc/kubernetes
     - /opt/cni
     - /opt/rke
@@ -39,13 +40,9 @@
     - /var/lib/calico
     - /var/lib/etcd
     - /var/lib/cni
-    - /var/lib/rancher/rke/log
+    - /var/lib/rancher
     - /var/log/containers
     - /var/log/pods
     - /var/log/pods
     - /var/run/calico
-
-- name: remove kubelet folder
-  shell:
-    cmd: "docker volume rm -f /var/lib/kubelet"
-  ignore_errors: True
+    - /var/lib/kubelet

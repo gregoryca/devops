@@ -1,5 +1,5 @@
 ---
-- hosts: srv-02
+- hosts: kubernetes_cluster
   become: true
   roles: ## Use the folder name as role
-    - server_provisioning
+    - agent_uninstall

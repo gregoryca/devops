@@ -4,7 +4,7 @@ USER:
   - name: gregory
     groups: sudo
     append: true
-    create_home: true
+    create_home: false
   # - name: GregoryacDevOps
   #   groups: sudo
   #   append: true
