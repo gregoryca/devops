@@ -53,3 +53,6 @@ kubernetes/roles/agent_uninstall/tests/inventory
 kubernetes/ansible.cfg
 kubernetes/roles/cluster_install/tests/inventory
 linux/roles/create_vm/tests/inventory
+kubernetes/roles/agent_master_install/tests/inventory
+kubernetes/roles/agent_worker_install/tests/inventory
+kubernetes/roles/cluster_config/tests/inventory

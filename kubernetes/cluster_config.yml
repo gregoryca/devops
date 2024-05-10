@@ -1,5 +1,5 @@
 ---
-- hosts: kubernetes_cluster
+- hosts: all
   become: true
   roles: ## Use the folder name as role
-    - agent_install
+    - cluster_config

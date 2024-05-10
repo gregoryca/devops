@@ -2,4 +2,4 @@
 - hosts: rancher_ui
   become: false
   roles: ## Use the folder name as role
-    - cluster_install
+    - rancher_install

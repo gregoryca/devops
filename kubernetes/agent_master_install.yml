@@ -1,0 +1,5 @@
+---
+- hosts: kubernetes_cluster_master
+  become: true
+  roles: ## Use the folder name as role
+    - agent_master_install

@@ -1,7 +1,6 @@
 services:
   server:
-    image: "rancher/rancher:latest"
-    command: server
+    image: "rancher/rancher:stable"
     container_name: rancher.ui
     tmpfs:
       - /run
@@ -13,10 +12,4 @@ services:
         hard: 65535
     privileged: true
     restart: unless-stopped
-    environment:
-      # - K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml
-      - K3S_KUBECONFIG_MODE=666
-    volumes:
-      - ./k3s-server:/var/lib/rancher/k3s
-      - ./output/:/output
     network_mode: host

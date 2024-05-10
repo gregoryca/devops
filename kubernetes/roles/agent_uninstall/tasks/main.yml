@@ -1,26 +1,31 @@
 ---
 # tasks file for kubernetes_cluster_uninstall
+- name: Remove docker file
+  ansible.builtin.file:
+    path: ./docker-compose.yml
+    state: absent
+
 - name: Stop Docker Container and Clean up nodes
   shell:
     cmd: "docker rm -f $(docker ps -qa)"
-  ignore_errors: True
+  ignore_errors: true
 
-# - name: Unmount kubelet mounts
-#   become: true
-#   shell:
-#     cmd: "for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done"
-#   ignore_errors: True
+- name: Unmount kubelet mounts
+  become: true
+  shell:
+    cmd: for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done
+  ignore_errors: true
 
 - name: Remove Docker Images
   shell:
     cmd: "docker rmi -f $(docker images -q)"
-  ignore_errors: True
+  ignore_errors: true
 
 - name: Remove Docker Volumes
   become: true
   shell:
     cmd: "docker volume rm $(docker volume ls -q)"
-  ignore_errors: True
+  ignore_errors: true
 
 - name: Remove Directories and Files
   file:
@@ -46,3 +51,7 @@
     - /var/log/pods
     - /var/run/calico
     - /var/lib/kubelet
+    - /v3/settings/cacerts
+    - ~/k3s-server/
+    - ~/output/
+    - /etc/kubernetes
