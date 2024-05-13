@@ -1,5 +1,0 @@
----
-- hosts: kubernetes_cluster_master, kubernetes_cluster_workers
-  become: true
-  roles: ## Use the folder name as role
-    - agent_uninstall

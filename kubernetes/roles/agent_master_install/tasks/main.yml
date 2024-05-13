@@ -11,5 +11,8 @@
     dest: ./docker-compose.yml
     remote_src: false
 
+- name: Prune docker system
+  command: docker system prune -f
+
 - name: Run Docker Compose up -d
   command: docker compose up -d --force-recreate

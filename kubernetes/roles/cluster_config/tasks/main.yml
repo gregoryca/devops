@@ -4,68 +4,76 @@
   hostname:
     name: "{{ new_hostname }}"
 
-- name: Enable UFW
+- name: Disable UFW
   become: true
   community.general.ufw:
-    state: enabled
+    state: disabled
 
-- name: Set logging
-  become: true
-  community.general.ufw:
-    logging: 'on'
+- name: Updates
+  apt:
+    update_cache: yes
 
-- name: Allow port range 2379-2380
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 2379:2380
-    proto: tcp
+- name: Install "{{ package_name }}"
+  apt:
+    name: open-iscsi, nfs-common, qemu-guest-agent
+    update_cache: yes
+    state: present
 
-- name: Allow port 6443
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 6443
-    proto: tcp
+- name: Enable service qemu-guest-agent
+  ansible.builtin.systemd_service:
+    name: qemu-guest-agent
+    enabled: true
 
-- name: Allow port 10250
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 10250
-    proto: tcp
+- name: Make sure a service unit is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: qemu-guest-agent
 
-- name: Allow port 2376
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 2376
-    proto: tcp
+- name: Reboot
+  reboot:
 
-- name: Allow port 9345
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 9345
-    proto: tcp
+- name: Disable SWAP
+  shell: |
+    swapoff -a
 
-- name: Allow port 8472
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 8472
-    proto: tcp
+- name: Disable SWAP in fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
 
-- name: Allow port 30000-32767
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 30000:32767
-    proto: tcp
+- name: Create an empty file for K8S sysctl parameters
+  copy:
+    content: ""
+    dest: /etc/sysctl.d/99-kubernetes-cri.conf
+    force: no
 
-- name: Allow port 5473
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: 5473
-    proto: tcp
+- name: Configure sysctl parameters for K8S
+  lineinfile:
+    path: /etc/sysctl.d/99-kubernetes-cri.conf
+    line: "{{ item }}"
+  with_items:
+    - "net.bridge.bridge-nf-call-iptables  = 1"
+    - "net.ipv4.ip_forward                 = 1"
+    - "net.bridge.bridge-nf-call-ip6tables = 1"
+
+- name: Apply sysctl parameters
+  command: sysctl --system
+
+- name: Load br_netfilter kernel module
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Set bridge-nf-call-iptables
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: 1
+
+- name: Set ip_forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+
+- name: Reboot
+  reboot:

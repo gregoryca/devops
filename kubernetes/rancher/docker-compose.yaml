@@ -19,4 +19,10 @@ services:
     volumes:
       - ./k3s-server:/var/lib/rancher/k3s
       - ./output/:/output
-    network_mode: host
+    # network_mode: host
+    networks:
+      - web-secure
+
+networks:
+  web-secure:
+    external: true

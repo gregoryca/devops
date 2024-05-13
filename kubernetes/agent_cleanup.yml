@@ -1,5 +1,5 @@
 ---
-- hosts: cluster_workers
+- hosts: cluster_masters
   become: true
   roles: ## Use the folder name as role
-    - agent_worker_install
+    - agent_cleanup

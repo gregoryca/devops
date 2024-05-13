@@ -5,29 +5,24 @@
     path: ./docker-compose.yml
     state: absent
 
-- name: Stop Docker Container and Clean up nodes
-  shell:
-    cmd: "docker rm -f $(docker ps -qa)"
-  ignore_errors: true
+- name: Copy Rancher Agent compose file
+  copy:
+    src: /home/gregory/srv/devops/kubernetes/roles/agent_cleanup/files/clean-up.sh
+    dest: ./clean-up.sh
+    remote_src: false
 
-- name: Unmount kubelet mounts
+- name: Copy and Execute the script
+  become: true
+  script: ./extended-cleanup-rancher2.sh
+
+- name: Prune all docker system files
   become: true
   shell:
-    cmd: for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done
-  ignore_errors: true
-
-- name: Remove Docker Images
-  shell:
-    cmd: "docker rmi -f $(docker images -q)"
-  ignore_errors: true
-
-- name: Remove Docker Volumes
-  become: true
-  shell:
-    cmd: "docker volume rm $(docker volume ls -q)"
+    cmd: "docker system prune -f"
   ignore_errors: true
 
 - name: Remove Directories and Files
+  become: true
   file:
     path: "{{ item }}"
     state: absent
@@ -52,6 +47,6 @@
     - /var/run/calico
     - /var/lib/kubelet
     - /v3/settings/cacerts
-    - ~/k3s-server/
-    - ~/output/
-    - /etc/kubernetes
+
+- name: Reboot
+  reboot:
