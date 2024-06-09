@@ -1,5 +1,5 @@
 ---
-- hosts: cluster_master
+- hosts: all
   become: yes
   gather_facts: false
   tasks:

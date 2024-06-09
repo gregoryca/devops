@@ -1,0 +1,30 @@
+# tasks file for rotate_certs
+---
+- name: Copy public certificates to remote management-pc
+  copy:
+    src: /etc/kubernetes/ssl
+    dest: /home/gregory/srv/devops/kubernetes/roles/rotate_certs/files/
+    remote_src: true
+
+# - name: Copy private certificates to remote management-pc
+#   copy:
+#     src: /etc/kubernetes/ssl/kube-proxy.pem
+#     dest: /home/gregory/srv/devops/kubernetes/roles/rotate_certs/files
+#     remote_src: true
+
+# - name: Copy certificates to remote nodes
+#   copy:
+#     src: /home/gregory/srv/devops/kubernetes/roles/rotate_certs/files
+#     dest: /etc/kubernetes/ssl/
+#     remote_src: false
+
+# - name: Copy certificates to remote management-pc
+#   copy:
+#     src: /etc/kubernetes/ssl/kube-proxy.pem
+#     dest: /home/gregory/srv/devops/kubernetes/roles/rotate_certs/files
+#     remote_src: false
+
+# - name: Restart service httpd, in all cases
+#   ansible.builtin.service:
+#     name: httpd
+#     state: restarted

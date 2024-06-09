@@ -1,5 +1,5 @@
 ---
-- hosts: home,proxmox
+- hosts: VM-01
   become: true
   roles: ## Use the folder name as role
-    - server_updates
+    - rotate_certs
