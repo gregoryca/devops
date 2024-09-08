@@ -1,0 +1,57 @@
+---
+# tasks file for install_docker
+- name: Creates directory for docker compose cli
+  ansible.builtin.file:
+    path: /home/{{ item.name}}/.docker/cli-plugins/
+    state: directory
+  loop: "{{ USER }}"
+
+- name: set permission for docker compose cli
+  command: chmod 666 /home/{{ item.name}}/.docker/cli-plugins/
+  loop: "{{ USER }}"
+
+- name: Install docker compose cli
+  get_url: 
+    url : https://github.com/docker/compose/releases/download/v2.26.1/docker-compose-linux-x86_64
+    dest: /home/{{ item.name}}/.docker/cli-plugins/
+    mode: 'u+x,g+x'
+  loop: "{{ USER }}"
+
+# - name: Install Docker Module for Python
+#   pip:
+#     name: docker
+
+- name: Set docker compose cli permissions
+  command: chmod +x /home/{{ item.name}}/.docker/cli-plugins/
+  become: true
+  loop: "{{ USER }}"
+  
+- name: Add Docker group
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add user to Docker group
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    groups: docker
+    append: true
+  loop: "{{ USER }}"
+
+- name: Modify privilege
+  become_method: sudo
+  shell: 
+    cmd: usermod -aG docker {{ item.name }}
+  loop: "{{ USER }}"
+
+- name: Enable and start Docker services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - docker.service
+    - containerd.service
+
+- name: set permission 
+  command: chmod 666 /var/run/docker.sock

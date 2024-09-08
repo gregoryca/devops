@@ -1,0 +1,15 @@
+services:
+  server:
+    image: "rancher/rancher:stable"
+    container_name: rancher.ui
+    tmpfs:
+      - /run
+      - /var/run
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+    privileged: true
+    restart: unless-stopped
+    network_mode: host

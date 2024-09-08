@@ -1,0 +1,28 @@
+services:
+  server:
+    image: "rancher/rancher:latest"
+    command: server
+    container_name: rancher.ui
+    tmpfs:
+      - /run
+      - /var/run
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+    privileged: true
+    restart: unless-stopped
+    environment:
+      # - K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml
+      - K3S_KUBECONFIG_MODE=666
+    volumes:
+      - ./k3s-server:/var/lib/rancher/k3s
+      - ./output/:/output
+    # network_mode: host
+    networks:
+      - web-secure
+
+networks:
+  web-secure:
+    external: true

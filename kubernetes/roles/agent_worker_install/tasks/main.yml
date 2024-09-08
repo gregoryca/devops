@@ -1,0 +1,22 @@
+---
+# tasks file for kubernetes_agent_install 
+- name: Set hostname "{{ new_hostname }}"
+  hostname:
+    name: "{{ new_hostname }}"
+
+- name: Remove docker file
+  ansible.builtin.file:
+    path: ./docker-compose.yml
+    state: absent
+
+- name: Copy Rancher Agent compose file
+  copy:
+    src: /home/gregory/srv/devops/kubernetes/roles/agent_worker_install/files/docker-compose.yml
+    dest: ./docker-compose.yml
+    remote_src: false
+
+- name: Prune docker system
+  command: docker system prune -f
+
+- name: Run Docker Compose up -d
+  command: docker compose up -d --force-recreate

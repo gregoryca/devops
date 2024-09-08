@@ -1,0 +1,5 @@
+---
+- hosts: VM-01
+  become: true
+  roles: ## Use the folder name as role
+    - rotate_certs

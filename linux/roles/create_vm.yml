@@ -1,0 +1,5 @@
+---
+- hosts: proxmox
+  become: true
+  roles: ## Use the folder name as role
+    - create_vm

@@ -1,0 +1,13 @@
+---
+# tasks file for kubernetes_cluster
+- name: Set hostname "{{ new_hostname }}"
+  hostname:
+    name: "{{ new_hostname }}"
+
+- name: Copy Ranchers compose file
+  copy:
+    src: /home/gregory/srv/devops/kubernetes/roles/rancher_install/files/docker-compose.yml
+    dest: ~/docker-compose.yml
+
+- name: Run Docker Compose up -d 
+  command: docker compose up -d --force-recreate

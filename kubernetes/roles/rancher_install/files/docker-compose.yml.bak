@@ -1,0 +1,13 @@
+services:
+  rancher:
+    image: rancher/rancher:latest
+    restart: always
+    container_name: rancher
+    hostname: rancher.server
+    network_mode: host
+    volumes:
+    - "rancher-data:/var/lib/rancher"
+    privileged: true
+
+volumes:
+  rancher-data:

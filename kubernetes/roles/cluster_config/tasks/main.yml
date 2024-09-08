@@ -1,0 +1,79 @@
+---
+# tasks file for cluster_config
+- name: "update hostnames"
+  hostname:
+    name: "{{ new_hostname }}"
+
+- name: Disable UFW
+  become: true
+  community.general.ufw:
+    state: disabled
+
+- name: Updates
+  apt:
+    update_cache: yes
+
+- name: Install "{{ package_name }}"
+  apt:
+    name: open-iscsi, nfs-common, qemu-guest-agent
+    update_cache: yes
+    state: present
+
+- name: Enable service qemu-guest-agent
+  ansible.builtin.systemd_service:
+    name: qemu-guest-agent
+    enabled: true
+
+- name: Make sure a service unit is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: qemu-guest-agent
+
+- name: Reboot
+  reboot:
+
+- name: Disable SWAP
+  shell: |
+    swapoff -a
+
+- name: Disable SWAP in fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+
+- name: Create an empty file for K8S sysctl parameters
+  copy:
+    content: ""
+    dest: /etc/sysctl.d/99-kubernetes-cri.conf
+    force: no
+
+- name: Configure sysctl parameters for K8S
+  lineinfile:
+    path: /etc/sysctl.d/99-kubernetes-cri.conf
+    line: "{{ item }}"
+  with_items:
+    - "net.bridge.bridge-nf-call-iptables  = 1"
+    - "net.ipv4.ip_forward                 = 1"
+    - "net.bridge.bridge-nf-call-ip6tables = 1"
+
+- name: Apply sysctl parameters
+  command: sysctl --system
+
+- name: Load br_netfilter kernel module
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Set bridge-nf-call-iptables
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: 1
+
+- name: Set ip_forward
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+
+- name: Reboot
+  reboot:

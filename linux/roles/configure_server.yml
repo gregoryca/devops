@@ -1,0 +1,5 @@
+---
+- hosts: srv-02
+  become: true
+  roles: ## Use the folder name as role
+    - server_provisioning

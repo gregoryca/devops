@@ -1,0 +1,11 @@
+services:
+    rancher-agent:
+        privileged: true
+        restart: unless-stopped
+        network_mode: host
+        container_name: rancher.agent
+        volumes:
+            - /etc/kubernetes:/etc/kubernetes
+            - /var/run:/var/run
+        image: rancher/rancher-agent:v2.8.3
+        command: --server https://rancher.apex-migrations.net --token cfmc8vtc8r6cq2q2cl7hfv5hlg8v9tvv5wchdvwnf227n2cjhm482c --ca-checksum 8e25d3318a9841ccf193213b7c87b7c4a54b4c523c3de659940d35b829e48af6 --worker

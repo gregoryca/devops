@@ -1,0 +1,52 @@
+---
+# tasks file for kubernetes_cluster_uninstall
+- name: Remove docker file
+  ansible.builtin.file:
+    path: ./docker-compose.yml
+    state: absent
+
+- name: Copy Rancher Agent compose file
+  copy:
+    src: /home/gregory/srv/devops/kubernetes/roles/agent_cleanup/files/clean-up.sh
+    dest: ./clean-up.sh
+    remote_src: false
+
+- name: Copy and Execute the script
+  become: true
+  script: ./extended-cleanup-rancher2.sh
+
+- name: Prune all docker system files
+  become: true
+  shell:
+    cmd: "docker system prune -f"
+  ignore_errors: true
+
+- name: Remove Directories and Files
+  become: true
+  file:
+    path: "{{ item }}"
+    state: absent
+    force: yes
+  with_items:
+    - /etc/ceph
+    - /etc/cni
+    - /etc/rancher
+    - /etc/kubernetes
+    - /opt/cni
+    - /opt/rke
+    - /run/secrets/kubernetes.io
+    - /run/calico
+    - /run/flannel
+    - /var/lib/calico
+    - /var/lib/etcd
+    - /var/lib/cni
+    - /var/lib/rancher
+    - /var/log/containers
+    - /var/log/pods
+    - /var/log/pods
+    - /var/run/calico
+    - /var/lib/kubelet
+    - /v3/settings/cacerts
+
+- name: Reboot
+  reboot:
