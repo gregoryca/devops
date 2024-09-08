@@ -1,5 +1,9 @@
 ---
 # tasks file for kubernetes_agent_install 
+- name: Set hostname "{{ new_hostname }}"
+  hostname:
+    name: "{{ new_hostname }}"
+
 - name: Remove docker file
   ansible.builtin.file:
     path: ./docker-compose.yml
