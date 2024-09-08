@@ -56,3 +56,4 @@ linux/roles/create_vm/tests/inventory
 kubernetes/roles/agent_master_install/tests/inventory
 kubernetes/roles/agent_worker_install/tests/inventory
 kubernetes/roles/cluster_config/tests/inventory
+inventory
