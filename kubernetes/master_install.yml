@@ -2,4 +2,5 @@
 - hosts: cluster_masters
   become: true
   roles: ## Use the folder name as role
-    - agent_master_install
+    # - cluster_config
+    - master_install

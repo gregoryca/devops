@@ -11,7 +11,7 @@
 
 - name: Copy Rancher Agent compose file
   copy:
-    src: /home/gregory/srv/devops/kubernetes/roles/agent_master_install/files/docker-compose.yml
+    src: /home/gregory/srv/devops/kubernetes/roles/worker_install/files/docker-compose.yml
     dest: ./docker-compose.yml
     remote_src: false
 

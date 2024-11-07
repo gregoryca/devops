@@ -1,8 +1,7 @@
 ---
-- hosts: all
-  become: yes
-  become_user: gregory
-  gather_facts: True
+- hosts: vps
+  become: True
+  become_user: root
   tasks:
   
     - lineinfile:

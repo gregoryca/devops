@@ -4,10 +4,10 @@
   hostname:
     name: "{{ new_hostname }}"
 
-- name: Disable UFW
-  become: true
-  community.general.ufw:
-    state: disabled
+# - name: Disable UFW
+#   become: true
+#   community.general.ufw:
+#     state: disabled
 
 - name: Updates
   apt:
