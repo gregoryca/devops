@@ -1,5 +1,5 @@
 ---
-- hosts: vps
+- hosts: kubernetes
   become: true
   roles: ## Use the folder name as role
     - install_docker

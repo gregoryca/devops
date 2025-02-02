@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: rancher_ui, kubernetes
   become: true
   roles: ## Use the folder name as role
     - cluster_config

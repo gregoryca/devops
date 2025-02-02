@@ -7,7 +7,7 @@
 
     - name: Another way to call known_hosts
       known_hosts:
-        name: dockervm-0   # or 10.9.8.77
-        key:   # some key gibberish
+        name: vm-01  # or 10.9.8.77
+        key: 
         path: /etc/ssh/ssh_known_hosts
         state: present

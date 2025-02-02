@@ -1,5 +1,5 @@
 ---
-- hosts: cluster_workers
+- hosts: vm-02, vm-03
   become: true
   roles: ## Use the folder name as role
     - cluster_config

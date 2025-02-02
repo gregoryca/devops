@@ -14,15 +14,14 @@ services:
     privileged: true
     restart: unless-stopped
     environment:
-      # - K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml
       - K3S_KUBECONFIG_MODE=666
     volumes:
       - ./k3s-server:/var/lib/rancher/k3s
       - ./output/:/output
-    # network_mode: host
-    networks:
-      - web-secure
+    network_mode: host
+#     networks:
+#       - web-secure
 
-networks:
-  web-secure:
-    external: true
+# networks:
+#   web-secure:
+#     external: true

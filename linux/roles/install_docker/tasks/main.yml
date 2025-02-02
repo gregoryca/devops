@@ -1,35 +1,35 @@
 ---
 # tasks file for install_docker
-- name: Update and upgrade all packages to the latest version
-  ansible.builtin.apt:
-    update_cache: true
-    upgrade: dist
-    cache_valid_time: 3600
+# - name: Update and upgrade all packages to the latest version
+#   ansible.builtin.apt:
+#     update_cache: true
+#     upgrade: dist
+#     cache_valid_time: 3600
 
-- name: Install required packages
-  ansible.builtin.apt:
-    pkg:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - gnupg
-      - software-properties-common
+# - name: Install required packages
+#   ansible.builtin.apt:
+#     pkg:
+#       - apt-transport-https
+#       - ca-certificates
+#       - curl
+#       - gnupg
+#       - software-properties-common
 
-- name: Create directory for Docker's GPG key
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: '0755'
+# - name: Create directory for Docker's GPG key
+#   ansible.builtin.file:
+#     path: /etc/apt/keyrings
+#     state: directory
+#     mode: '0755'
 
-- name: Add Docker's official GPG key
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    keyring: /etc/apt/keyrings/docker.gpg
-    state: present
+# - name: Add Docker's official GPG key
+#   ansible.builtin.apt_key:
+#     url: https://download.docker.com/linux/ubuntu/gpg
+#     keyring: /etc/apt/keyrings/docker.gpg
+#     state: present
 
-- name: Print architecture variables
-  ansible.builtin.debug:
-    msg: "Architecture: {{ ansible_architecture }}, Codename: {{ ansible_lsb.codename }}"
+# - name: Print architecture variables
+#   ansible.builtin.debug:
+#     msg: "Architecture: {{ ansible_architecture }}, Codename: {{ ansible_lsb.codename }}"
 
 # - name: Add Docker repository
 #   ansible.builtin.apt_repository:

@@ -1,6 +1,5 @@
 ---
 - hosts: vps
-  become: True
   become_user: root
   tasks:
   

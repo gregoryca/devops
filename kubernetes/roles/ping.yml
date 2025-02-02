@@ -1,7 +1,7 @@
 ---
 - hosts: kubernetes
   become: true
-  gather_facts: false
+  gather_facts: true
   tasks:
 
     - name: Install "{{ package_name }}"

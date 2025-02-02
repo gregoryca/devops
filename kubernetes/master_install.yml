@@ -1,6 +1,6 @@
 ---
-- hosts: cluster_masters
+- hosts: vm-01
   become: true
   roles: ## Use the folder name as role
-    # - cluster_config
+    - cluster_config
     - master_install

@@ -1,7 +1,7 @@
 ---
 # vars file for install_docker
 USER:
-  - name: gregory
+  - name: server
 
 package_name:
   - docker-compose
