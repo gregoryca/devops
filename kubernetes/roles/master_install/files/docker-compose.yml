@@ -7,5 +7,5 @@ services:
         volumes:
             - /etc/kubernetes:/etc/kubernetes
             - /var/run:/var/run
-        image: rancher/rancher-agent:v2.8.3
-        command: --server https://rancher.apex-migrations.net --token nvsqp56dklqq5hk7cx4rr6684mfhx2m6w5kvdprnslr2vpqpb87bv5 --ca-checksum 23fa0101a50415e106cf3611ededd229d2bd4037f76a2afaa81d43365ada092e --etcd --controlplane --worker
+        image: rancher/rancher-agent:latest
+        command: --server https://rancher.apex-migrations.net --token rsmwnfffmxrs4ztkg8s4vct97gnzxcvmjh8qk9whddcwnb9t74mpsv --ca-checksum 23fa0101a50415e106cf3611ededd229d2bd4037f76a2afaa81d43365ada092e --etcd --controlplane --worker
