@@ -1,6 +1,0 @@
----
-- hosts: kubernetes
-  become: true
-  remote_user: server
-  roles: ## Use the folder name as role
-    - server_provisioning
