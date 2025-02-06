@@ -1,8 +1,6 @@
 ---
 - hosts: all
   become: yes
-  become_user: gregory
-  gather_facts: True
   tasks:
 
     - name: Another way to call known_hosts

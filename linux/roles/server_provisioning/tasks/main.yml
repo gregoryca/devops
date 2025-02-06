@@ -37,9 +37,8 @@
     update_cache: yes
     state: present
 
-- name: Install docker python package
-  ansible.builtin.pip:
-    name: "{{ docker }}"
+- name: Enable and start qemu-guest-agent service
+  shell: "systemctl start qemu-guest-agent && systemctl enable qemu-guest-agent"
 
 - name: Install ufw firewall
   ansible.builtin.apt:

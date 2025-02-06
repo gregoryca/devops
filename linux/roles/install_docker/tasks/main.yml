@@ -1,56 +1,68 @@
 ---
 # tasks file for install_docker
-# - name: Update and upgrade all packages to the latest version
-#   ansible.builtin.apt:
-#     update_cache: true
-#     upgrade: dist
-#     cache_valid_time: 3600
+- name: Update and upgrade all packages to the latest version
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: dist
+    cache_valid_time: 3600
 
-# - name: Install required packages
-#   ansible.builtin.apt:
-#     pkg:
-#       - apt-transport-https
-#       - ca-certificates
-#       - curl
-#       - gnupg
-#       - software-properties-common
+- name: Install required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+    state: latest
+    update_cache: true
 
-# - name: Create directory for Docker's GPG key
-#   ansible.builtin.file:
-#     path: /etc/apt/keyrings
-#     state: directory
-#     mode: '0755'
+- name: Create directory for Docker's GPG key
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
 
-# - name: Add Docker's official GPG key
-#   ansible.builtin.apt_key:
-#     url: https://download.docker.com/linux/ubuntu/gpg
-#     keyring: /etc/apt/keyrings/docker.gpg
-#     state: present
+- name: Add Docker's official GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    keyring: /etc/apt/keyrings/docker.gpg
+    state: present
 
-# - name: Print architecture variables
-#   ansible.builtin.debug:
-#     msg: "Architecture: {{ ansible_architecture }}, Codename: {{ ansible_lsb.codename }}"
+- name: Add docker apt repository.
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    state: present
+    update_cache: yes
+    filename: docker
 
-# - name: Add Docker repository
-#   ansible.builtin.apt_repository:
-#     repo: >-
-#       deb [arch={{ arch_mapping[ansible_architecture] | default(ansible_architecture) }}
-#       signed-by=/etc/apt/keyrings/docker.gpg]
-#       https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
-#     filename: docker
-#     state: present
+- name: Print architecture variables
+  ansible.builtin.debug:
+    msg: "Architecture: {{ ansible_architecture }}, Codename: {{ ansible_lsb.codename }}"
 
-# - name: Install Docker and related packages
-#   ansible.builtin.apt:
-#     name: "{{ item }}"
-#     state: present
-#     update_cache: true
-#   loop:
-#     - docker-ce
-#     - docker-ce-cli
-#     - containerd.io
-#     - docker-buildx-plugin
-#     - docker-compose-plugin
+- name: Install Docker CE
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: yes
+
+- name: Install Docker Compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+
+- name: Verify Docker Compose installation
+  command: docker-compose --version
+  register: docker_compose_version
+- debug:
+    var: docker_compose_version.stdout_lines
+
+# - name: Install Docker Module for Python
+#   pip:
+#     name: docker
 
 - name: Add Docker group
   ansible.builtin.group:

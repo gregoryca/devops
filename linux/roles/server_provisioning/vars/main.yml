@@ -1,14 +1,10 @@
 ---
 # vars file for server_provisioning_devops
 USER:
-  - name: server
+  - name: gregory
     groups: sudo
     append: true
     create_home: false
-  # - name: GregoryacDevOps
-  #   groups: sudo
-  #   append: true
-  #   create_home: true
 
 package_name:
   - xrdp
@@ -19,7 +15,8 @@ package_name:
   - ufw
   - pip
   - htop
+  - qemu-guest-agent
 
 docker:
-  # - "docker==6.1.3"
-  # - "docker-compose"
+  - "docker"
+  - "docker compose"

@@ -1,5 +1,7 @@
 ---
-- hosts: kubernetes
+- hosts: nextcloud ## name of the host that needs to be provisioned with docker compose
   become: true
   roles: ## Use the folder name as role
+    - server_updates
+    - server_provisioning
     - install_docker
