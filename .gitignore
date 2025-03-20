@@ -58,3 +58,8 @@ kubernetes/roles/agent_worker_install/tests/inventory
 kubernetes/roles/cluster_config/tests/inventory
 inventory
 kubernetes/17a.yaml
+proxmox/terraform.tfvars
+proxmox/.terraform.lock.hcl
+proxmox/.terraform/providers/registry.opentofu.org/telmate/proxmox/2.9.14/linux_amd64/terraform-provider-proxmox_v2.9.14
+proxmox/.terraform/terraform.tfstate
+proxmox/.terraform/modules/modules.json
