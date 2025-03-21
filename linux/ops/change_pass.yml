@@ -7,9 +7,9 @@
   vars:
     myuser: "gregory"
     mypassword: "laliloe"
-  tasks:
-    - name: change password
-      ansible.builtin.user:
-        name: "{{ myuser }}"
-        state: present
-        password: "{{ mypassword | password_hash('sha512') }}"
+
+- name: change password
+  ansible.builtin.user:
+    name: "{{ myuser }}"
+    state: present
+    password: "{{ mypassword | password_hash('sha512') }}"
