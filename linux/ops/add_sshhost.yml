@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: proxmox_pihole
   become: yes
   tasks:
 

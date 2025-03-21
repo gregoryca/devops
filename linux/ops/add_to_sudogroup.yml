@@ -1,8 +1,17 @@
 ---
-- hosts: vps
+- hosts: proxmox_pihole
   become_user: root
+  become: false
   tasks:
-  
+      
+    - name: Add sudoers to groups
+      user:
+        name=server
+        append=yes
+        groups=sudo
+        state=present
+        createhome=no
+
     - lineinfile:
         path: /etc/sudoers
         state: present
