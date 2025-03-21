@@ -3,6 +3,11 @@ terraform {
     proxmox = {
       source = "telmate/proxmox"
     }
+    
+    transip = {
+      source  = "aequitas/transip"
+      version = "0.1.22"
+    }
   }
 
   backend "http" {
@@ -21,4 +26,9 @@ provider "proxmox" {
   pm_api_token_secret = var.token_secret
   # Default to `true` unless you have TLS working within your pve setup 
   pm_tls_insecure = true
+}
+
+provider "transip" {
+  account_name = "gregoryacdevops"
+  private_key  = var.private_key
 }
