@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: vps
   gather_facts: False
   tasks:
 
