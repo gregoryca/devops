@@ -1,7 +1,8 @@
 ---
 - hosts: server17a
   become: yes
-  tasks:    
+  tasks:
+  
     - name: pull an image
       docker_image:
         name: pihole/pihole:latest
