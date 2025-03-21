@@ -1,0 +1,21 @@
+---
+- hosts: vps
+  gather_facts: True
+  tasks:
+
+    - name: Create directory if it does not exist
+      ansible.builtin.file:
+        path: ~/srv/node-exporter/
+        state: directory
+        mode: '0777'
+
+    - name: copying file with playbook
+      become: true 
+      copy:
+        src: ./docker-compose.yml
+        dest: ~/srv/node-exporter/
+        remote_src: yes
+
+    - name: create and start docker compose services
+      community.docker.docker_compose_v2:
+        project_src: ~/srv/node-exporter/

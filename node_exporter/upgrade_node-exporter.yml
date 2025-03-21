@@ -1,0 +1,23 @@
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+
+    - name: stop and remove docker compose services
+      community.docker.docker_compose_v2:
+        project_src: ~/srv/node-exporter
+        state: absent
+
+    - name: Remove image pihole image
+      docker_image:
+        name: prom/node-exporter:latest
+        state: absent
+
+    - name: pull latest version
+      docker_image:
+        name: prom/node-exporter:latest
+        source: pull
+
+    - name: create and start docker compose services
+      community.docker.docker_compose_v2:
+        project_src: ~/srv/node-exporter
