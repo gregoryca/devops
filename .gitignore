@@ -63,3 +63,4 @@ proxmox/.terraform.lock.hcl
 proxmox/.terraform/providers/registry.opentofu.org/telmate/proxmox/2.9.14/linux_amd64/terraform-provider-proxmox_v2.9.14
 proxmox/.terraform/terraform.tfstate
 proxmox/.terraform/modules/modules.json
+pihole/terraform.tfvars
