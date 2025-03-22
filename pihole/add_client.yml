@@ -1,0 +1,21 @@
+---
+- name: Manage PiHole clients
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Manage PiHole clients
+      sbarbett.pihole.clients:
+        clients:
+          - name: 192.168.30.0/24
+            comment: Default VLAN
+            groups:
+              - Default
+              - test
+            state: absent
+        url: "https://pihole.apex-migrations.net"
+        password: "{{ pihole_password}}"
+      register: client_result
+
+    - name: Display client result
+      ansible.builtin.debug:
+        var: client_result
