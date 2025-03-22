@@ -3,4 +3,5 @@
   become: true
   roles: ## Use the folder name as role
     - cluster_config
+    - node_exporter
     - master_install

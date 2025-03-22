@@ -1,0 +1,18 @@
+---
+# tasks file for node-exporter
+
+- name: Create directory if it does not exist
+  ansible.builtin.file:
+    path: ~/srv/node-exporter/
+    state: directory
+    mode: '0777'
+
+- name: copying file with playbook
+  copy:
+    src: ~/srv/devops/node-exporter/files/docker-compose.yml
+    dest: ~/srv/node-exporter/docker-compose.yml
+    remote_src: false
+
+- name: create and start docker compose services
+  community.docker.docker_compose_v2:
+    project_src: ~/srv/node-exporter/
