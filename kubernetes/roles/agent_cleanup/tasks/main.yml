@@ -5,10 +5,11 @@
     path: ./docker-compose.yml
     state: absent
 
-- name: Copy Rancher Agent compose file
+- name: Copy clean-up file
   copy:
-    src: /home/gregory/srv/devops/kubernetes/roles/agent_cleanup/files/clean-up.sh
-    dest: ./clean-up.sh
+    src: ~/srv/devops/kubernetes/roles/agent_cleanup/files/clean-up.sh
+    dest: ./extended-cleanup-rancher2.sh
+    mode: a+x
     remote_src: false
 
 - name: Copy and Execute the script
