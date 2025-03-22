@@ -30,12 +30,3 @@ variable "memory" {
   default     = 2048
   description = "DNS Name for traefik dashboard - home"
 }
-
-variable "api_url" {
-}
-
-variable "token_secret" {
-}
-
-variable "token_id" {
-}
