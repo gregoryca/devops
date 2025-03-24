@@ -1,0 +1,8 @@
+- name: Replace a dns entry with our own
+  ansible.builtin.lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^127\.0\.0\.1'
+    line: nameserver 192.168.2.101
+    owner: server
+    group: sudo
+    mode: '0644'

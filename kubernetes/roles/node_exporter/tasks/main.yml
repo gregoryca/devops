@@ -1,6 +1,5 @@
 ---
 # tasks file for node-exporter
-
 - name: Create directory if it does not exist
   ansible.builtin.file:
     path: ~/srv/node-exporter/
@@ -9,7 +8,7 @@
 
 - name: copying file with playbook
   copy:
-    src: ~/srv/devops/kubernetes/node_exporter/files/docker-compose.yml
+    src: ~/srv/devops/kubernetes/roles/node_exporter/files/docker-compose.yml
     dest: ~/srv/node-exporter/docker-compose.yml
     remote_src: false
 

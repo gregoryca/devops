@@ -1,23 +1,17 @@
 ---
 # tasks file for kubernetes_agent_install 
-- name: Set hostname "{{ new_hostname }}"
-  hostname:
-    name: "{{ new_hostname }}"
-
-- name: Remove docker file
+- name: Create directory if it does not exist
   ansible.builtin.file:
-    path: ./docker-compose.yml
-    state: absent
+    path: ~/srv/rancher/
+    state: directory
+    mode: '0777'
 
 - name: Copy Rancher Agent compose file
   copy:
     src: ~/srv/devops/kubernetes/roles/master_install/files/docker-compose.yml
-    dest: ./docker-compose.yml
+    dest: ~/srv/rancher/docker-compose.yml
     remote_src: false
-
-- name: Prune docker system
-  command: docker system prune -f
 
 - name: create and start docker compose services
   community.docker.docker_compose_v2:
-    project_src: ./
+    project_src: ~/srv/rancher/

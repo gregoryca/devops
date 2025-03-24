@@ -3,7 +3,7 @@ terraform {
     proxmox = {
       source = "telmate/proxmox"
     }
-    
+
     transip = {
       source  = "aequitas/transip"
       version = "0.1.22"

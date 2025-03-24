@@ -1,0 +1,128 @@
+terraform {
+  required_providers {
+    proxmox = {
+      source = "telmate/proxmox"
+    }
+  }
+}
+
+# resource "proxmox_vm_qemu" "test-vm" {
+#   name        = var.name
+#   vmid = 0
+#   target_node = var.node
+#   clone       = var.template
+#   cores       = var.cores
+#   memory      = var.memory
+#   full_clone  = true
+  
+#   # VM Settings. `agent = 1` enables qemu-guest-agent
+#   agent = 1
+#   os_type = "cloud-init"
+#   sockets = 1
+#   cpu = "host"
+#   scsihw = "virtio-scsi-pci"
+#   bootdisk = "scsi0"
+
+#   disk {
+#     slot = 0
+#     size = "50G"
+#     type = "scsi"
+#     storage = "local-lvm" # Name of storage local to the host you are spinning the VM up on
+#     # Enables SSD emulation
+#     ssd = 1
+#     # Enables thin-provisioning
+#     discard = "on"
+#     #iothread = 1
+#   }
+
+#   network {
+#     model = "virtio"
+#     bridge = "vmbr0"
+#     # tag = var.vlan_num # This tag can be left off if you are not taking advantage of VLANs
+#   }
+
+#   lifecycle {
+#     ignore_changes = [
+#       network,
+#     ]
+#   }
+
+#   #provisioner "local-exec" {
+#     # Provisioner commands can be run here.
+#     # We will use provisioner functionality to kick off ansible
+#     # playbooks in the future
+#     #command = "touch /home/tcude/test.txt"
+#   #}
+# }
+
+resource "proxmox_vm_qemu" "pxe-vm" {
+    name                      = "vm-01"
+    desc                      = "A test VM for PXE boot mode."
+# PXE option enables the network boot feature
+    # pxe                       = false
+    clone                     = var.template
+# unless your PXE installed system includes the Agent in the installed
+# OS, do not use this, especially for PXE boot VMs
+    agent                     = 0
+    automatic_reboot          = true
+    balloon                   = 0
+    bios                      = "seabios"
+# boot order MUST include network, this is enforced in the Provider
+# Optinally, setting a disk first means that PXE will be used first boot
+# and future boots will run off the disk
+    boot                      = "order=scsi0"
+    cores                     = 2
+    cpu                       = "host"
+    define_connection_info    = true
+    force_create              = true
+    hotplug                   = "disk,usb,network"
+    kvm                       = true
+    memory                    = 2048
+    numa                      = false
+    onboot                    = false
+    vm_state                  = "running"
+    os_type                   = "cloud-init"
+    # qemu_os                   = "l26"
+    scsihw                    = "virtio-scsi-single"
+    sockets                   = 1
+    protection                = false
+    tablet                    = true
+    target_node               = "pve"
+    vcpus                     = 0
+    nameserver                = var.nameserver
+    sshkeys                   = file("~/.ssh/id_rsa.pub")
+
+    disks {
+        scsi {
+            scsi0 {
+                disk {
+                    backup             = true
+                    cache              = "writeback"
+                    discard            = true
+                    iothread           = true
+                    replicate          = true
+                    size               = 64
+                    storage            = "local-lvm"
+                }
+            }
+        }
+    }
+
+    network {
+        model           = "virtio"
+        bridge          = "vmbr0"
+    }
+
+#   lifecycle {
+#     ignore_changes = [
+#       network,
+#     ]
+#   }
+
+#   #provisioner "local-exec" {
+#     # Provisioner commands can be run here.
+#     # We will use provisioner functionality to kick off ansible
+#     # playbooks in the future
+#     #command = "touch /home/tcude/test.txt"
+#   #}
+}

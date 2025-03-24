@@ -1,6 +1,7 @@
 ---
-- hosts: vps
+- hosts: kubernetes
   gather_facts: false
+  become: true
   tasks:
 
     - name: Create directory if it does not exist
