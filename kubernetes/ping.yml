@@ -1,5 +1,5 @@
 ---
-- hosts: kubernetes
+# - hosts: vm-01
   become: true
   gather_facts: false
   tasks:
