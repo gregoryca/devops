@@ -1,17 +1,17 @@
-name: Deploy TF Code
+# name: Deploy TF Code
 
-on: 
+# on: 
 
-    workflow_dispatch:
-    pull_request:
+#     workflow_dispatch:
+#     # pull_request:
         
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Run playbook
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Run playbook
+#         uses: actions/checkout@v3
 
-      - name: deploy TF code
-        uses: 
+#       - name: deploy TF code
+#         uses: 
