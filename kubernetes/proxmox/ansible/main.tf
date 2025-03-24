@@ -16,13 +16,22 @@ resource "ansible_host" "test_vm"  {
     }
 }
 
-# resource "ansible_playbook" "playbook" {
-#   playbook   = "~/srv/devops/kubernetes/ping.yml"
-#   name       = "vm-01.local"
-#   replayable = true
 
-#   # extra_vars = {
-#   #   var_a = "Some variable"
-#   #   var_b = "Another variable"
-#   # }
-# }
+resource "ansible_group" "group" {
+  name     = "kubernetes"
+  children = ["somechild"]
+  variables = {
+    hello = "from group!"
+  }
+}
+
+resource "ansible_playbook" "playbook" {
+  playbook   = "ping.yml"
+  name       = "192.168.2.101"
+  replayable = false
+  
+  # extra_vars = {
+  #   var_a = "Some variable"
+  #   var_b = "Another variable"
+  # }
+}
