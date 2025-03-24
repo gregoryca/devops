@@ -74,7 +74,7 @@ resource "proxmox_vm_qemu" "pxe-vm" {
     cores                     = 2
     cpu                       = "host"
     define_connection_info    = true
-    force_create              = true
+    force_create              = false
     hotplug                   = "disk,usb,network"
     kvm                       = true
     memory                    = 2048
@@ -113,11 +113,11 @@ resource "proxmox_vm_qemu" "pxe-vm" {
         bridge          = "vmbr0"
     }
 
-#   lifecycle {
-#     ignore_changes = [
-#       network,
-#     ]
-#   }
+  lifecycle {
+    ignore_changes = [
+      network,
+    ]
+  }
 
 #   #provisioner "local-exec" {
 #     # Provisioner commands can be run here.
