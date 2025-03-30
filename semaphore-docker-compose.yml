@@ -1,0 +1,54 @@
+services:
+  semaphore:
+    container_name: semaphore.dashboard
+    hostname: ansible
+    restart: unless-stopped
+    image: ansiblesemaphore/semaphore:latest
+    #link to the mysql database. This is required for a connection
+    links:
+      - mysql
+    environment:
+      SEMAPHORE_DB_USER: ${SEMAPHORE_DB_USER}
+      SEMAPHORE_DB_PASS: ${SEMAPHORE_DB_PASS}
+      SEMAPHORE_DB_HOST: ${SEMAPHORE_DB_HOST}
+      SEMAPHORE_DB_PORT: ${SEMAPHORE_DB_PORT}
+      SEMAPHORE_DB: ${SEMAPHORE_DB}
+      SEMAPHORE_PLAYBOOK_PATH: ${SEMAPHORE_PLAYBOOK_PATH}
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_ADMIN_NAME: ${SEMAPHORE_ADMIN_NAME}
+      SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_ADMIN_EMAIL}
+      SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.semaphore-secure.rule=Host(`ansible.apex-migrations.net`)"
+      - "traefik.http.routers.semaphore-secure.tls.certresolver=production"
+      - "traefik.http.routers.semaphore-secure.tls=true"
+      - "traefik.http.routers.semaphore-secure.entrypoints=web-secure"
+      - "traefik.http.services.semaphore.loadbalancer.server.port=3000" #port to the webservice
+
+      - "traefik.http.routers.semaphore-secure.middlewares=authelia-secure@docker"
+
+    networks:
+       - web-secure
+
+  mysql:
+    # ports:
+    #   - 3306:3306
+    image: mysql:latest
+    container_name: semaphore.mysql
+    hostname: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: ${SEMAPHORE_DB}
+      MYSQL_USER: ${SEMAPHORE_DB_USER}
+      MYSQL_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+
+#####################################################
+# Persisting of my docker network within this stack #
+#####################################################
+networks: 
+  web-secure:
+    external: true
