@@ -1,0 +1,36 @@
+---
+# tasks file for tailscale
+# - name: Create a temporary directory if it does not exist
+#   ansible.builtin.file:
+#     path: ~/temp/tailscale/
+#     state: directory
+#     mode: '0777'
+    
+# - name: Checkout the git tailscale repo
+#   ansible.builtin.git:
+#     repo: 'https://github.com/gregoryca/tailscale.dns.git'
+#     dest: ~/temp/tailscale/
+
+- name: Create the srv directory if it does not exist
+  ansible.builtin.file:
+    path: ~/srv/tailscale/
+    state: directory
+    mode: '0777'
+
+- name: Copy compose file
+  copy:
+    src: ~/srv/devops/tailscale/files/
+    dest: ~/srv/tailscale/
+    remote_src: false
+
+- name: create and start docker compose services
+  community.docker.docker_compose_v2:
+    project_src: ~/srv/tailscale
+
+- name: Delete content & directory
+  file:
+    state: absent
+    path: ~/temp/
+
+- debug:
+    var: ansible_facts["cmdline"]
