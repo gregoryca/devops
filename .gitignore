@@ -45,3 +45,4 @@ proxmox/.terraform/modules/modules.json
 pihole/terraform.tfvars
 pihole/venv
 pihole/ansible.cfg
+install-opentofu.sh
