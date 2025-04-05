@@ -1,8 +1,10 @@
 services:
-  devops_container:
+  devops:
     container_name: devops_container
     hostname: devops_container
-    build:
-      context: .
+    # build:
+    #   context: .
+    image: ansible:latest
     network_mode: host
-    restart: unless-stopped
+    restart: always
+    command: ["/bin/sh", "ansible --version"]
