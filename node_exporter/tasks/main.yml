@@ -1,0 +1,20 @@
+---
+# tasks file for node-exporter
+- name: Create the node-exporter directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ item.folder }}"
+    state: directory
+    mode: '0777'
+  loop: "{{ SOURCE }}"
+
+- name: Copy compose file
+  copy:
+    src: ~/srv/devops/node-exporter/files/
+    dest: "{{ item.folder }}"
+    remote_src: false
+  loop: "{{ SOURCE }}"
+
+- name: create and start docker compose services
+  community.docker.docker_compose_v2:
+    project_src: "{{ item.folder }}"
+  loop: "{{ SOURCE }}"
