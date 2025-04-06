@@ -1,11 +1,10 @@
 ---
-- hosts: all
+- hosts: vm-01
   become: yes
-  become_user: gregory
-  gather_facts: True
+  become_user: "{{ ansible_ssh_user }}"
   tasks:
 
     - name: set permission 
-      remote_user: gregory
+      remote_user: "{{ ansible_ssh_user }}"
       become: yes
       command: chmod 666 /var/run/docker.sock
