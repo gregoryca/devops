@@ -20,35 +20,10 @@ jobs:
       - name: Run playbook
         uses: actions/checkout@v3
 
-      #####################################################################
-      # Deploys an ansible script to manage the Authelia stack deployment #
-      #####################################################################
-      - uses: dawidd6/action-ansible-playbook@v2
-        name: Deploy Ansible Semaphore UI
+      - name: Docker Setup Docker
+      # You may pin to the exact commit or the version.
+      # uses: docker/setup-docker-action@b60f85385d03ac8acfca6d9996982511d8620a19
+        uses: docker/setup-docker-action@v4.3.0
         with:
-          ###############################
-          # Required, playbook filepath #
-          ###############################
-          playbook: check_version.yml
-          ############################################
-          # Optional, directory where playbooks live #
-          ############################################
-          directory: ./deployments
-          ###################
-          # SSH private key #
-          ###################
-          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
-          ###########################
-          # inventory file contents #
-          ###########################
-          inventory: |
-            [linux]
-            server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
-            
-            # [azure]
-            # app-srv-01 ansible_host=${{ secrets.AZURE_HOST }} ansible_port=${{ secrets.AZURE_PORT }}
-            
-            [linux:vars]
-            ansible_user = ${{ secrets.USERNAME }}
-            ansible_sudo_pass = ${{ secrets.PASSWORD }}
-            ansible_ssh_pass=${{ secrets.PASSWORD }}
+          # Docker CE version. (e.g, v24.0.9)
+          version: latest
