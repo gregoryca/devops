@@ -1,0 +1,16 @@
+---
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    hostname: proxmox
+    environment:
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_EXTRA_ARGS=--login-server https://headscale.apex-migrations.net --auth-key=f1cc0b136ef86f6f65942439102125937dac3d658eb5e6de
+    volumes:
+      - ./tailscale-state:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    restart: unless-stopped
