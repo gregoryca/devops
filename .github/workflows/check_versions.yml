@@ -44,11 +44,3 @@ jobs:
           inventory: |
             [linux]
             server17a ansible_host=${{ secrets.HOST }} ansible_port=${{ secrets.PORT }}
-            
-            # [azure]
-            # app-srv-01 ansible_host=${{ secrets.AZURE_HOST }} ansible_port=${{ secrets.AZURE_PORT }}
-            
-            [linux:vars]
-            ansible_user = ${{ secrets.USERNAME }}
-            ansible_sudo_pass = ${{ secrets.PASSWORD }}
-            ansible_ssh_pass=${{ secrets.PASSWORD }}
