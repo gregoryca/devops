@@ -35,7 +35,6 @@ linux/roles/create_vm/tests/inventory
 kubernetes/roles/agent_master_install/tests/inventory
 kubernetes/roles/agent_worker_install/tests/inventory
 kubernetes/roles/cluster_config/tests/inventory
-inventory
 kubernetes/17a.yaml
 proxmox/terraform.tfvars
 proxmox/.terraform.lock.hcl
@@ -46,3 +45,10 @@ pihole/terraform.tfvars
 pihole/venv
 pihole/ansible.cfg
 install-opentofu.sh
+pihole/inventory
+node_exporter/inventory
+linux/ops/inventory
+kubernetes/roles/worker_install/tests/inventory
+kubernetes/roles/server_provisioning/tests/inventory
+kubernetes/roles/master_install/tests/inventory
+inventory
