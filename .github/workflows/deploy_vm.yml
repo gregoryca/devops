@@ -47,4 +47,4 @@ jobs:
           ANSIBLE_USER: ${{ secrets.ANSIBLE_SSH_USER }}
           ANSIBLE_HOST_KEY_CHECKING: true
         run: |
-          ansible-playbook -i inventory/hosts.ini proxmox/install_tailscale.yml --private-key "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" -u root
+          ansible-playbook -i proxmox/inventory proxmox/install_tailscale.yml --private-key "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" -u root
