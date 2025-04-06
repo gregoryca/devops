@@ -35,3 +35,7 @@ jobs:
 
       - name: Docker-compose Deployment
         run: cd github && docker compose up -d
+
+      - name: Pause
+        run: sleep 30
+      
