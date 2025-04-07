@@ -2,7 +2,7 @@
 services:
   tailscale:
     image: tailscale/tailscale:latest
-    hostname: nextcloud
+    hostname: $HOSTNAME
     container_name: tailscale
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
