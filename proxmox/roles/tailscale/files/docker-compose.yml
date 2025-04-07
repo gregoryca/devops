@@ -14,3 +14,4 @@ services:
       - net_admin
       - sys_module
     restart: unless-stopped
+    network_mode: host
