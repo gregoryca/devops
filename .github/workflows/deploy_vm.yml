@@ -36,10 +36,10 @@ jobs:
       - name: Create .env file from repository secrets
         # You may pin to the exact commit or the version.
         # uses: joseEnrique/create-envfile@2445462ede0368720e84e564f89ff827a73935ac
-        uses: joseEnrique/create-envfile@0.0.1
+        uses: SpicyPizza/create-envfile@v1.3
         with:
-          HEADSCALE_SERVER_ADDRESS: ${{ HEADSCALE_SERVER_ADDRESS }}
-          TAILSCALE_AUTH_KEY: ${{ TAILSCALE_AUTH_KEY }}
+          envkey_HEADSCALE_SERVER_ADDRESS: ${{ HEADSCALE_SERVER_ADDRESS }}
+          envkey_TAILSCALE_AUTH_KEY: ${{ TAILSCALE_AUTH_KEY }}
           # The filename for the envfile
           file_name: .env
           # The directory to put the envfile in
