@@ -1,5 +1,5 @@
 ---
-- hosts: home
+- hosts: nextcloud
   become: true
   roles: ## Use the folder name as role
     - tailscale
