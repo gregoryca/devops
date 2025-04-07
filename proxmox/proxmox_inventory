@@ -1,5 +1,5 @@
 [proxmox]
-pve ansible_host=pve
+pve ansible_host=192.168.2.120
 
 [proxmox:vars]
 ansible_ssh_user=root
