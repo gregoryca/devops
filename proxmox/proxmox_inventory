@@ -1,5 +1,5 @@
 [proxmox]
-proxmox ansible_host=proxmox.headscale.node
+pve ansible_host=pve
 
 [proxmox:vars]
 ansible_ssh_user=root
