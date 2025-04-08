@@ -42,9 +42,32 @@ jobs:
           sudo apt update
           sudo apt install -y ansible
 
+      # - name: Run Ansible Playbook
+      #   env:
+      #     # ANSIBLE_USER: root
+      #     ANSIBLE_HOST_KEY_CHECKING: false
+      #   run: |
+      #     ansible-playbook -i proxmox/proxmox_inventory proxmox/install_tailscale.yml --private-key "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" -u root
+
+
       - name: Run Ansible Playbook
-        env:
-          # ANSIBLE_USER: root
-          ANSIBLE_HOST_KEY_CHECKING: false
-        run: |
-          ansible-playbook -i proxmox/proxmox_inventory proxmox/install_tailscale.yml --private-key "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" -u root
+        uses: dawidd6/action-ansible-playbook@v3
+        with:
+          # Required, playbook filepath
+          playbook: install_tailscale.yml
+          # Optional, directory where playbooks live
+          directory: ./proxmox
+          # Optional, ansible configuration file content (ansible.cfg)
+          configuration: |
+            [defaults]
+            callbacks_enabled = ansible.posix.profile_tasks, ansible.posix.timer
+            stdout_callback = yaml
+          # Optional, SSH private key
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+          # Optional, literal inventory file contents
+          inventory: |
+            [proxmox]
+            pve ansible_host=100.64.0.6
+
+            [proxmox:vars]
+            ansible_ssh_user=root
