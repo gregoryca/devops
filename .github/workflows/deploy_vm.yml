@@ -49,8 +49,11 @@ jobs:
       #   run: |
       #     ansible-playbook -i proxmox/proxmox_inventory proxmox/install_tailscale.yml --private-key "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" -u root
 
-      - name: Use Workspace
+      - name: list workspace files
         run: ls $GITHUB_WORKSPACE
+
+      - name: print path workspace
+        run: pwd $GITHUB_WORKSPACE
 
       # - name: Run Ansible Playbook
       #   uses: dawidd6/action-ansible-playbook@v3
