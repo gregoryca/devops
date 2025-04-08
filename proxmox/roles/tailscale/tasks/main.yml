@@ -20,7 +20,7 @@
 
 - name: Copy compose file
   copy:
-    src: /devops/tailscale/files/
+    src: /devops/proxmox/roles/tailscale/files/
     dest: "{{ item.folder }}"
     remote_src: false
   loop: "{{ SOURCE }}"
