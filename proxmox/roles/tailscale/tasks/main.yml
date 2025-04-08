@@ -22,7 +22,7 @@
   copy:
     src: /home/runner/work/devops/devops/proxmox/roles/tailscale/files/
     dest: "{{ item.folder }}"
-    remote_src: true
+    remote_src: false
   loop: "{{ SOURCE }}"
 
 - name: create and start docker compose services
