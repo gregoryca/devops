@@ -49,24 +49,26 @@ jobs:
       #   run: |
       #     ansible-playbook -i proxmox/proxmox_inventory proxmox/install_tailscale.yml --private-key "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" -u root
 
+      - name: Use Workspace
+        run: ls $GITHUB_WORKSPACE
 
-      - name: Run Ansible Playbook
-        uses: dawidd6/action-ansible-playbook@v3
-        with:
-          # Required, playbook filepath
-          playbook: install_tailscale.yml
-          # Optional, directory where playbooks live
-          directory: ./proxmox
-          # Optional, ansible configuration file content (ansible.cfg)
-          configuration: |
-            [defaults]
-            stdout_callback = yaml
-          # Optional, SSH private key
-          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
-          # Optional, literal inventory file contents
-          inventory: |
-            [proxmox]
-            pve ansible_host=100.64.0.6
+      # - name: Run Ansible Playbook
+      #   uses: dawidd6/action-ansible-playbook@v3
+      #   with:
+      #     # Required, playbook filepath
+      #     playbook: install_tailscale.yml
+      #     # Optional, directory where playbooks live
+      #     directory: ./proxmox
+      #     # Optional, ansible configuration file content (ansible.cfg)
+      #     configuration: |
+      #       [defaults]
+      #       stdout_callback = yaml
+      #     # Optional, SSH private key
+      #     key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+      #     # Optional, literal inventory file contents
+      #     inventory: |
+      #       [proxmox]
+      #       pve ansible_host=100.64.0.6
 
-            [proxmox:vars]
-            ansible_ssh_user=root
+      #       [proxmox:vars]
+      #       ansible_ssh_user=root
