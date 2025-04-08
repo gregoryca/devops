@@ -9,6 +9,10 @@ on:
   #################################################################
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: ./devops
+
 jobs:
   build:
     runs-on: ubuntu-latest
