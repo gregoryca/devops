@@ -36,7 +36,7 @@ jobs:
         name: Update Servers
         with:
           playbook: update_server.yml
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
           directory: ./linux/roles/
           inventory: |
             [all]
