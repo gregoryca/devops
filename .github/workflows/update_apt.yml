@@ -24,6 +24,9 @@ jobs:
           # Docker CE version. (e.g, v24.0.9)
           version: latest
     
+      - name: Docker Compose Deployment
+        run: cd github && docker compose up -d
+
       - name: Setup Docker Compose
       # You may pin to the exact commit or the version.
       # uses: docker/setup-compose-action@364cc21a5de5b1ee4a7f5f9d3fa374ce0ccde746
