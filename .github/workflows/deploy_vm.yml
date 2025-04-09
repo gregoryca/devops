@@ -36,19 +36,6 @@ jobs:
       - name: Docker Compose Deployment
         run: cd github && docker compose up -d
 
-      - name: Install Ansible
-        shell: bash
-        run: |
-          sudo apt update
-          sudo apt install -y ansible
-
-      # - name: Run Ansible Playbook
-      #   env:
-      #     # ANSIBLE_USER: root
-      #     ANSIBLE_HOST_KEY_CHECKING: false
-      #   run: |
-      #     ansible-playbook -i proxmox/proxmox_inventory proxmox/install_tailscale.yml --private-key "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" -u root
-
       - name: list workspace files
         run: ls $GITHUB_WORKSPACE
 
@@ -71,7 +58,7 @@ jobs:
           # Optional, literal inventory file contents
           inventory: |
             [proxmox]
-            pve ansible_host=100.64.0.6
+            pve ansible_host=proxmox.headscale.node
 
             [proxmox:vars]
             ansible_ssh_user=root
