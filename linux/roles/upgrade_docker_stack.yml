@@ -1,0 +1,5 @@
+---
+- hosts: nextcloud
+  become: false
+  roles: ## Use the folder name as role
+    - upgrade_docker_stack

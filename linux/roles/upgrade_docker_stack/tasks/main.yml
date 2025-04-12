@@ -1,0 +1,34 @@
+---
+# tasks file for upgrade_docker_stack
+
+- name: stop and remove docker compose services
+  community.docker.docker_compose_v2:
+    project_src: ~/srv/nextcloud-proxmox-vm
+    state: absent
+  loop: 
+    - "{{ STATE }}"
+    - "{{ PATH }}"
+  ignore_errors: true
+
+- name: Remove "{{ DOCKER_IMAGE }}" image
+  docker_image:
+    name: nextcloud:latest
+    state: absent
+  loop: 
+    - "{{ STATE }}"
+    - "{{ DOCKER_IMAGE }}"
+  ignore_errors: true
+  
+- name: pull latest version
+  docker_image:
+    name: nextcloud:latest
+    source: pull
+  loop: 
+    - "{{ STATE }}"
+    - "{{ DOCKER_IMAGE }}"
+
+- name: create and start docker compose services
+  community.docker.docker_compose_v2:
+    project_src: ~/srv/{{ DOCKER_STACK_NAME }}
+  loop: 
+    - "{{ DOCKER_STACK_NAME }}"

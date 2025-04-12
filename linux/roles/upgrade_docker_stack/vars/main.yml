@@ -1,0 +1,13 @@
+---
+# vars file for upgrade_docker_stack
+DOCKER_STACK_NAME:
+  - nextcloud-proxmox-vm
+
+DOCKER_IMAGE:
+  - nextcloud:latest
+
+STATE:
+  - absent
+
+SOURCE:
+  - pull
