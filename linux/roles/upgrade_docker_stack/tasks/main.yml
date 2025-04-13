@@ -3,25 +3,25 @@
 
 - name: stop and remove docker compose services
   community.docker.docker_compose_v2:
-    project_src: ~/srv/nextcloud-proxmox-vm
-    state: absent
+    project_src: ~/srv/{{ DOCKER_STACK_NAME }}
+    state: "{{ STATE }}"
   loop: 
     - "{{ STATE }}"
-    - "{{ PATH }}"
+    - "{{ DOCKER_STACK_NAME }}"
   ignore_errors: true
 
-- name: Remove "{{ DOCKER_IMAGE }}" image
+- name: Remove {{ DOCKER_IMAGE }} image
   docker_image:
-    name: nextcloud:latest
-    state: absent
+    name: "{{ DOCKER_IMAGE }}"
+    state: "{{ STATE }}"
   loop: 
     - "{{ STATE }}"
     - "{{ DOCKER_IMAGE }}"
   ignore_errors: true
   
-- name: pull latest version
+- name: pull latest {{ DOCKER_IMAGE }} version
   docker_image:
-    name: nextcloud:latest
+    name: "{{ DOCKER_IMAGE }}"
     source: pull
   loop: 
     - "{{ STATE }}"
