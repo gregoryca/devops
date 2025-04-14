@@ -36,12 +36,6 @@ jobs:
       - name: Docker Compose Deployment
         run: cd github && docker compose up -d
 
-      - name: list workspace files
-        run: ls $GITHUB_WORKSPACE
-
-      - name: print path workspace
-        run: pwd $GITHUB_WORKSPACE
-
       - name: Run Ansible Playbook
         uses: dawidd6/action-ansible-playbook@v3
         with:
