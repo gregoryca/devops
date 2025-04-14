@@ -45,8 +45,8 @@ jobs:
       - name: Run Ansible Playbook
         uses: dawidd6/action-ansible-playbook@v3
         with:
-          playbook: install_tailscale.yml
-          directory: ./proxmox
+          playbook: check_version.yml
+          directory: ./linux/ops/
           key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
           inventory: |
             [proxmox]
