@@ -1,5 +1,5 @@
 ---
-- hosts: vps
+- hosts: vm-01
   gather_facts: False
   tasks:
 
@@ -7,11 +7,13 @@
       community.docker.docker_compose_v2:
         project_src: ~/srv/node-exporter
         state: absent
+      ignore_errors: true
 
     - name: Remove image pihole image
       docker_image:
         name: prom/node-exporter:latest
         state: absent
+      ignore_errors: true
 
     - name: pull latest version
       docker_image:
