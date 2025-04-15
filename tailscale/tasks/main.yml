@@ -17,6 +17,7 @@
     state: directory
     mode: '0777'
   loop: "{{ SOURCE }}"
+  ignore_errors: true
 
 - name: Copy compose file
   copy:
