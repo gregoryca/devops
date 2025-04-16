@@ -4,7 +4,6 @@
     path: "{{ SOURCE }}"
     state: directory
     mode: '0777'
-  loop: "{{ SOURCE }}"
   ignore_errors: true
 
 - name: Copy compose file
@@ -12,9 +11,7 @@
     src: ~/srv/devops/github/files/
     dest: "{{ SOURCE }}"
     remote_src: false
-  loop: "{{ SOURCE }}"
 
 - name: create and start docker compose services
   community.docker.docker_compose_v2:
     project_src: "{{ SOURCE }}"
-  loop: "{{ SOURCE }}"
