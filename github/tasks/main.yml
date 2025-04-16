@@ -1,0 +1,20 @@
+---
+- name: Create the tailscale directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ SOURCE }}"
+    state: directory
+    mode: '0777'
+  loop: "{{ SOURCE }}"
+  ignore_errors: true
+
+- name: Copy compose file
+  copy:
+    src: ~/srv/devops/github/files/
+    dest: "{{ SOURCE }}"
+    remote_src: false
+  loop: "{{ SOURCE }}"
+
+- name: create and start docker compose services
+  community.docker.docker_compose_v2:
+    project_src: "{{ SOURCE }}"
+  loop: "{{ SOURCE }}"
