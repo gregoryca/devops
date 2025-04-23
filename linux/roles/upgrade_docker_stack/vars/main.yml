@@ -1,9 +1,7 @@
 ---
 # vars file for upgrade_docker_stack
-DOCKER_STACK_NAME: "nextcloud-proxmox-vm"
-
-DOCKER_IMAGE: "nextcloud:latest"
-
-STATE: "absent"
-
-SOURCE: "pull"
+# These variables will be populated from the inventory file
+DOCKER_STACK_NAME: {{ docker_stack_name }}
+DOCKER_IMAGE: {{ docker_image }}
+STATE: {{ state }}
+SOURCE: {{ source }}
