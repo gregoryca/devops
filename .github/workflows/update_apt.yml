@@ -25,7 +25,7 @@ jobs:
           authkey: ${{ secrets.TAILSCALE_KEY }}
           # Fixed hostname to use.
           hostname: github-actions-runner
-
+          args: --accept-dns --accept-routes --reset
       # - name: Setup Docker
       # # You may pin to the exact commit or the version.
       # # uses: docker/setup-docker-action@b60f85385d03ac8acfca6d9996982511d8620a19
