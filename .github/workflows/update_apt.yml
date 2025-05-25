@@ -19,7 +19,7 @@ jobs:
       - name: Connect Tailscale
         # You may pin to the exact commit or the version.
         # uses: tailscale/github-action@4e4c49acaa9818630ce0bd7a564372c17e33fb4d
-        uses: tailscale/github-action@v2
+        uses: hbowron/github-action@v2
         with:
           # Your Tailscale authentication key, from the admin panel.
           authkey: ${{ secrets.TAILSCALE_KEY }}
