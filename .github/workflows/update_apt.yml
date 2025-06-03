@@ -47,11 +47,7 @@ jobs:
           directory: ./linux/roles/
           inventory: |
             [home]
-            server17a ansible_host=srv-17a.headscale.node
-
-            [home:vars]
-            ansible_ssh_user=gregory 
-            ansible_ssh_private_key_file=${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+            server17a ansible_host=srv-17a.headscale.node ansible_ssh_user=gregory
 
             [vps]
             vps ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
