@@ -1,5 +1,6 @@
 ---
 - hosts: all
   become: true
+  gather_facts: false
   roles: ## Use the folder name as role
     - server_updates
