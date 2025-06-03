@@ -26,6 +26,19 @@ jobs:
         with:
             compose-file: "./github/docker-compose.yml"
 
+      ########################################################
+      # Deploys an ansible script to update the server stack #
+      ########################################################
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Provision Docker
+        with:
+          playbook: dns_fix.yml
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          directory: ./linux/ops
+          inventory: |
+            [localhost]
+            127.0.0.1 ansible_connection=local
+
       - uses: dawidd6/action-ansible-playbook@v2
         name: Update Servers
         with:
