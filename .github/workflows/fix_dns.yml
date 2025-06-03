@@ -25,7 +25,4 @@ jobs:
           directory: ./linux/ops
           inventory: |
             [localhost]
-            server17a ansible_host=server17a.headscale.node
-
-            [vps]
-            vps ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
+            127.0.0.1 ansible_connection=local
