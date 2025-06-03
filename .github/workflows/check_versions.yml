@@ -1,7 +1,7 @@
 ######################################################
 # This is a basic workflow to Deploy a traefik stack #
 ######################################################
-name: Deploy Ansible Semaphore UI
+name: Check software versions
 
 on:
   #################################################################
