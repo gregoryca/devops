@@ -47,7 +47,7 @@ jobs:
           directory: ./linux/roles/
           inventory: |
             [server17a]
-            server17a ansible_host=server17a.headscale.node
+            server17a ansible_host=srv-17a.headscale.node
 
             [vps]
             vps ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
