@@ -1,17 +1,17 @@
 ---
-- hosts: proxmox_pihole
+- hosts: vm-01
   become: yes
   tasks:
 
     - name: Install "{{ system-resolved }}"
       apt:
-        name: system-resolved
+        name: systemd-resolved
         update_cache: yes
-        state: present
+        state: fixed
 
     - name: Start service system-resolved, if not started
       ansible.builtin.service:
-        name: system-resolved
+        name: systemd-resolved
         state: started
 
     - name: Create a symbolic link
