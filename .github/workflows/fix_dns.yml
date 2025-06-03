@@ -20,9 +20,9 @@ jobs:
       - uses: dawidd6/action-ansible-playbook@v2
         name: Provision Docker
         with:
-          playbook: fix_dns.yml
-          directory: ./linux/ops
+          playbook: dns_fix.yml
           key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          directory: ./linux/ops
           inventory: |
             [localhost]
             server17a ansible_host=server17a.headscale.node
