@@ -1,5 +1,5 @@
 ---
-- hosts: vm-01
+- hosts: localhost
   become: yes
   tasks:
 
@@ -21,3 +21,6 @@
 
     - name: Add tailscale DNS to interface
       ansible.builtin.shell: resolvectl dns tailscale0 100.100.100.100
+
+    - name: Test connectivity
+      ansible.builtin.shell: ping nextcloud.headscale.node

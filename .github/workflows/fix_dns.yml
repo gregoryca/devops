@@ -1,0 +1,31 @@
+##############################################
+# This is a basic workflow to update servers #
+##############################################
+name: Fix Linux Server DNS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run playbook
+        uses: actions/checkout@v4.1.1
+
+      ########################################################
+      # Deploys an ansible script to update the server stack #
+      ########################################################
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Provision Docker
+        with:
+          playbook: fix_dns.yml
+          directory: ./linux/ops
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          inventory: |
+            [localhost]
+            server17a ansible_host=server17a.headscale.node
+
+            [vps]
+            vps ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
