@@ -48,6 +48,10 @@ jobs:
           inventory: |
             [home]
             server17a ansible_host=srv-17a.headscale.node ansible_ssh_user=gregory
-
+            proxmox ansible_host=proxmox.headscale.node ansible_ssh_user=root
+            nextcloud ansible_host=nextcloud.headscale.node ansible_ssh_user=server
+            pihole ansible_host=pihole.headscale.node ansible_ssh_user=server
+            vm-01 ansible_host=vm-01.headscale.node ansible_ssh_user=server
+            
             [vps]
-            vps ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
+            dc-srv-01 ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
