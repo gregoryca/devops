@@ -22,7 +22,7 @@ jobs:
       - name: Docker Compose Action
         uses: hoverkraft-tech/compose-action@v2.2.0
         with:
-            compose-file: "./github/docker-compose.yml"
+            compose-file: "./github"
 
       ########################################################
       # Deploys an ansible script to update the server stack #
