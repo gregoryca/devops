@@ -36,7 +36,7 @@ jobs:
             127.0.0.1 ansible_connection=local
 
       - uses: dawidd6/action-ansible-playbook@v2
-        name: Update Servers
+        name: Update Pihole Container
         with:
           playbook: upgrade_docker_containers.yml
           key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
@@ -44,8 +44,6 @@ jobs:
           inventory: |
             [home]
             pihole ansible_host=pihole.headscale.node ansible_ssh_user=server
-
-            [home:vars]
             docker_stack_name=pihole
             docker_image=pihole/pihole:latest
             state=absent
