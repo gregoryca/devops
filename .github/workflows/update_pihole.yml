@@ -1,7 +1,7 @@
 ##############################################
 # This is a basic workflow to update servers #
 ##############################################
-name: Update Linux Server(s) - roles
+name: Update Pihole - role
 
 on:
   workflow_dispatch:
