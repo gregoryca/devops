@@ -56,3 +56,4 @@ linux/roles/nextcloud_inventory
 linux/roles/pihole_inventory
 linux/roles/proxmox_inventory
 linux/roles/vps_inventory
+linux/roles/vm-01_inventory

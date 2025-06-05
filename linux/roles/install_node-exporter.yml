@@ -1,5 +1,5 @@
 ---
-- hosts: nextcloud ## name of the host that needs to be provisioned with docker compose
-  become: true
+- hosts: all ## name of the host that needs to be provisioned with docker compose
+  become: false
   roles: ## Use the folder name as role
     - node_exporter

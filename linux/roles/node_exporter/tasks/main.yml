@@ -9,7 +9,7 @@
 
 - name: copying file with playbook
   copy:
-    src: ~/srv/devops/node-exporter/files/docker-compose.yml
+    src: ~/srv/devops/linux/roles/node_exporter/files/docker-compose.yml
     dest: ~/srv/node-exporter/docker-compose.yml
     remote_src: false
 
