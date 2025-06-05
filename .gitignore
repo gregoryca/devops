@@ -52,3 +52,7 @@ kubernetes/roles/worker_install/tests/inventory
 kubernetes/roles/server_provisioning/tests/inventory
 kubernetes/roles/master_install/tests/inventory
 inventory
+linux/roles/nextcloud_inventory
+linux/roles/pihole_inventory
+linux/roles/proxmox_inventory
+linux/roles/vps_inventory
