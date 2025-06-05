@@ -38,16 +38,15 @@ jobs:
       - uses: dawidd6/action-ansible-playbook@v2
         name: Update Servers
         with:
-          playbook: update_server.yml
+          playbook: upgrade_docker_containers.yml
           key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
           directory: ./linux/roles/
           inventory: |
             [home]
-            server17a ansible_host=srv-17a.headscale.node ansible_ssh_user=gregory
-            nextcloud ansible_host=nextcloud.headscale.node ansible_ssh_user=gregory
-            proxmox ansible_host=proxmox.headscale.node ansible_ssh_user=root
             pihole ansible_host=pihole.headscale.node ansible_ssh_user=server
-            vm-01 ansible_host=vm-01.headscale.node ansible_ssh_user=server
 
-            [vps]
-            dc-srv-01 ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
+            [home:vars]
+            docker_stack_name=pihole
+            docker_image=pihole/pihole:latest
+            state=absent
+            source=pull
