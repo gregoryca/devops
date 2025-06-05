@@ -1,0 +1,50 @@
+##############################################
+# This is a basic workflow to update servers #
+##############################################
+name: Update Nextcloud - role
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run playbook
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Docker Compose
+      # You may pin to the exact commit or the version.
+        uses: docker/setup-compose-action@v1.2.0
+    
+      - name: Run Tailscale Docker Compose
+        uses: hoverkraft-tech/compose-action@v2.2.0
+        with:
+            compose-file: "./github/files/docker-compose.yml"
+
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Fix Tailscale
+        with:
+          playbook: dns_fix.yml
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          directory: ./linux/ops
+          inventory: |
+            [localhost]
+            127.0.0.1 ansible_connection=local
+
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Update Nextcloud Container
+        with:
+          playbook: upgrade_docker_containers.yml
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+          directory: ./linux/roles/
+          inventory: |
+            [home]
+            nextcloud ansible_host=nextcloud.headscale.node ansible_ssh_user=server
+
+            [home:vars]
+            docker_stack_name=nextcloud-proxmox-vm
+            docker_image=nextcloud:latest
+            state=absent
+            source=pull
