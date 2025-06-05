@@ -1,0 +1,25 @@
+[[tool.poetry.source]]
+name = "artifactory-cloud"
+url = "https://cyberark.jfrog.io/artifactory/api/pypi/everest-pypi-virtual/simple"
+priority = "primary"
+
+[tool.poetry]
+name = "conjur_cloud_tenant"
+version = "1.0"
+description = "Conjur Cloud Tenant tools"
+authors = ["Secrets Hub RnD"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+everest-env-utils-cyberark = "^1.4.107"
+tenant-management-integrations-e2e-cyberark = "^3.0.80"
+pyyaml = "^6.0.1"
+boto3 = "1.35.48"
+tenant-management-schemas-cyberark = "^3.0.11294"
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

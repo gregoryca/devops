@@ -1,0 +1,33 @@
+{
+ "collection_info": {
+  "namespace": "community",
+  "name": "libvirt",
+  "version": "1.3.1",
+  "authors": [
+   "Ansible (https://github.com/ansible)",
+   "community.libvirt"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "libvirt",
+   "lxc",
+   "qemu"
+  ],
+  "description": null,
+  "license": [],
+  "license_file": "COPYING",
+  "dependencies": {},
+  "repository": "https://github.com/ansible-collections/community.libvirt",
+  "documentation": "https://docs.ansible.com/ansible/latest/collections/community/libvirt/index.html",
+  "homepage": "https://github.com/ansible-collections/community.libvirt",
+  "issues": "https://github.com/ansible-collections/community.libvirt/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "a342d0cd87a8e8b4283a8f28de2310ad263e6656c5879ddf058d92dfda1aa151",
+  "format": 1
+ },
+ "format": 1
+}
