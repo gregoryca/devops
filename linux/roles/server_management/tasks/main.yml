@@ -9,13 +9,3 @@
 - name: Install docker python package
   ansible.builtin.pip:
     name: "{{ docker }}"
-
-- name: UFW - Allow SSH connections
-  community.general.ufw:
-    rule: allow
-    name: OpenSSH
-
-- name: UFW - Enable and deny by default
-  community.general.ufw:
-    state: enabled
-    default: deny
