@@ -1,4 +1,4 @@
 SOURCE: "/home/{{ ansible_ssh_user }}/srv/tailscale/"
-AUTH_KEY: 6c472f5299e20fcfbddeb8b00f24ec7e6cf012509e2212ac
+AUTH_KEY: "{{ auth_key }}"
 SERVER_ADDRESS: https://headscale.apex-migrations.net
-HOSTNAME: vm-01
+HOSTNAME: "{{ hostname }}"
