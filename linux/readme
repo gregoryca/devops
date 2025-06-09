@@ -27,6 +27,7 @@ The structure is as follows:
 This repository uses a few files to hold the variable data like:
     inventory
     terraform.tfvars
+
 This is done, so it's easier to work with other frameworks by creating the neccesary files on runtime !
 For example: after an proxmox deployment using terraform, you could capture the vm details, and create an inventory file for ansible.
 
