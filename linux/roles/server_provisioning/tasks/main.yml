@@ -39,3 +39,22 @@
 
 - name: Enable and start qemu-guest-agent service
   shell: "systemctl start qemu-guest-agent && systemctl enable qemu-guest-agent"
+
+- name: Install "{{ system-resolved }}"
+  apt:
+    name: systemd-resolved
+    update_cache: yes
+    state: present
+
+- name: Start service system-resolved, if not started
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: started
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: /run/systemd/resolve/stub-resolv.conf
+    dest: /etc/resolv.conf
+
+- name: Add tailscale DNS to interface
+  ansible.builtin.shell: resolvectl dns tailscale0 100.100.100.100
