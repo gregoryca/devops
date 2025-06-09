@@ -1,0 +1,33 @@
+This DevOps repository is a collection of ansible, terraform and docker compose/kubernetes all wrapped up in a single repository
+With this repository you will be able to do the following:
+
+Manage:
+    docker/proxmox and many more appliances using ansible and terraform
+Create:
+    docker/proxmox containers, proxmox vm's and many more appliances using ansible and terraform
+Delete:
+    docker/proxmox containers, proxmox vm's and many more appliances using ansible and terraform
+
+this repository contains:
+    ansible,
+    terraform and
+    docker compose code
+
+The structure is as follows:
+    ansible:
+        inventory: holds all the variable values
+        task file: contains all the actions that are performed on the host
+    terraform:
+        modules: code to interact with transip or the proxmox server
+        variables: variables that are used in the variables file
+        terraform.tfvars: variable values, used in the deployment
+    docker compose:
+        docker compose stack that is launched or updated
+
+This repository uses a few files to hold the variable data like:
+    inventory
+    terraform.tfvars
+This is done, so it's easier to work with other frameworks by creating the neccesary files on runtime !
+For example: after an proxmox deployment using terraform, you could capture the vm details, and create an inventory file for ansible.
+
+When ansible is ran to configure the VM, it already has all the neccasary information (as a ansible inventory file) to do it's work.
