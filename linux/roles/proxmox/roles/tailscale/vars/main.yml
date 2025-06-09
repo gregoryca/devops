@@ -1,2 +1,0 @@
-SOURCE:
-  - folder: /home/{{ ansible_ssh_user }}/srv/tailscale/
