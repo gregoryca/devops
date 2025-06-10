@@ -6,7 +6,7 @@ terraform {
   }
 }
 
-resource "proxmox_vm_qemu" "pihole-vm" {
+resource "proxmox_vm_qemu" "vm" {
   name        = var.name
   target_node = var.node
   clone       = var.template

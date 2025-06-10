@@ -1,10 +1,37 @@
-variable "api_url" {
-}
-
 variable "token_secret" {
 }
 
 variable "token_id" {
+}
+
+variable "api_url" {
+}
+
+variable "ansible_ssh_user" {
+}
+
+variable "ansible_ssh_private_key_file" {
+}
+
+variable "ansible_sudo_pass" {
+}
+
+variable "docker_stack_name" {
+}
+
+variable "docker_image" {
+}
+
+variable "state" {
+}
+
+variable "sources" {
+}
+
+variable "hostname" {
+}
+
+variable "auth_key" {
 }
 
 variable "private_key" {

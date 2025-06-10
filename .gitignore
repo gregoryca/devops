@@ -1,4 +1,3 @@
-
 windows/inventory
 srv/inventory
 linux/inventory
@@ -57,3 +56,5 @@ linux/roles/pihole_inventory
 linux/roles/proxmox_inventory
 linux/roles/vps_inventory
 linux/roles/vm-01_inventory
+linux/roles/proxmox/.terraform.lock.hcl
+linux/roles/proxmox/.terraform.lock.hcl
