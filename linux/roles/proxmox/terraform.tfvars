@@ -11,6 +11,6 @@ docker_image      = "nextcloud:latest"
 state             = "absent"
 sources           = "pull"
 #vm vars
-hostname = "pve"
+hostname = "test-vm"
 #tailscale vars
 auth_key = "6c472f5299e20fcfbddeb8b00f24ec7e6cf012509e2212ac"

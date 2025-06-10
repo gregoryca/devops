@@ -46,6 +46,7 @@ variable "auth_key" {
 resource "ansible_host" "vm" {          #### ansible host details
   name   = "terraform-ansible-proxmox-vm"
   groups = ["home"]
+  
     variables = {
         ansible_ssh_user=var.ansible_ssh_user
         ansible_ssh_private_key_file=var.ansible_ssh_private_key_file
