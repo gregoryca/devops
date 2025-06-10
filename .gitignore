@@ -58,3 +58,14 @@ linux/roles/vps_inventory
 linux/roles/vm-01_inventory
 linux/roles/proxmox/.terraform.lock.hcl
 linux/roles/proxmox/.terraform.lock.hcl
+linux/roles/proxmox/.terraform/terraform.tfstate
+linux/roles/proxmox/.terraform/modules/modules.json
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/aequitas/transip/0.1.22/linux_amd64/README.md
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/aequitas/transip/0.1.22/linux_amd64/terraform-provider-transip_v0.1.22
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/CHANGELOG.rst
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/LICENSE
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/README.md
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/terraform-provider-ansible_v1.3.0
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/changelogs/changelog.yaml
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/changelogs/config.yaml
+linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/changelogs/fragments/.keep
