@@ -50,4 +50,4 @@ jobs:
             vm-01 ansible_host=vm-01.headscale.node ansible_ssh_user=server
 
             [vps]
-            dc-srv-01 ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
+            transip_vps ansible_host=${{ secrets.VPS_HOST }} ansible_user=${{ secrets.VPS_USER }}
