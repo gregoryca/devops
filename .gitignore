@@ -51,11 +51,6 @@ kubernetes/roles/worker_install/tests/inventory
 kubernetes/roles/server_provisioning/tests/inventory
 kubernetes/roles/master_install/tests/inventory
 inventory
-linux/roles/nextcloud_inventory
-linux/roles/pihole_inventory
-linux/roles/proxmox_inventory
-linux/roles/vps_inventory
-linux/roles/vm-01_inventory
 linux/roles/proxmox/.terraform.lock.hcl
 linux/roles/proxmox/.terraform.lock.hcl
 linux/roles/proxmox/.terraform/terraform.tfstate
@@ -69,3 +64,5 @@ linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1
 linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/changelogs/changelog.yaml
 linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/changelogs/config.yaml
 linux/roles/proxmox/.terraform/providers/registry.opentofu.org/ansible/ansible/1.3.0/linux_amd64/changelogs/fragments/.keep
+linux/roles/tailscale_inventory
+linux/roles/inventories
