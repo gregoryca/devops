@@ -36,3 +36,6 @@ jobs:
           inventory: |
             [localhost]
             127.0.0.1 ansible_connection=local
+
+            [srv-17a]
+            srv-17a ansible_host=srv-17a.headscale.node ansible_ssh_user=gregory
