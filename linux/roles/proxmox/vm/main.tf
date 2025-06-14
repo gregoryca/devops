@@ -46,10 +46,7 @@ resource "proxmox_vm_qemu" "vm" {
     ]
   }
 
-  #provisioner "local-exec" {
-    # Provisioner commands can be run here.
-    # We will use provisioner functionality to kick off ansible
-    # playbooks in the future
-    #command = "touch /home/tcude/test.txt"
-  #}
+  # provisioner "local-exec" {
+  #   command = "ansible-playbook  -i ${aws_instance.nginx.public_ip}, --private-key ${local.private_key_path} nginx.yaml"
+  # }
 }
