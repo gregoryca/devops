@@ -1,0 +1,5 @@
+---
+- hosts: localhost ## name of the host that needs to be provisioned with docker compose
+  become: true
+  roles: ## Use the folder name as role
+    - dns_fix
