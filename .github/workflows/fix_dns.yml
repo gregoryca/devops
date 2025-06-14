@@ -5,6 +5,8 @@ name: Fix Linux Server DNS
 
 on:
   workflow_dispatch:
+  schedule:
+  - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -28,7 +30,7 @@ jobs:
       # Deploys an ansible script to update the server stack #
       ########################################################
       - uses: dawidd6/action-ansible-playbook@v2
-        name: Provision Docker
+        name: Fix Tailscale DNS locally
         with:
           playbook: dns_fix.yml
           key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
@@ -37,5 +39,12 @@ jobs:
             [localhost]
             127.0.0.1 ansible_connection=local
 
+      - uses: dawidd6/action-ansible-playbook@v2
+        name: Fix Tailscale DNS on the hosts
+        with:
+          playbook: fix_dns.yml
+          key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
+          directory: ./linux/roles
+          inventory: |
             [srv-17a]
             srv-17a ansible_host=srv-17a.headscale.node ansible_ssh_user=gregory
