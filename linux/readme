@@ -39,3 +39,11 @@ The variable gets passed from the pipeline to the bash script, the script append
 So if you fill in: nextcloud, the result will be an echo with the value: nextcloud_inventory.
 
 The inventory file is used so that ansible can deploy to the right hosts, that the deployment is targeting.
+
+The flow is as follows:
+
+value gets put in pipeline ->
+    pipeline passes value to opentofu ->
+        Opentofu runs chooses the right tfvarsfile ->
+            code get executed with opentofu and ansible with the local provisioner ->
+                Infrastructure is dpeloyed and configured.
