@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run playbook
+      - name: Checkout Latest Code
         uses: actions/checkout@v4.1.1
 
       - name: Setup Docker Compose
@@ -21,16 +21,13 @@ jobs:
       # uses: docker/setup-compose-action@364cc21a5de5b1ee4a7f5f9d3fa374ce0ccde746
         uses: docker/setup-compose-action@v1.2.0
     
-      - name: Docker Compose Action
+      - name: Run Tailscale Docker Compose File
         uses: hoverkraft-tech/compose-action@v2.2.0
         with:
             compose-file: "./github/files/docker-compose.yml"
 
-      ########################################################
-      # Deploys an ansible script to update the server stack #
-      ########################################################
       - uses: dawidd6/action-ansible-playbook@v2
-        name: Fix Tailscale DNS locally
+        name: Append Tailscale DNS server to Tailscale int using ansible
         with:
           playbook: dns_fix.yml
           key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
@@ -40,11 +37,11 @@ jobs:
             127.0.0.1 ansible_connection=local
 
       - uses: dawidd6/action-ansible-playbook@v2
-        name: Fix Tailscale DNS on the hosts
+        name: Append Tailscale DNS server on the host, to Tailscale int using ansible
         with:
           playbook: fix_dns.yml
           key: ${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}
           directory: ./linux/roles
           inventory: |
-            [srv-17a]
+            [home]
             srv-17a ansible_host=srv-17a.headscale.node ansible_ssh_user=gregory
