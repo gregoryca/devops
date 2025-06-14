@@ -32,3 +32,10 @@ This is done, so it's easier to work with other frameworks by creating the necce
 For example: after an proxmox deployment using terraform, you could capture the vm details, and create an inventory file for ansible.
 
 When ansible is ran to configure the VM, it already has all the neccasary information (as a ansible inventory file) to do it's work.
+
+The env-switch, expects a value from the pipeline. The value usually is the name if the host that is targeted. For example nextcloud
+The variable gets passed from the pipeline to the bash script, the script appends the right value to the variable and echoes it, so the runner can pick up the value and continue the deployment.
+
+So if you fill in: nextcloud, the result will be an echo with the value: nextcloud_inventory.
+
+The inventory file is used so that ansible can deploy to the right hosts, that the deployment is targeting.
