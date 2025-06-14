@@ -45,3 +45,5 @@ jobs:
           inventory: |
             [home]
             srv-17a ansible_host=srv-17a.headscale.node ansible_ssh_user=gregory
+            nextcloud-lvm ansible_host=nextcloud.headscale.node ansible_ssh_user=gregory
+            pihole-dns ansible_host=pihole.headscale.node ansible_ssh_user=server
